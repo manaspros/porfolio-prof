@@ -1,0 +1,408 @@
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+html, body {
+  overflow-x: hidden; /* Prevent horizontal scrolling at the root level */
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+body {
+  background-color: var(--bg-primary, #ffffff);
+  color: var(--text-primary, #333);
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* Global fix for parent containers */
+body, html, #root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden; /* Force hidden scrollbar at highest level */
+  position: relative;
+}
+
+/* Make sure all containers respect width limits */
+.app-container, .content-wrapper, main, section {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.content-wrapper {
+  width: 100%;
+  position: relative;
+  overflow-x: hidden; /* Triple protection against horizontal overflow */
+}
+
+/* Modern shape decorations */
+.shape-decoration {
+  position: absolute;
+  z-index: -1;
+}
+
+.shape-decoration-1 {
+  top: 15%;
+  left: 5%;
+  width: 45vw;
+  height: 45vw;
+  max-width: 600px;
+  max-height: 600px;
+  background: radial-gradient(circle, var(--color-primary) 0%, rgba(98, 60, 234, 0) 70%);
+  opacity: 0.2;
+  border-radius: 32% 58% 69% 43% / 48% 32% 59% 55%;
+  animation: morph 15s linear infinite alternate;
+}
+
+.shape-decoration-2 {
+  bottom: 10%;
+  right: 5%;
+  width: 35vw;
+  height: 35vw;
+  max-width: 500px;
+  max-height: 500px;
+  background: radial-gradient(circle, var(--color-secondary) 0%, rgba(255, 125, 84, 0) 70%);
+  opacity: 0.15;
+  border-radius: 58% 42% 38% 62% / 42% 55% 45% 58%;
+  animation: morph 18s linear infinite alternate;
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+  }
+  100% {
+    border-radius: 40% 60% 30% 70% / 50% 60% 30% 60%;
+  }
+}
+
+/* Loading screen styles */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-light);
+  z-index: 9999;
+}
+
+.robot-loader {
+  width: 120px;
+  height: 140px;
+  position: relative;
+  animation: float 2s ease-in-out infinite;
+}
+
+.robot-head {
+  width: 70px;
+  height: 45px;
+  background-color: var(--color-primary);
+  border-radius: var(--border-radius-md);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+
+.robot-head:before, .robot-head:after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: #fafafa;
+  border-radius: 50%;
+  top: 12px;
+}
+
+.robot-head:before {
+  left: 14px;
+  animation: blink 2s linear infinite;
+}
+
+.robot-head:after {
+  right: 14px;
+  animation: blink 2s linear infinite;
+}
+
+.robot-body {
+  width: 90px;
+  height: 70px;
+  background-color: var(--color-primary);
+  border-radius: var(--border-radius-md);
+  position: absolute;
+  top: 53px;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+
+.robot-body:before {
+  content: '';
+  position: absolute;
+  width: 35px;
+  height: 12px;
+  background-color: var(--color-light);
+  border-radius: 6px;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scan 1.5s ease-in-out infinite;
+}
+
+.robot-body:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: sweep 3s linear infinite;
+}
+
+.robot-arm {
+  width: 18px;
+  height: 45px;
+  background-color: var(--color-primary);
+  position: absolute;
+  top: 12px;
+  border-radius: var(--border-radius-sm);
+}
+
+.robot-arm.left {
+  left: -25px;
+  animation: wave-left 1.2s ease-in-out infinite;
+}
+
+.robot-arm.right {
+  right: -25px;
+  animation: wave-right 1.2s ease-in-out infinite;
+}
+
+.loading-text {
+  margin-top: 40px;
+  font-size: 1.3rem;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes blink {
+  0%, 45%, 55%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes scan {
+  0%, 100% {
+    width: 35px;
+    background-color: var(--color-accent);
+  }
+  50% {
+    width: 45px;
+    background-color: var(--color-highlight);
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes wave-left {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+}
+
+@keyframes wave-right {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-20deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Common component styles */
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 60px;
+  color: var(--text-primary, #333);
+  position: relative;
+}
+
+.section-title:after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: var(--accent-primary, #0066cc);
+  margin: 15px auto 0;
+}
+
+/* Button styles */
+.btn {
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn.primary {
+  background-color: var(--accent-primary, #0066cc);
+  color: white;
+}
+
+.btn.secondary {
+  background-color: transparent;
+  color: var(--accent-primary, #0066cc);
+  border: 2px solid var(--accent-primary, #0066cc);
+}
+
+.btn.primary:hover {
+  background-color: var(--accent-secondary, #004c99);
+  transform: translateY(-3px);
+}
+
+.btn.secondary:hover {
+  background-color: rgba(0, 102, 204, 0.1);
+  transform: translateY(-3px);
+}
+
+/* Dark mode overrides */
+[data-theme='dark'] .publications-section,
+[data-theme='dark'] .about-section,
+[data-theme='dark'] .awards-section {
+  background-color: var(--bg-secondary, #1e1e1e);
+}
+
+[data-theme='dark'] .research-section,
+[data-theme='dark'] .projects-section,
+[data-theme='dark'] .contact-section {
+  background-color: var(--bg-primary, #121212);
+}
+
+[data-theme='dark'] .publication-item,
+[data-theme='dark'] .project-card,
+[data-theme='dark'] .award-content,
+[data-theme='dark'] .contact-form-container,
+[data-theme='dark'] .publications-metrics {
+  background-color: var(--card-bg, #2d2d2d);
+  box-shadow: var(--card-shadow, 0 5px 15px rgba(0, 0, 0, 0.2));
+}
+
+[data-theme='dark'] .footer {
+  background-color: #0a0a0a;
+}
+
+/* Ensure all sections have appropriate sizing */
+section {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100vw;
+  position: relative;
+  overflow: hidden; /* Prevent sections from causing overflow */
+}
+
+/* Fix potential scrollbar issues in various container elements */
+.section-container, .container {
+  width: 100%;
+  max-width: var(--container-2xl, 1440px);
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Fix for any absolute/fixed positioned elements to prevent overflow */
+.navbar, .theme-toggle, .scroll-to-top-btn {
+  max-width: 100vw;
+}
+
+/* Fix for animations that might cause temporary overflow */
+.gsap-marker-scroller-start, .gsap-marker-scroller-end,
+.gsap-marker-start, .gsap-marker-end {
+  display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .btn {
+    padding: 12px 24px;
+  }
+
+  /* Optimize mobile layouts */
+  .hero-section {
+    padding: 100px 0 50px;
+  }
+}
+
+/* Fix for potential overflows in grid layouts */
+.research-grid, .projects-grid, .grants-container {
+  width: 100%;
+  box-sizing: border-box;
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Dr. Bhivraj Suthar | Roboticist & AI Researcher</title>
+    <meta name="title" content="Dr. Bhivraj Suthar | Roboticist & AI Researcher">
+    <meta name="description" content="Advancing research in Bio-inspired Mechanisms, Actuators, Prosthetic Limbs, Exosuits, Exoskeletons and Metamorphic Drone Manipulators.">
+    <meta name="keywords" content="robotics, AI, exoskeleton, twisted string actuator, bio-inspired mechanisms, IIT Jodhpur">
+    <meta name="author" content="Dr. Bhivraj Suthar">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/">
+    <meta property="og:title" content="Dr. Bhivraj Suthar | Roboticist & AI Researcher">
+    <meta property="og:description" content="Advancing research in robotics, bio-inspired mechanisms, and AI at IIT Jodhpur.">
+    <meta property="og:image" content="https://yourdomain.com/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourdomain.com/">
+    <meta property="twitter:title" content="Dr. Bhivraj Suthar | Roboticist & AI Researcher">
+    <meta property="twitter:description" content="Advancing research in robotics, bio-inspired mechanisms, and AI at IIT Jodhpur.">
+    <meta property="twitter:image" content="https://yourdomain.com/og-image.jpg">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#4f2b87">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <!-- Performance Optimizations -->
+    <link rel="preload" href="/assets/profile-image.jpg" as="image">
+    <link rel="preload" href="/assets/fonts/custom-font.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dr. Bhivraj Suthar",
+        "jobTitle": "Assistant Professor, School of Artificial Intelligence and Data Science",
+        "workLocation": {
+          "@type": "Place",
+          "name": "Indian Institute of Technology Jodhpur"
+        },
+        "description": "Roboticist and AI Researcher advancing research in Bio-inspired Mechanisms, Actuators, Prosthetic Limbs, Exosuits, Exoskeletons, and Metamorphic Drone Manipulators.",
+        "url": "https://yourdomain.com",
+        "sameAs": [
+          "https://www.linkedin.com/in/bhivraj-suthar-ph-d-0729aa33/",
+          "https://scholar.google.com/citations?user=3KZSSEIAAAAJ&hl=en",
+          "https://www.researchgate.net/profile/Bhivraj_Suthar2",
+          "https://www.youtube.com/channel/UClkWY-vpshRUFWZut_gqZhQ/videos"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <!-- Preload and accessibility notice for screen readers -->
+    <div id="loader-wrapper" aria-live="polite" role="status" aria-label="Loading website content">
+      <noscript>
+        <div class="noscript-message">
+          <p>This website requires JavaScript to function properly. Please enable JavaScript to continue.</p>
+        </div>
+      </noscript>
+    </div>
+    
+    <!-- Main React entry point -->
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Optimized loading strategy -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Remove loader once page is fully loaded
+        setTimeout(function() {
+          const loader = document.getElementById('loader-wrapper');
+          if (loader) {
+            loader.style.opacity = 0;
+            setTimeout(function() {
+              loader.style.display = 'none';
+            }, 500);
+          }
+        }, 500);
+        
+        // Add intersection observer to lazy-load non-critical resources
+        if ('IntersectionObserver' in window) {
+          const lazyItems = document.querySelectorAll('.lazy-load');
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const element = entry.target;
+                if (element.dataset.src) {
+                  element.src = element.dataset.src;
+                }
+                if (element.dataset.srcset) {
+                  element.srcset = element.dataset.srcset;
+                }
+                if (element.dataset.background) {
+                  element.style.backgroundImage = `url(${element.dataset.background})`;
+                }
+                observer.unobserve(element);
+              }
+            });
+          });
+          
+          lazyItems.forEach(item => {
+            observer.observe(item);
+          });
+        }
+      });
+      
+      // Handle dark mode preference
+      function setColorScheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      }
+      
+      // Set initial color scheme
+      setColorScheme();
+      
+      // Watch for color scheme changes in media query
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setColorScheme);
+    </script>
+  </body>
+</html>

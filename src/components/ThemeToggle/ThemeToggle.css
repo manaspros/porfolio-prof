@@ -1,0 +1,258 @@
+.theme-toggle {
+  position: fixed;
+  right: 30px;
+  top: 100px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: var(--theme-toggle-bg, #0066cc);
+  color: var(--theme-toggle-color, white);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(30deg);
+}
+
+/* Dark mode specific styles to be added to App.css */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f7fa;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --accent-primary: #0066cc;
+  --accent-secondary: #004c99;
+  --card-bg: #ffffff;
+  --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  --theme-toggle-bg: #0066cc;
+  --theme-toggle-color: white;
+}
+
+[data-theme='dark'] {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --accent-primary: #4d94ff;
+  --accent-secondary: #80b3ff;
+  --card-bg: #2d2d2d;
+  --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  --theme-toggle-bg: #f0c420;
+  --theme-toggle-color: #121212;
+}
+
+.theme-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  border-radius: 30px;
+  width: 50px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+  outline: none;
+}
+
+.theme-toggle-button:active {
+  transform: scale(0.95);
+}
+
+.toggle-track {
+  background-color: #4f2b87;
+  border-radius: 30px;
+  position: relative;
+  width: 50px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.theme-toggle-button.light .toggle-track {
+  background-color: #6eb6ff;
+}
+
+.theme-toggle-button.dark .toggle-track {
+  background-color: #2e1c55;
+}
+
+.toggle-indicator {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  top: 3px;
+  left: 3px;
+  transform: translateX(0);
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-button.dark .toggle-indicator {
+  transform: translateX(24px);
+}
+
+.toggle-button.animating .toggle-indicator {
+  animation: bounce 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.indicator-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.5s ease;
+}
+
+.theme-toggle-button.dark .indicator-inner {
+  transform: rotate(360deg);
+}
+
+/* Icons */
+.sun-icon, .moon-icon {
+  color: #f76b1c;
+}
+
+.moon-icon {
+  color: #ffd700;
+}
+
+/* Decoration Elements */
+.toggle-decoration {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.theme-toggle-button.dark .stars {
+  opacity: 1;
+}
+
+.star {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 2px;
+  height: 2px;
+  animation: twinkle 2s infinite alternate;
+}
+
+.star-1 {
+  top: 5px;
+  left: 35px;
+  animation-delay: 0s;
+}
+
+.star-2 {
+  top: 8px;
+  left: 28px;
+  animation-delay: 0.5s;
+}
+
+.star-3 {
+  top: 16px;
+  left: 32px;
+  animation-delay: 1s;
+}
+
+.clouds {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.5s ease;
+  transform: translateX(0);
+}
+
+.theme-toggle-button.dark .clouds {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+.cloud {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.cloud-1 {
+  width: 12px;
+  height: 4px;
+  top: 10px;
+  left: 32px;
+}
+
+.cloud-2 {
+  width: 8px;
+  height: 3px;
+  top: 16px;
+  left: 28px;
+}
+
+/* Animations */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(24px);
+  }
+  40% {
+    transform: translateX(28px);
+  }
+  60% {
+    transform: translateX(22px);
+  }
+}
+
+.theme-toggle-button.light .bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(-4px);
+  }
+  60% {
+    transform: translateX(2px);
+  }
+}

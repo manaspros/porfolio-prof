@@ -1,0 +1,113 @@
+.tracing-beam {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: 100%;
+  max-width: 64rem;
+  z-index: 1;
+}
+
+.tracing-content {
+  position: relative;
+  z-index: 2;
+}
+
+.beam-container {
+  position: absolute;
+  top: 0.75rem;
+  left: -1rem;
+  z-index: 10; /* Increased z-index for better visibility */
+  height: 100%;
+  pointer-events: none; /* Allow clicking through */
+}
+
+@media (min-width: 768px) {
+  .beam-container {
+    left: -5rem;
+  }
+}
+
+/* Removed the dot-container and dot styles since we're removing the dot */
+
+.beam-svg {
+  margin-left: 1rem;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(98, 60, 234, 0.4)); /* Add glow effect to the path */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.beam-path-highlight {
+  fill: none;
+  stroke-width: 3.5; /* Thicker path for visibility */
+  filter: drop-shadow(0 0 6px rgba(98, 60, 234, 0.7)); /* More glow */
+  animation: beam-pulse 3s infinite alternate; /* Add pulsing animation */
+}
+
+/* Make animations more noticeable with pulsing */
+@keyframes beam-pulse {
+  0% {
+    stroke-width: 3;
+    filter: drop-shadow(0 0 3px rgba(98, 60, 234, 0.5));
+  }
+  100% {
+    stroke-width: 4;
+    filter: drop-shadow(0 0 8px rgba(98, 60, 234, 0.8));
+  }
+}
+
+/* Achievement styles */
+.achievement-badge {
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  width: fit-content;
+  padding: 0.25rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.achievement-title {
+  font-family: var(--font-display, 'Outfit', sans-serif);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary, #333);
+}
+
+.achievement-content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-gray);
+  margin-bottom: 2.5rem; /* Increased space between items */
+}
+
+.achievement-image {
+  border-radius: 0.5rem;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .achievement-content {
+  color: #e5e5e5;
+}
+
+[data-theme='dark'] .achievement-title {
+  color: #f0f0f0;
+}
+
+[data-theme='dark'] .beam-dot-container {
+  border-color: #8b66ff;
+}
+
+[data-theme='dark'] .beam-dot {
+  border-color: #8b66ff;
+  background-color: #8b66ff;
+}
