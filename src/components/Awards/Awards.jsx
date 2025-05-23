@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Awards.css';
-import { TracingBeam } from '../ui/TracingBeam';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -13,6 +12,8 @@ const Awards = () => {
   const timelineRef = useRef(null);
   const awardsRef = useRef(null);
   const grantsRef = useRef(null);
+  const particlesRef = useRef([]);
+  const glowsRef = useRef([]);
   
   const awards = [
     {
@@ -77,16 +78,25 @@ const Awards = () => {
   ];
   
   useEffect(() => {
-    // Create animated background elements
+    // Store all animations for proper cleanup
+    const animations = [];
+    const particles = [];
+    const glows = [];
+    
+    // Create animated background elements with better performance
     const createParticles = () => {
       if (!sectionRef.current) return;
       
-      // Clear any existing particles
-      const existingParticles = document.querySelectorAll('.award-particle');
-      existingParticles.forEach(p => p.remove());
+      // Clear any existing particles first
+      particlesRef.current.forEach(p => {
+        if (p && p.parentNode) {
+          p.parentNode.removeChild(p);
+        }
+      });
+      particlesRef.current = [];
       
-      // Create gold/trophy particles
-      for (let i = 0; i < 30; i++) {
+      // Create fewer particles for better performance (20 instead of 30)
+      for (let i = 0; i < 20; i++) {
         const particle = document.createElement('div');
         particle.classList.add('award-particle');
         
@@ -96,148 +106,193 @@ const Awards = () => {
         particle.style.left = `${posX}%`;
         particle.style.top = `${posY}%`;
         
-        // Random size
-        const size = Math.random() * 10 + 5;
+        // Random size (slightly smaller for better performance)
+        const size = Math.random() * 8 + 4;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         
-        // Random color (gold/trophy colors)
-        const colors = ['#FFD700', '#FFC107', '#F9A825', '#F57F17', '#FF8F00'];
+        // Fewer color options for more consistent look
+        const colors = ['#FFD700', '#FFC107', '#F57F17'];
         particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         
-        // Random opacity
-        particle.style.opacity = Math.random() * 0.3 + 0.05;
+        // Use more subtle opacity
+        particle.style.opacity = Math.random() * 0.2 + 0.05;
         
-        // Apply animations
-        gsap.to(particle, {
-          x: `${Math.random() * 200 - 100}`,
-          y: `${Math.random() * 200 - 100}`,
-          duration: Math.random() * 20 + 20,
+        // Use less extreme random values for more subtle movement
+        const xMove = Math.random() * 100 - 50;
+        const yMove = Math.random() * 100 - 50;
+        const duration = Math.random() * 15 + 20;
+        
+        // Store animation for cleanup
+        const anim = gsap.to(particle, {
+          x: xMove,
+          y: yMove,
+          duration: duration,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         });
         
+        animations.push(anim);
+        particles.push(particle);
+        particlesRef.current.push(particle);
         sectionRef.current.appendChild(particle);
       }
     };
     
-    // Create glow effects
+    // Create glow effects with better performance
     const createGlowEffects = () => {
       if (!sectionRef.current) return;
+      
+      // Clear any existing glows first
+      glowsRef.current.forEach(g => {
+        if (g && g.parentNode) {
+          g.parentNode.removeChild(g);
+        }
+      });
+      glowsRef.current = [];
       
       const glowsContainer = sectionRef.current;
       const colors = ['#FFD700', '#FFC107', '#F57F17'];
       
+      // Create only 3 glow elements for better performance
       for (let i = 0; i < 3; i++) {
         const glow = document.createElement('div');
         glow.classList.add('award-glow', `glow-${i+1}`);
         glow.style.backgroundColor = colors[i];
-        glow.style.left = `${Math.random() * 80 + 10}%`;
-        glow.style.top = `${Math.random() * 80 + 10}%`;
         
-        glowsContainer.appendChild(glow);
+        // Fixed positions rather than random ones
+        const positions = [
+          { left: '75%', top: '15%' },
+          { left: '15%', top: '75%' },
+          { left: '60%', top: '40%' }
+        ];
         
-        gsap.to(glow, {
-          x: `random(-100, 100)`,
-          y: `random(-100, 100)`,
-          scale: `random(0.8, 1.5)`,
-          duration: `random(15, 30)`,
+        glow.style.left = positions[i].left;
+        glow.style.top = positions[i].top;
+        
+        // Use more subtle animation ranges
+        const anim = gsap.to(glow, {
+          x: i % 2 === 0 ? 50 : -50,
+          y: i % 2 === 0 ? 50 : -50,
+          scale: 1 + (i * 0.1),
+          duration: 15 + (i * 5),
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         });
+        
+        animations.push(anim);
+        glows.push(glow);
+        glowsRef.current.push(glow);
+        glowsContainer.appendChild(glow);
       }
     };
     
-    // Main animation timeline
+    // Main animation timeline with better performance settings
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
         start: 'top 75%',
         end: 'bottom 20%',
-        toggleActions: 'play none none reverse'
+        toggleActions: 'play none none reverse',
+        // Prevent duplicate animations
+        once: false,
+        onEnter: () => console.log('Awards section entered'),
+        onLeaveBack: () => console.log('Awards section left')
       }
     });
     
+    // Store timeline for cleanup
+    timelineRef.current = tl;
+    
+    // Animate title and subtitle with simplified animations
     tl.fromTo(
       '.section-title',
       { 
-        y: 50, 
-        opacity: 0,
-        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
+        y: 30, 
+        opacity: 0
       },
       {
         y: 0,
         opacity: 1,
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-        duration: 1,
+        duration: 0.8,
         ease: "power3.out"
       }
     ).fromTo(
       '.section-subtitle',
       { 
-        x: -50, 
+        x: -30, 
         opacity: 0
       },
       {
         x: 0,
         opacity: 1,
-        duration: 0.7,
+        duration: 0.6,
         ease: "power2.out"
       },
-      "-=0.5"
+      "-=0.4"
     );
     
-    // Animate award items
+    // Animate award items with better performance
     if (awardsRef.current) {
       const awardItems = awardsRef.current.querySelectorAll('.award-item');
       
-      gsap.fromTo(
+      const awardAnim = gsap.fromTo(
         awardItems,
         { 
-          x: -80, 
+          x: -50, 
           opacity: 0,
-          rotateY: -15
+          rotateY: 0 // Remove 3D rotation for better performance
         },
         {
           x: 0,
           opacity: 1,
           rotateY: 0,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "back.out(1.2)",
+          stagger: 0.1, // Reduce stagger time
+          duration: 0.6,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: awardsRef.current,
             start: 'top 80%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none'
           }
         }
       );
       
-      // Add hover animations to award items
+      animations.push(awardAnim);
+      
+      // Simplify hover animations and store for cleanup
       awardItems.forEach((item) => {
-        item.addEventListener('mouseenter', () => {
-          gsap.to(item, {
-            scale: 1.03,
-            boxShadow: "0 15px 40px rgba(255, 215, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1)",
-            duration: 0.3
-          });
+        // Create one-time GSAP instances for hover animations
+        const hoverIn = gsap.to(item, {
+          scale: 1.03,
+          boxShadow: "0 15px 40px rgba(255, 215, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1)",
+          duration: 0.3,
+          paused: true
+        });
+        
+        const hoverOut = gsap.to(item, {
+          scale: 1,
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05)",
+          duration: 0.3,
+          paused: true
+        });
+        
+        // Add event listeners that play the animations
+        const handleMouseEnter = () => {
+          hoverIn.restart();
           
-          // Animate the year badge
+          // Animate the year badge separately
           gsap.to(item.querySelector('.award-year'), {
             scale: 1.1,
             backgroundColor: "#FFD700",
             duration: 0.3
           });
-        });
+        };
         
-        item.addEventListener('mouseleave', () => {
-          gsap.to(item, {
-            scale: 1,
-            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05)",
-            duration: 0.3
-          });
+        const handleMouseLeave = () => {
+          hoverOut.restart();
           
           // Reset the year badge
           gsap.to(item.querySelector('.award-year'), {
@@ -245,94 +300,163 @@ const Awards = () => {
             backgroundColor: "#0066cc",
             duration: 0.3
           });
-        });
+        };
+        
+        item.addEventListener('mouseenter', handleMouseEnter);
+        item.addEventListener('mouseleave', handleMouseLeave);
+        
+        // Store for cleanup
+        animations.push(hoverIn, hoverOut);
+        
+        // Store event listeners for cleanup
+        item._gsapMouseEnter = handleMouseEnter;
+        item._gsapMouseLeave = handleMouseLeave;
       });
     }
     
-    // Animate grant items
+    // Animate grant items with better performance
     if (grantsRef.current) {
       const grantItems = grantsRef.current.querySelectorAll('.grant-item');
       
-      gsap.fromTo(
+      const grantAnim = gsap.fromTo(
         grantItems,
         { 
-          y: 50, 
+          y: 30, 
           opacity: 0,
-          rotateX: 15
+          rotateX: 0 // Remove 3D rotation for better performance
         },
         {
           y: 0,
           opacity: 1,
           rotateX: 0,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "back.out(1.2)",
+          stagger: 0.1, // Reduce stagger time
+          duration: 0.6,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: grantsRef.current,
             start: 'top 80%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none'
           }
         }
       );
       
-      // Add hover animations to grant items
+      animations.push(grantAnim);
+      
+      // Simplify hover animations for grants
       grantItems.forEach((item) => {
-        item.addEventListener('mouseenter', () => {
-          gsap.to(item, {
-            y: -10,
-            scale: 1.05,
-            boxShadow: "0 20px 40px rgba(255, 215, 0, 0.15), 0 10px 20px rgba(0, 0, 0, 0.1)",
-            duration: 0.4
-          });
+        // Create one-time GSAP instances for hover animations
+        const hoverIn = gsap.to(item, {
+          y: -5, // Less extreme movement
+          scale: 1.03, // Reduced scale effect
+          boxShadow: "0 15px 30px rgba(255, 215, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05)",
+          duration: 0.3,
+          paused: true
         });
         
-        item.addEventListener('mouseleave', () => {
-          gsap.to(item, {
-            y: 0,
-            scale: 1,
-            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05)",
-            duration: 0.4
-          });
+        const hoverOut = gsap.to(item, {
+          y: 0,
+          scale: 1,
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05)",
+          duration: 0.3,
+          paused: true
         });
+        
+        // Add event listeners that play the animations
+        const handleMouseEnter = () => hoverIn.restart();
+        const handleMouseLeave = () => hoverOut.restart();
+        
+        item.addEventListener('mouseenter', handleMouseEnter);
+        item.addEventListener('mouseleave', handleMouseLeave);
+        
+        // Store for cleanup
+        animations.push(hoverIn, hoverOut);
+        
+        // Store event listeners for cleanup
+        item._gsapMouseEnter = handleMouseEnter;
+        item._gsapMouseLeave = handleMouseLeave;
       });
     }
     
-    // Animate quote with glowing effect
-    gsap.fromTo(
+    // Animate quote with simpler effect
+    const quoteAnim = gsap.fromTo(
       '.awards-quote',
       { 
         opacity: 0,
-        y: 30
+        y: 20
       },
       {
         opacity: 1,
         y: 0,
-        duration: 1,
+        duration: 0.8,
         scrollTrigger: {
           trigger: '.awards-quote',
-          start: 'top 85%'
+          start: 'top 85%',
+          toggleActions: 'play none none none'
         }
       }
     );
+    
+    animations.push(quoteAnim);
     
     // Execute background effects
     createParticles();
     createGlowEffects();
     
+    // Comprehensive cleanup function
     return () => {
-      // Cleanup animations
-      if (ScrollTrigger) {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      }
-      const particles = document.querySelectorAll('.award-particle');
-      particles.forEach(p => {
-        gsap.killTweensOf(p);
-        p.remove();
+      console.log("Cleaning up awards animations");
+      
+      // Kill all animations
+      animations.forEach(anim => {
+        if (anim && anim.kill) anim.kill();
       });
-      const glows = document.querySelectorAll('.award-glow');
+      
+      // Kill timeline if it exists
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+      }
+      
+      // Kill all ScrollTriggers
+      if (ScrollTrigger) {
+        ScrollTrigger.getAll().forEach(trigger => {
+          if (trigger.vars.trigger && 
+              sectionRef.current && 
+              sectionRef.current.contains(trigger.vars.trigger)) {
+            trigger.kill();
+          }
+        });
+      }
+      
+      // Remove event listeners from award items
+      if (awardsRef.current) {
+        const awardItems = awardsRef.current.querySelectorAll('.award-item');
+        awardItems.forEach(item => {
+          if (item._gsapMouseEnter) item.removeEventListener('mouseenter', item._gsapMouseEnter);
+          if (item._gsapMouseLeave) item.removeEventListener('mouseleave', item._gsapMouseLeave);
+        });
+      }
+      
+      // Remove event listeners from grant items
+      if (grantsRef.current) {
+        const grantItems = grantsRef.current.querySelectorAll('.grant-item');
+        grantItems.forEach(item => {
+          if (item._gsapMouseEnter) item.removeEventListener('mouseenter', item._gsapMouseEnter);
+          if (item._gsapMouseLeave) item.removeEventListener('mouseleave', item._gsapMouseLeave);
+        });
+      }
+      
+      // Remove particles from DOM
+      particles.forEach(p => {
+        if (p && p.parentNode) {
+          p.parentNode.removeChild(p);
+        }
+      });
+      
+      // Remove glows from DOM
       glows.forEach(g => {
-        gsap.killTweensOf(g);
-        g.remove();
+        if (g && g.parentNode) {
+          g.parentNode.removeChild(g);
+        }
       });
     };
   }, []);

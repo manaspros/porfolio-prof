@@ -14,6 +14,9 @@
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
+  will-change: transform; /* Optimize for animation */
+  backface-visibility: hidden; /* Reduce visual glitches */
+  transform: translateZ(0); /* Force GPU acceleration */
 }
 
 .award-glow {
@@ -22,9 +25,12 @@
   height: 300px;
   border-radius: 50%;
   filter: blur(100px);
-  opacity: 0.15;
+  opacity: 0.12; /* Slightly more subtle */
   z-index: 0;
   pointer-events: none;
+  will-change: transform; /* Optimize for animation */
+  backface-visibility: hidden; /* Reduce visual glitches */
+  transform: translateZ(0); /* Force GPU acceleration */
 }
 
 .glow-1 {
@@ -50,10 +56,13 @@
 
 @keyframes floatGlow {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 20px); /* Less extreme movement */
   }
   100% {
-    transform: translate(40px, 40px) scale(1.2);
+    transform: translate(0, 0);
   }
 }
 
@@ -61,11 +70,11 @@
   0%,
   100% {
     transform: scale(1);
-    opacity: 0.1;
+    opacity: 0.08;
   }
   50% {
-    transform: scale(1.4);
-    opacity: 0.2;
+    transform: scale(1.1); /* Less extreme scaling */
+    opacity: 0.15;
   }
 }
 
@@ -152,7 +161,13 @@
   padding-left: 40px;
   transform-style: preserve-3d;
   perspective: 1000px;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s ease-out;
+  /* Add hardware acceleration */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Remove preserve-3d to improve performance */
+  transform-style: flat;
 }
 
 .award-year {
@@ -271,10 +286,13 @@
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  position: relative;
+  transition: all 0.3s ease-out;
+  /* Add hardware acceleration */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Remove preserve-3d to improve performance */
+  transform-style: flat;
 }
 
 .grant-item::before {
@@ -333,10 +351,10 @@
 
 @keyframes shimmer {
   0% {
-    transform: rotate(45deg) translateX(-100%);
+    transform: translateX(-100%);
   }
   100% {
-    transform: rotate(45deg) translateX(100%);
+    transform: translateX(100%);
   }
 }
 
@@ -375,6 +393,10 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transform-style: preserve-3d;
   perspective: 1000px;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transform-style: flat; /* Removed preserve-3d */
 }
 
 .awards-quote::before {
@@ -405,7 +427,7 @@
     background-position: 0% 0%;
   }
   100% {
-    background-position: 300% 0%;
+    background-position: 200% 0%; /* Reduced travel distance */
   }
 }
 
