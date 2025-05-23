@@ -14,7 +14,7 @@ import Awards from './components/Awards/Awards'
 import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
-import ThemeToggle from './components/ThemeToggle/ThemeToggle'
+// ThemeToggle removed from here as it's now in Navbar
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger)
@@ -108,7 +108,7 @@ function App() {
             <div className="shape-decoration shape-decoration-2"></div>
 
             <Navbar />
-            <ThemeToggle />
+            {/* ThemeToggle removed from here */}
             <main>
               <Hero />
               <About />

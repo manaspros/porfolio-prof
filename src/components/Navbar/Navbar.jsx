@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ThemeToggler } from '../ThemeToggle/ThemeToggle';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -115,6 +116,9 @@ const Navbar = () => {
             >
               Contact
             </a>
+          </li>
+          <li className="theme-toggle-li">
+            <ThemeToggler />
           </li>
         </ul>
       </div>

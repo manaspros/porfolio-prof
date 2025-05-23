@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import './ThemeToggle.css';
 
-const ThemeToggle = () => {
+export const ThemeToggler = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     // Check if user previously set a preference
@@ -17,8 +18,16 @@ const ThemeToggle = () => {
   }, []);
 
   const toggleTheme = () => {
+    // Prevent multiple clicks during animation
+    if (isAnimating) return;
+    
+    // Set animating state
+    setIsAnimating(true);
+    
+    // Toggle dark mode state
     setIsDarkMode(!isDarkMode);
     
+    // Apply theme change
     if (!isDarkMode) {
       document.documentElement.setAttribute('data-theme', 'dark');
       localStorage.setItem('theme', 'dark');
@@ -26,33 +35,51 @@ const ThemeToggle = () => {
       document.documentElement.setAttribute('data-theme', 'light');
       localStorage.setItem('theme', 'light');
     }
+    
+    // Reset animation state after animation completes
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 600);
   };
 
   return (
-    <button 
-      className="theme-toggle" 
-      onClick={toggleTheme}
-      aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-    >
-      {isDarkMode ? (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 15C12.7614 15 15 12.7614 15 10C15 7.23858 12.7614 5 10 5C7.23858 5 5 7.23858 5 10C5 12.7614 7.23858 15 10 15Z" fill="currentColor"/>
-          <path d="M10 3.5V1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M10 18.5V16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M16.5 10H18.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M1.5 10H3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M14.5 5.5L16 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M4 16L5.5 14.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M14.5 14.5L16 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M4 4L5.5 5.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        </svg>
-      ) : (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10.7927 3.28596C7.46607 3.63682 4.82422 6.41582 4.82422 9.82425C4.82422 13.4184 7.73984 16.334 11.334 16.334C14.7424 16.334 17.5214 13.6922 17.8723 10.3655C17.9235 9.96828 17.4978 9.71954 17.1348 9.87137C16.4525 10.1521 15.7117 10.3057 14.9369 10.3057C12.0088 10.3057 9.64454 7.94148 9.64454 5.01341C9.64454 4.23863 9.79814 3.49778 10.0789 2.81551C10.2307 2.45248 9.98197 2.02675 9.58475 2.07799C9.98823 2.03321 10.3996 3.22125 10.7927 3.28596Z" fill="currentColor"/>
-        </svg>
-      )}
-    </button>
+    <div className="theme-toggle-wrapper">
+      <button 
+        className={`theme-toggle-button ${isDarkMode ? 'dark' : 'light'} ${isAnimating ? 'animating' : ''}`}
+        onClick={toggleTheme}
+        aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        <div className="toggle-track">
+          <div className="toggle-indicator">
+            <div className="indicator-inner">
+              {isDarkMode ? (
+                <svg className="moon-icon" viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0-2a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-3-8a3 3 0 1 1 6 0 3 3 0 0 1-6 0z"/>
+                </svg>
+              ) : (
+                <svg className="sun-icon" viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/>
+                </svg>
+              )}
+            </div>
+          </div>
+          
+          {/* Stars and clouds decorative elements */}
+          <div className="toggle-decoration">
+            <div className="stars">
+              <div className="star star-1"></div>
+              <div className="star star-2"></div>
+              <div className="star star-3"></div>
+            </div>
+            <div className="clouds">
+              <div className="cloud cloud-1"></div>
+              <div className="cloud cloud-2"></div>
+            </div>
+          </div>
+        </div>
+      </button>
+    </div>
   );
 };
 
-export default ThemeToggle;
+export default ThemeToggler;

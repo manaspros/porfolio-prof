@@ -119,6 +119,18 @@
   background-color: var(--color-primary);
 }
 
+/* Theme toggle styles within navbar */
+.theme-toggle-li {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.navbar-links li.theme-toggle-li {
+  margin: 0 0 0 15px;
+}
+
+/* Mobile styles for theme toggle */
 @media (max-width: 992px) {
   .navbar-menu-toggle {
     display: flex;
@@ -148,5 +160,14 @@
   .navbar-links a {
     display: block;
     font-size: 1.1rem;
+  }
+  
+  .theme-toggle-li {
+    margin: 20px auto 10px;
+    justify-content: center;
+  }
+  
+  .navbar-links li.theme-toggle-li {
+    margin: 20px auto 0;
   }
 }

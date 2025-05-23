@@ -329,8 +329,8 @@ const Publications = () => {
           </div>
         )}
         
-        <div className="publications-metrics">
-          <div className="metrics-card">
+        <div className="publications-metrics2">
+          <div className="metrics-card2">
             <div className="metric-item">
               <span className="metric-number" data-value="100+">0</span>
               <svg className="citations-icon" viewBox="0 0 24 24" width="40" height="40">
