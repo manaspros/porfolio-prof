@@ -46,85 +46,93 @@ export function PointerHighlight({
 
   useEffect(() => {
     if (dimensions.width > 0 && dimensions.height > 0) {
-      // Kill previous animation if it exists
-      if (animationRef.current) {
-        animationRef.current.kill();
-      }
-
-      // Create new timeline with ScrollTrigger
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 75%", // Start animation when element is 75% into viewport
-          toggleActions: "play none none reset", // Play animation when scrolled to, reset when scrolled away
-        },
-        defaults: { ease: "power3.inOut" },
-        onComplete: () => {
-          // Pulse animation for the rectangle after drawing is complete
-          gsap.to(rectangleRef.current, {
-            boxShadow: "0 0 10px rgba(98, 60, 234, 0.5)",
-            duration: 1,
-            repeat: -1,
-            yoyo: true,
-          });
-        },
-      });
-
-      // Set initial states
-      tl.set(rectangleRef.current, {
-        width: 0,
-        height: dimensions.height,
-        opacity: 1,
-      });
-
-      tl.set(pointerRef.current, {
-        x: 0,
-        y: dimensions.height / 2,
-        opacity: 0,
-        rotate: -90,
-      });
-
-      // Animate the rectangle drawing with a bounce effect at the end
-      tl.to(rectangleRef.current, {
-        width: dimensions.width,
-        duration: 1.2,
-        ease: "power2.out",
-      });
-
-      // Add a slight "breathe" effect to the rectangle 
-      tl.to(rectangleRef.current, {
-        scaleX: 1.1, 
-        scaleY: 1.14,
-        duration: 0.3,
-        ease: "power1.out",
-      }, "-=0.2");
+      // Check if mobile
+      const isMobile = window.innerWidth <= 768;
       
-      tl.to(rectangleRef.current, {
-        scaleX: 1.09,
-        scaleY: 1.12,
-        duration: 0.2,
-      });
-
-      // Animate the pointer with a slight bounce
-      tl.to(
-        pointerRef.current,
-        {
-          x: dimensions.width + 8,
-          opacity: 1,
-          duration: 0.6,
-          ease: "back.out(1.7)",
-        },
-        "-=0.4"
-      );
-
-      // Store the animation reference for cleanup
-      animationRef.current = tl;
-
-      return () => {
+      if (isMobile) {
+        // On mobile, just make element visible without animation
+        gsap.set(containerRef.current, { opacity: 1 });
+      } else {
+        // Kill previous animation if it exists
         if (animationRef.current) {
           animationRef.current.kill();
         }
-      };
+
+        // Create new timeline with ScrollTrigger
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 95%", // Increased trigger area for better visibility
+            toggleActions: "play none none reset", // Play animation when scrolled to, reset when scrolled away
+          },
+          defaults: { ease: "power3.inOut" },
+          onComplete: () => {
+            // Pulse animation for the rectangle after drawing is complete
+            gsap.to(rectangleRef.current, {
+              boxShadow: "0 0 10px rgba(98, 60, 234, 0.5)",
+              duration: 1,
+              repeat: -1,
+              yoyo: true,
+            });
+          },
+        });
+
+        // Set initial states
+        tl.set(rectangleRef.current, {
+          width: 0,
+          height: dimensions.height,
+          opacity: 1,
+        });
+
+        tl.set(pointerRef.current, {
+          x: 0,
+          y: dimensions.height / 2,
+          opacity: 0,
+          rotate: -90,
+        });
+
+        // Animate the rectangle drawing with a bounce effect at the end
+        tl.to(rectangleRef.current, {
+          width: dimensions.width,
+          duration: 1.2,
+          ease: "power2.out",
+        });
+
+        // Add a slight "breathe" effect to the rectangle 
+        tl.to(rectangleRef.current, {
+          scaleX: 1.1, 
+          scaleY: 1.14,
+          duration: 0.3,
+          ease: "power1.out",
+        }, "-=0.2");
+        
+        tl.to(rectangleRef.current, {
+          scaleX: 1.09,
+          scaleY: 1.12,
+          duration: 0.2,
+        });
+
+        // Animate the pointer with a slight bounce
+        tl.to(
+          pointerRef.current,
+          {
+            x: dimensions.width + 8,
+            opacity: 1,
+            duration: 0.6,
+            ease: "back.out(1.7)",
+          },
+          "-=0.4"
+        );
+
+        // Store the animation reference for cleanup
+        animationRef.current = tl;
+
+        return () => {
+          if (animationRef.current) {
+            animationRef.current.kill();
+          }
+        };
+      }
     }
   }, [dimensions]);
 

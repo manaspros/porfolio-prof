@@ -22,10 +22,41 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    // Reduce loading time for mobile devices
+    const isMobile = window.innerWidth <= 768
+    const loadingTime = isMobile ? 1000 : 2000 // Shorter loading time for mobile
+
     // Simulate loading delay
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2000)
+    }, loadingTime)
+
+    // Initialize ScrollTrigger with better mobile support
+    ScrollTrigger.config({
+      autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
+      ignoreMobileResize: true, // Better mobile performance
+      limitCallbacks: true,
+      syncInterval: 200,
+    })
+
+    // Immediately refresh once to ensure proper initial positions
+    setTimeout(() => {
+      ScrollTrigger.refresh(true)
+    }, 100)
+
+    // Add style tag to ensure proper initial visibility of elements
+    const styleTag = document.createElement('style')
+    styleTag.innerHTML = `
+      .hero-greeting, .hero-name, .hero-title, 
+      .hero-description, .hero-stats, .cta-buttons, 
+      .image-container, .floating-element, .scroll-indicator,
+      .research-item, .publication-item, .project-card, .about-text {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+      }
+    `
+    document.head.appendChild(styleTag)
 
     // Fix for scrollbar issues - force recalculation on resize and after animations
     const handleResize = () => {
@@ -39,14 +70,6 @@ function App() {
     }
 
     window.addEventListener('resize', handleResize)
-
-    // Initialize ScrollTrigger with better settings
-    ScrollTrigger.config({
-      autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize',
-      ignoreMobileResize: false, // Allow refresh on mobile resize
-      limitCallbacks: true, // Limit excessive callbacks
-      syncInterval: 200, // Increase sync interval for better performance
-    })
 
     // Periodically refresh layout during initial load
     const refreshInterval = setInterval(() => {
@@ -85,6 +108,7 @@ function App() {
       window.removeEventListener('resize', fixScroll)
       document.documentElement.style.scrollBehavior = ''
       clearInterval(refreshInterval)
+      document.head.removeChild(styleTag)
     }
   }, [])
 

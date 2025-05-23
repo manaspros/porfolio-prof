@@ -93,7 +93,7 @@ button:focus {
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
-  --spacing-lg: a4rem;
+  --spacing-lg: 4rem;
   --spacing-xl: 8rem;
   
   /* Container widths */
@@ -157,7 +157,7 @@ button:focus {
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
-  --spacing-lg: a4rem;
+  --spacing-lg: 4rem;
   --spacing-xl: 8rem;
   
   /* Container widths */
@@ -396,5 +396,75 @@ body {
 @media (min-width: 1024px) {
   section {
     padding: var(--spacing-xl) var(--spacing-lg);
+  }
+}
+
+/* Fix visible elements in mobile view */
+@media (max-width: 768px) {
+  /* Ensure all elements are visible without needing scroll triggers */
+  .hero-greeting, .hero-name, .hero-title, 
+  .hero-description, .hero-stats, .cta-buttons, 
+  .image-container, .floating-element, .scroll-indicator,
+  .research-item, .publication-item, .project-card, .about-text,
+  .section-title, .highlight-text, .filter-btn {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+  
+  /* Fix spacing issues in various sections */
+  .section-container {
+    width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+  
+  /* Fix potential scrollbar issues */
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Fix --spacing-lg typo */
+  :root {
+    --spacing-lg: 4rem; /* Corrected from a4rem to 4rem */
+  }
+}
+
+/* Fix WebKit scrollbar issues */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+  background-size: 200% 200%;
+  animation: gradientScroll 3s ease infinite alternate;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #623CEA var(--scrollbar-track);
+}
+
+/* Animation for scrollbar gradient */
+@keyframes gradientScroll {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
   }
 }

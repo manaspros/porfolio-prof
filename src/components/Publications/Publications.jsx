@@ -98,109 +98,121 @@ const Publications = () => {
   ];
   
   useEffect(() => {
-    // ScrollTrigger is already registered globally, no need to register again here
+    // Make sure items are visible immediately on mobile
+    const isMobile = window.innerWidth <= 768;
     
-    // Animate section title with a reveal effect
-    gsap.fromTo(
-      '.section-title',
-      { 
-        y: 50, 
-        opacity: 0,
-        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
-      },
-      {
-        y: 0,
-        opacity: 1,
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%'
-        }
-      }
-    );
-    
-    // Create a staggered reveal effect for filter buttons
-    gsap.fromTo(
-      '.filter-btn',
-      { 
-        scale: 0.8, 
-        opacity: 0,
-        y: 20
-      },
-      {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-          trigger: '.filter-controls',
-          start: 'top 85%'
-        }
-      }
-    );
-    
-    // Setup a scroll animation context for publication items
-    const updatePublicationItems = () => {
-      if (pubListRef.current) {
-        // Clean previous animations
-        const items = pubListRef.current.querySelectorAll('.publication-item');
-        
-        gsap.fromTo(
-          items,
-          { 
-            y: 50, 
-            opacity: 0,
-            x: -20,
-            rotateX: "10deg"
-          },
-          {
-            y: 0,
-            x: 0,
-            opacity: 1,
-            rotateX: "0deg",
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: pubListRef.current,
-              start: 'top 85%',
-              once: false,
-              invalidateOnRefresh: true
-            }
-          }
-        );
-      }
-    };
-    
-    // Run animation when filter or visible count changes
-    updatePublicationItems();
-    
-    // Animated 3D metrics counter
-    gsap.fromTo(
-      '.publications-metrics2 .metric-number',
-      { 
-        textContent: 0,
-        opacity: 0,
-        rotateY: 90
-      },
-      {
-        textContent: (i, target) => target.getAttribute('data-value'),
-        opacity: 1,
-        rotateY: 0,
-        duration: 2,
-        ease: "power2.out",
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: '.publications-metrics2',
-          start: 'top 80%'
+    if (isMobile) {
+      // For mobile, set elements visible immediately
+      gsap.set([
+        '.section-title', 
+        '.filter-btn', 
+        '.publication-item',
+        '.publications-metrics2 .metric-number'
+      ], { opacity: 1, y: 0, scale: 1, rotateX: 0, rotateY: 0 });
+    } else {
+      // Desktop animations
+      // Animate section title with a reveal effect
+      gsap.fromTo(
+        '.section-title',
+        { 
+          y: 50, 
+          opacity: 0,
+          clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
         },
-        snap: { textContent: 1 }
-      }
-    );
+        {
+          y: 0,
+          opacity: 1,
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 95%' // Increased trigger area
+          }
+        }
+      );
+      
+      // Create a staggered reveal effect for filter buttons
+      gsap.fromTo(
+        '.filter-btn',
+        { 
+          scale: 0.8, 
+          opacity: 0,
+          y: 20
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: '.filter-controls',
+            start: 'top 85%'
+          }
+        }
+      );
+      
+      // Setup a scroll animation context for publication items
+      const updatePublicationItems = () => {
+        if (pubListRef.current) {
+          // Clean previous animations
+          const items = pubListRef.current.querySelectorAll('.publication-item');
+          
+          gsap.fromTo(
+            items,
+            { 
+              y: 50, 
+              opacity: 0,
+              x: -20,
+              rotateX: "10deg"
+            },
+            {
+              y: 0,
+              x: 0,
+              opacity: 1,
+              rotateX: "0deg",
+              duration: 0.8,
+              stagger: 0.15,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: pubListRef.current,
+                start: 'top 85%',
+                once: false,
+                invalidateOnRefresh: true
+              }
+            }
+          );
+        }
+      };
+      
+      // Run animation when filter or visible count changes
+      updatePublicationItems();
+      
+      // Animated 3D metrics counter
+      gsap.fromTo(
+        '.publications-metrics2 .metric-number',
+        { 
+          textContent: 0,
+          opacity: 0,
+          rotateY: 90
+        },
+        {
+          textContent: (i, target) => target.getAttribute('data-value'),
+          opacity: 1,
+          rotateY: 0,
+          duration: 2,
+          ease: "power2.out",
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: '.publications-metrics2',
+            start: 'top 80%'
+          },
+          snap: { textContent: 1 }
+        }
+      );
+    }
     
     return () => {
       // Clean up animations - this was causing the error

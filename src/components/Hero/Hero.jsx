@@ -15,87 +15,99 @@ const Hero = () => {
     // Make sure GSAP is available
     if (!gsap) return;
     
-    // Create timeline for hero animations with ScrollTrigger
-    const tl = gsap.timeline({ 
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top 80%', // Start when the top of hero section is 80% into the viewport
-        end: 'bottom 20%',
-        toggleActions: 'play none none reverse', // Play on enter, reverse on leave
-        id: 'hero-animations' // Add ID for easier debugging
-      },
-      defaults: { 
-        ease: "power3.out",
-        overwrite: 'auto', // Prevent animation conflicts
-        clearProps: 'transform' // Clean up after animations
-      } 
-    });
+    // Set initial visibility - ensure all elements are visible immediately
+    gsap.set([
+      '.hero-greeting', '.hero-name', '.hero-title', 
+      '.hero-description', '.hero-stats', '.cta-buttons', 
+      '.image-container', '.floating-element', '.scroll-indicator'
+    ], { opacity: 1, y: 0, scale: 1 });
     
-    // Animate hero content elements
-    tl.fromTo(
-      '.hero-greeting',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 }
-    )
-    .fromTo(
-      '.hero-name',
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1 },
-      "-=0.4"
-    )
-    .fromTo(
-      '.hero-title',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.6"
-    )
-    .fromTo(
-      '.hero-description',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.4"
-    )
-    .fromTo(
-      '.hero-stats',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.4"
-    )
-    .fromTo(
-      '.cta-buttons',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.6"
-    )
-    .fromTo(
-      '.image-container',
-      { scale: 0.9, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 1.2 },
-      "-=1.2"
-    )
-    .fromTo(
-      '.floating-element',
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 },
-      "-=0.6"
-    )
-    .fromTo(
-      '.scroll-indicator',
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.4"
-    );
-
-    // Clean up function
-    return () => {
-      if (tl) tl.kill();
-      // Kill any ScrollTrigger instances specific to this component
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars.id === 'hero-animations') {
-          trigger.kill();
-        }
+    // Only use animation timeline for desktop
+    if (window.innerWidth > 768) {
+      // Create timeline for hero animations with ScrollTrigger for desktop only
+      const tl = gsap.timeline({ 
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+          id: 'hero-animations'
+        },
+        defaults: { 
+          ease: "power3.out",
+          overwrite: 'auto',
+          clearProps: 'transform'
+        } 
       });
-    };
+      
+      // Animate hero content elements - only on desktop
+      tl.fromTo(
+        '.hero-greeting',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 }
+      )
+      .fromTo(
+        '.hero-name',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1 },
+        "-=0.4"
+      )
+      .fromTo(
+        '.hero-title',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.6"
+      )
+      .fromTo(
+        '.hero-description',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.4"
+      )
+      .fromTo(
+        '.hero-stats',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.4"
+      )
+      .fromTo(
+        '.cta-buttons',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.6"
+      )
+      .fromTo(
+        '.image-container',
+        { scale: 0.9, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.2 },
+        "-=1.2"
+      )
+      .fromTo(
+        '.floating-element',
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 },
+        "-=0.6"
+      )
+      .fromTo(
+        '.scroll-indicator',
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.4"
+      );
+
+      // Clean up function
+      return () => {
+        if (tl) tl.kill();
+        // Kill any ScrollTrigger instances specific to this component
+        ScrollTrigger.getAll().forEach(trigger => {
+          if (trigger.vars.id === 'hero-animations') {
+            trigger.kill();
+          }
+        });
+      };
+    }
+    
+    // For mobile, we don't return cleanup as we're not creating scroll triggers
   }, []);
 
   return (
