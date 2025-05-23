@@ -566,6 +566,8 @@
     width: 100%;
     max-width: 300px;
     justify-content: center;
+    min-height: 44px;
+    padding: 10px 20px;
   }
   
   .publication-item {
@@ -594,6 +596,10 @@
   .pub-link {
     width: 100%;
     justify-content: center;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .metrics-card {
@@ -604,15 +610,72 @@
     flex-direction: column;
     text-align: center;
   }
-}
-
-@media (hover: none) {
-  .publication-item:hover {
-    transform: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  
+  /* Adjust touch targets for mobile */
+  .filter-btn {
+    min-height: 44px;
+    padding: 10px 20px;
   }
   
-  .pub-link:hover {
-    transform: none;
+  .pub-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Prevent text overflow */
+  .pub-title {
+    word-break: break-word;
+    hyphens: auto;
+  }
+}
+
+/* Add for extra small screens */
+@media (max-width: 380px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .publication-item {
+    border-radius: 12px;
+  }
+  
+  .pub-citation {
+    height: 80px;
+  }
+  
+  .citation-ring {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .citation-count {
+    font-size: 1.5rem;
+  }
+  
+  .pub-content {
+    padding: 15px;
+  }
+  
+  .pub-year-badge {
+    top: 15px;
+    right: 15px;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+  
+  .pub-title {
+    font-size: 1.2rem;
+    padding-right: 50px;
+  }
+  
+  .load-more-btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .metric-number {
+    font-size: 2.5rem;
   }
 }

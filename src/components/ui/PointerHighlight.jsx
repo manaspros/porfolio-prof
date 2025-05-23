@@ -129,7 +129,8 @@ export function PointerHighlight({
   }, [dimensions]);
 
   return (
-    <div
+    <>
+    <span
       className={classNames("pointer-highlight-container", containerClassName)}
       ref={containerRef}
     >
@@ -154,6 +155,7 @@ export function PointerHighlight({
           </div>
         </div>
       )}
-    </div>
+    </span>
+    </>
   );
 }

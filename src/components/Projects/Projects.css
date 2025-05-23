@@ -428,6 +428,11 @@
     font-size: 2.5rem;
   }
   
+  .section-subtitle2 {
+    font-size: 1.1rem;
+    padding: 0 15px;
+  }
+  
   .projects-grid {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -455,5 +460,56 @@
   .btn {
     width: 80%;
     max-width: 300px;
+  }
+  
+  .project-title {
+    font-size: 1.3rem;
+  }
+  
+  .project-description {
+    font-size: 0.95rem;
+  }
+  
+  .tech-tag {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .project-link {
+    font-size: 0.95rem;
+  }
+}
+
+/* Add for extra small screens */
+@media (max-width: 380px) {
+  .projects-section {
+    padding: 70px 0;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+  
+  .section-subtitle2 {
+    font-size: 1rem;
+  }
+  
+  .category-btn {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+  }
+  
+  .project-content {
+    padding: 20px 15px;
+  }
+  
+  .projects-cta p {
+    font-size: 1.1rem;
+  }
+  
+  .btn {
+    padding: 12px 25px;
+    font-size: 0.95rem;
+    width: 90%;
   }
 }

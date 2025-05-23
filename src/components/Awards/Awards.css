@@ -512,4 +512,71 @@
   .grants-container {
     grid-template-columns: 1fr;
   }
+
+  /* Adjust touch targets for better mobile experience */
+  .award-item, 
+  .grant-item {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .award-content {
+    padding: 20px 15px;
+  }
+  
+  .award-title {
+    font-size: 1.3rem;
+  }
+  
+  .award-description {
+    font-size: 0.95rem;
+  }
+}
+
+/* Add for extra small screens */
+@media (max-width: 380px) {
+  .awards-section {
+    padding: 80px 0;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1.4rem;
+    padding-left: 30px;
+  }
+  
+  .section-subtitle::before {
+    width: 20px;
+  }
+  
+  .award-item {
+    padding-left: 25px;
+  }
+  
+  .award-year {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  
+  .grant-amount {
+    padding: 15px;
+    font-size: 1.3rem;
+  }
+  
+  .grant-title {
+    font-size: 1.1rem;
+  }
+  
+  .awards-quote {
+    padding: 25px 15px;
+  }
+  
+  .awards-quote blockquote {
+    font-size: 1rem;
+    padding: 0 15px;
+  }
 }

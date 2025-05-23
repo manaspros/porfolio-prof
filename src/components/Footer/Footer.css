@@ -136,3 +136,39 @@
     flex: 0 0 100%;
   }
 }
+
+/* Add for extra small screens */
+@media (max-width: 380px) {
+  .footer {
+    padding: 50px 0 20px;
+  }
+  
+  .footer-logo h2 {
+    font-size: 1.5rem;
+  }
+  
+  .footer-logo p {
+    font-size: 0.85rem;
+  }
+  
+  .footer-links-column h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+  
+  .footer-links-column ul li {
+    margin-bottom: 8px;
+  }
+  
+  .footer-links-column ul li a {
+    font-size: 0.9rem;
+  }
+  
+  .copyright {
+    font-size: 0.8rem;
+  }
+  
+  .footer-bottom-links a {
+    font-size: 0.8rem;
+  }
+}

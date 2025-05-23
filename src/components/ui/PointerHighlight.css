@@ -5,6 +5,7 @@
   margin: -0.45rem -0.65rem;
   transition: transform 0.3s ease;
   z-index: 1;
+  overflow: visible; /* Added overflow visible */
 }
 
 .pointer-highlight-container:hover {
@@ -58,6 +59,37 @@
   }
   50% {
     transform: scale(1.15);
+  }
+}
+
+.highlight-rectangle {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(98, 60, 234, 0.3);
+  border-radius: 6px;
+  background-color: rgba(98, 60, 234, 0.05);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.highlight-pointer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.2rem;
+  color: rgba(98, 60, 234, 0.7);
+  pointer-events: none;
+  transform-origin: center center;
+  animation: pointerFloat 2s ease-in-out infinite alternate;
+  z-index: 5;
+}
+
+@keyframes pointerFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(0, 0) scale(1.1) rotate(5deg);
   }
 }
 

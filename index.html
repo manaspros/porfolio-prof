@@ -40,6 +40,32 @@
     <!-- Manifest for PWA -->
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <!-- Performance Optimizations -->
+    <link rel="preload" href="/assets/profile-image.jpg" as="image">
+    <link rel="preload" href="/assets/fonts/custom-font.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dr. Bhivraj Suthar",
+        "jobTitle": "Assistant Professor, School of Artificial Intelligence and Data Science",
+        "workLocation": {
+          "@type": "Place",
+          "name": "Indian Institute of Technology Jodhpur"
+        },
+        "description": "Roboticist and AI Researcher advancing research in Bio-inspired Mechanisms, Actuators, Prosthetic Limbs, Exosuits, Exoskeletons, and Metamorphic Drone Manipulators.",
+        "url": "https://yourdomain.com",
+        "sameAs": [
+          "https://www.linkedin.com/in/bhivraj-suthar-ph-d-0729aa33/",
+          "https://scholar.google.com/citations?user=3KZSSEIAAAAJ&hl=en",
+          "https://www.researchgate.net/profile/Bhivraj_Suthar2",
+          "https://www.youtube.com/channel/UClkWY-vpshRUFWZut_gqZhQ/videos"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
@@ -69,7 +95,51 @@
             }, 500);
           }
         }, 500);
+        
+        // Add intersection observer to lazy-load non-critical resources
+        if ('IntersectionObserver' in window) {
+          const lazyItems = document.querySelectorAll('.lazy-load');
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const element = entry.target;
+                if (element.dataset.src) {
+                  element.src = element.dataset.src;
+                }
+                if (element.dataset.srcset) {
+                  element.srcset = element.dataset.srcset;
+                }
+                if (element.dataset.background) {
+                  element.style.backgroundImage = `url(${element.dataset.background})`;
+                }
+                observer.unobserve(element);
+              }
+            });
+          });
+          
+          lazyItems.forEach(item => {
+            observer.observe(item);
+          });
+        }
       });
+      
+      // Handle dark mode preference
+      function setColorScheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      }
+      
+      // Set initial color scheme
+      setColorScheme();
+      
+      // Watch for color scheme changes in media query
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setColorScheme);
     </script>
   </body>
 </html>

@@ -330,6 +330,8 @@
   
   .cta-buttons {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
   }
   
   .image-container {
@@ -338,37 +340,91 @@
   }
   
   .floating-chip {
-    top: auto;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 20px;
+    left: 0;
+    max-width: 180px;
+    font-size: 0.9rem;
   }
   
   .floating-shape {
-    display: none;
+    bottom: 30px;
+    right: 10px;
   }
 }
 
 @media (max-width: 768px) {
   .hero-section {
-    padding-top: 100px;
+    padding: 100px 0 70px;
   }
   
   .hero-stats {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   .cta-buttons {
     flex-direction: column;
     align-items: center;
-    gap: 15px;
   }
   
   .btn {
     width: 100%;
     max-width: 250px;
     text-align: center;
+  }
+  
+  .hero-name {
+    font-size: clamp(2.2rem, 8vw, 3rem);
+  }
+  
+  .hero-title {
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
+  }
+}
+
+/* Add styles for very small screens */
+@media (max-width: 380px) {
+  .hero-greeting {
+    font-size: 1rem;
+  }
+  
+  .hero-name {
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+  }
+  
+  .hero-title {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .image-container {
+    width: 240px;
+    height: 300px;
+  }
+  
+  .floating-chip {
+    max-width: 150px;
+    padding: 6px 10px;
+  }
+  
+  .chip-text {
+    font-size: 0.8rem;
+  }
+  
+  .floating-shape svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .stat-number {
+    font-size: 1.7rem;
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
   }
 }

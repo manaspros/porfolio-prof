@@ -352,4 +352,63 @@
     align-items: center;
     text-align: center;
   }
+  
+  .contact-intro {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+  
+  .form-group label {
+    font-size: 0.95rem;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+  
+  .social-links {
+    justify-content: center;
+  }
+}
+
+/* Add for extra small devices */
+@media (max-width: 380px) {
+  .contact-section {
+    padding: 80px 0;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .contact-form-container {
+    padding: 25px 15px;
+  }
+  
+  .submit-btn {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+  
+  .info-icon {
+    min-width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+  
+  .info-content h3 {
+    font-size: 1.2rem;
+  }
+  
+  .info-content p {
+    font-size: 0.9rem;
+  }
+  
+  .social-link {
+    width: 40px;
+    height: 40px;
+  }
 }
