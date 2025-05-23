@@ -1,0 +1,49 @@
+.theme-toggle {
+  position: fixed;
+  right: 30px;
+  top: 100px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: var(--theme-toggle-bg, #0066cc);
+  color: var(--theme-toggle-color, white);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(30deg);
+}
+
+/* Dark mode specific styles to be added to App.css */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f7fa;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --accent-primary: #0066cc;
+  --accent-secondary: #004c99;
+  --card-bg: #ffffff;
+  --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  --theme-toggle-bg: #0066cc;
+  --theme-toggle-color: white;
+}
+
+[data-theme='dark'] {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --accent-primary: #4d94ff;
+  --accent-secondary: #80b3ff;
+  --card-bg: #2d2d2d;
+  --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  --theme-toggle-bg: #f0c420;
+  --theme-toggle-color: #121212;
+}
