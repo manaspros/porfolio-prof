@@ -181,7 +181,7 @@ const Publications = () => {
     
     // Animated 3D metrics counter
     gsap.fromTo(
-      '.publications-metrics .metric-number',
+      '.publications-metrics2 .metric-number',
       { 
         textContent: 0,
         opacity: 0,
@@ -195,7 +195,7 @@ const Publications = () => {
         ease: "power2.out",
         stagger: 0.2,
         scrollTrigger: {
-          trigger: '.publications-metrics',
+          trigger: '.publications-metrics2',
           start: 'top 80%'
         },
         snap: { textContent: 1 }
