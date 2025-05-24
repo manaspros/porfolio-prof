@@ -14,6 +14,8 @@ import Awards from './components/Awards/Awards'
 import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
+import Education from './components/Education/Education';
+
 
 // Register GSAP plugins - THIS IS THE ONLY PLACE WHERE WE REGISTER SCROLLTRIGGER
 gsap.registerPlugin(ScrollTrigger)
@@ -113,6 +115,7 @@ function App() {
               <Hero />
               <About />
               <Research />
+              <Education />
               <Publications />
               <Projects />
               <Awards />
