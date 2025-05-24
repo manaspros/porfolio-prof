@@ -19,7 +19,7 @@ const Awards = () => {
     {
       id: 1,
       year: 2022,
-      title: "WearRAcon Innovation Challenge Award",
+      title: "WearRAcon Innovation Challenge Award Finalist",
       organization: "WearRAcon Society, USA",
       description: "Head Motion Controlled Foldable Supplementary Robot Arm Exosuit for Construction Work: FSRA-Exosuit was selected as a finalist in WearRAcon Innovation Challenge Award-2022."
     },
@@ -28,7 +28,7 @@ const Awards = () => {
       year: 2021,
       title: "James Dyson Design Award Finalist",
       organization: "Dyson Foundation, USA",
-      description: "Deployable and foldable drone arm (DFRA) for Covid-19 medical supply and foldable robotic arm for collaborative work (FRAC) were selected as finalists."
+      description: "Twisted Scissor Mechanism-based Foldable Aerial Manipulator was selected as one of the top ten projects nationwide in the James Dyson Design Award-2021, Republic of Korea."
     },
     {
       id: 3,
@@ -47,9 +47,9 @@ const Awards = () => {
     {
       id: 5,
       year: 2018,
-      title: "Demo runner-up in Asia Haptics Conference",
+      title: "Asia Haptics Demo Finalist",
       organization: "Asia Haptics Conference, USA",
-      description: "For 'A Novel Ferro-Fluid-based Fingertip Tactile Display for Concurrently Displaying Texture and Geometric Perception'."
+      description: "A Novel FerroFluid-based Fingertip Tactile Display for Concurrently Displaying Texture and Geometric Perception was selected as a finalist for a Demo in Asia Haptics-2018, San Francisco, USA."
     }
   ];
   
@@ -64,8 +64,8 @@ const Awards = () => {
     {
       id: 2,
       years: "2015",
-      title: "Delhi Class of 89 Innovation Award",
-      amount: "Finalist",
+      title: "IIT Delhi Class of 89 Innovation Award",
+      amount: "Runner-up",
       agency: "IIT Delhi"
     },
     {
@@ -73,7 +73,14 @@ const Awards = () => {
       years: "2015",
       title: "Young Professional Engineering Award",
       amount: "Recognition",
-      agency: "College of Technology Engineering, Udaipur"
+      agency: "MPUAT, Udaipur"
+    },
+    {
+      id: 4, 
+      years: "2023-Present",
+      title: "Prime Minister Early Career Research Grant Award",
+      amount: "₹45,50,000",
+      agency: "Government of India"
     }
   ];
   

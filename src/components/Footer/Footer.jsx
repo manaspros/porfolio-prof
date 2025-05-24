@@ -25,7 +25,7 @@ const Footer = () => {
         <div className="footer-top">
           <div className="footer-logo">
             <h2>Dr. Bhivraj Suthar</h2>
-            <p>Assistant Professor, Roboticist at School of Artificial Intelligence and Data Science, IIT Jodhpur</p>
+            <p>Assistant Professor, Next-Gen BIRD Lab, School of Artificial Intelligence and Data Science, IIT Jodhpur</p>
           </div>
           
           <div className="footer-links">
@@ -45,7 +45,7 @@ const Footer = () => {
                 <li><a href="#projects">Developed Robots</a></li>
                 <li><a href="#awards">Awards</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="#">Resume</a></li>
+                <li><a href="https://scholar.google.com/citations?user=3KZSSEIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
               </ul>
             </div>
             
@@ -66,9 +66,8 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} Dr. Bhivraj Suthar. All rights reserved.
           </p>
           <div className="footer-bottom-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Accessibility</a>
+            <a href="mailto:bhivraj@iitj.ac.in">Email: bhivraj@iitj.ac.in</a>
+            <span className="footer-credit">| Made by <a href="https://portfolio-manaschoudhary.vercel.app/" target="_blank" rel="noopener noreferrer">Manas</a></span>
           </div>
         </div>
       </div>

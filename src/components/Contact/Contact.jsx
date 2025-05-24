@@ -277,7 +277,7 @@ const Contact = () => {
         
         <p className="contact-intro">
           I'm always interested in research collaborations, speaking opportunities, and mentoring talented students. 
-          Feel free to reach out if you share an interest in robotics and AI.
+          Feel free to reach out if you share an interest in bio-inspired robotics and AI.
         </p>
         
         <div className="contact-grid">
@@ -365,19 +365,20 @@ const Contact = () => {
             </div>
             
             <div className="info-item">
-              <div className="info-icon">📞</div>
+              <div className="info-icon">🎓</div>
               <div className="info-content">
-                <h3>Phone</h3>
-                <p>+91 291 280 1764</p>
+                <h3>Affiliations</h3>
+                <p>Next-Gen BIRD Lab<br />
+                   School of Artificial Intelligence and Data Science</p>
               </div>
             </div>
             
             <div className="info-item">
-              <div className="info-icon">🎓</div>
+              <div className="info-icon">🔍</div>
               <div className="info-content">
-                <h3>Affiliations</h3>
-                <p>COE: Brain Science and Applications<br />
-                   IDRP: Robotics & Mobility Systems</p>
+                <h3>Research Areas</h3>
+                <p>Bio-inspired Robotics<br />
+                   Artificial Intelligence</p>
               </div>
             </div>
             

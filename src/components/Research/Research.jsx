@@ -13,7 +13,7 @@ const Research = () => {
     // Create a specific timeline for the research section title with better settings
     const titleTl = gsap.timeline({
       scrollTrigger: {
-        trigger: sectionRef.current.querySelector('.section-title'),
+        trigger: sectionRef.current.querySelector('.section-title3'),
         start: 'top 75%',
         end: 'top 25%',
         toggleActions: 'play none none reverse',
@@ -23,7 +23,7 @@ const Research = () => {
     });
     
     titleTl.fromTo(
-      sectionRef.current.querySelector('.section-title'),
+      sectionRef.current.querySelector('.section-title3'),
       { y: 50, opacity: 0 },
       {
         y: 0,
@@ -33,7 +33,7 @@ const Research = () => {
       }
     );
         gsap.fromTo(
-      '.section-title',
+      '.section-title3',
       { 
         y: 50, 
         opacity: 0,
@@ -131,85 +131,76 @@ const Research = () => {
     };
   }, []);
 
-  const researchAreas = [
-    {
-      id: 1,
-      title: "Soft Actuators",
-      description: "The conventional actuators used in exosuit make it more challenging for researchers and engineers to design compact, lightweight, and wearable systems. My work focuses on developing lightweight, compliant, fully portable, comfortable, energy-efficient and powerful ",
-      highlightedText: "soft twisted string actuator systems (TSAs)",
-      highlightClass: "bg-blue-highlight border-blue",
-      highlightColor: "text-blue-500",
-      restDescription: ".",
-      icon: "🔄",
-      keywords: ["Robotics", "Actuation", "Biomechanics"]
-    },
-    {
-      id: 2,
-      title: "Exoskeleton and Exosuit",
-      description: "The wearable exoskeleton and exosuit are paving the way toward robotic abilities that are vital for various applications including assistance, rehabilitation, telemanipulation, and human-machine interaction. I am designing and developing ",
-      highlightedText: "comfortable, fully portable, compact exosuit",
-      highlightClass: "bg-purple-highlight border-purple",
-      highlightColor: "text-purple-500",
-      restDescription: ".",
-      icon: "🦾",
-      keywords: ["Assistive Technology", "Rehabilitation", "Medical Robotics"]
-    },
-    {
-      id: 3,
-      title: "Metamorphic Drone Arm",
-      description: "The ",
-      highlightedText: "reconfigurable and deployable drone arm with gripper technology",
-      highlightClass: "bg-orange-highlight border-orange",
-      highlightColor: "text-orange-500",
-      restDescription: " has enormous potential for solving real-world challenges. It can perform activities in hazardous environments and be controlled remotely, offering vital solutions for parcel delivery, inspection, gripping, and aerial manipulation.",
-      icon: "🚁",
-      keywords: ["Aerial Robotics", "Manipulation", "Reconfigurable Systems"]
-    }
-  ];
-
   return (
     <section id="research" className="research-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title">Research Areas</h2>
+        <h2 className="section-title3">Research Areas</h2>
         <div className="research-grid">
-          {researchAreas.map(area => (
-            <div className="research-item" key={area.id}>
-              <div className="research-icon">{area.icon}</div>
-              <h3>{area.title}</h3>
-              <p>
-                {area.description}
-                <PointerHighlight
-                  rectangleClassName={area.highlightClass}
-                  pointerClassName={area.highlightColor}
-                  containerClassName="inline-block mx-1"
-                >
-                  <span className="relative z-10">{area.highlightedText}</span>
-                </PointerHighlight>
-                {area.restDescription}
-              </p>
-              <div className="research-keywords">
-                {area.keywords.map((keyword, idx) => (
-                  <span key={idx}>{keyword}</span>
-                ))}
-              </div>
+          <div className="research-item">
+            <div className="research-icon">🦾</div>
+            <h3>Bio-inspired Mechanisms & Actuators</h3>
+            <p>Developing bio-inspired robotic systems and actuation mechanisms that mimic natural movement patterns for increased efficiency and adaptability.</p>
+            <div className="research-keywords">
+              <span>Twisted String Actuators</span>
+              <span>Soft Robotics</span>
+              <span>Biomimetic Design</span>
             </div>
-          ))}
-        </div>
-        <div className="research-cta">
-          <h3>Current Research Projects</h3>
-          <p>
-            My lab is currently working on several  
-            <PointerHighlight
-              rectangleClassName="bg-purple-100 dark:bg-purple-900 border-purple-300 dark:border-purple-700"
-              pointerClassName="text-purple-500"
-              containerClassName="inline-block mx-1"
-            >
-              <span className="relative z-10 px-2"> innovative projects</span>
-            </PointerHighlight>
-            related to these research areas.
-            We're always looking for talented students and collaborators to join our efforts at the School of Artificial Intelligence and Data Science at IIT Jodhpur.
-          </p>
-          <a href="#contact" className="research-button">Collaborate with Us</a>
+          </div>
+          
+          <div className="research-item">
+            <div className="research-icon">🤖</div>
+            <h3>Supernumerary Robotic Limbs</h3>
+            <p>Designing additional robotic limbs and assistive devices to enhance human capabilities and provide support for various tasks.</p>
+            <div className="research-keywords">
+              <span>Sixth Robotic Finger</span>
+              <span>Third Robotic Arm</span>
+              <span>Assistive Technologies</span>
+            </div>
+          </div>
+          
+          <div className="research-item">
+            <div className="research-icon">🦿</div>
+            <h3>Exoskeletons & Exosuits</h3>
+            <p>Creating wearable robotic systems for rehabilitation, assistive support, and performance enhancement in industrial and medical applications.</p>
+            <div className="research-keywords">
+              <span>Upper Limb Exoskeletons</span>
+              <span>Soft Exosuits</span>
+              <span>Rehabilitation Robotics</span>
+            </div>
+          </div>
+          
+          <div className="research-item">
+            <div className="research-icon">🔍</div>
+            <h3>Sensing Technologies</h3>
+            <p>Developing advanced tactile, vision-based, and multi-modal sensing systems for improved robot-environment interaction.</p>
+            <div className="research-keywords">
+              <span>Tactile Sensing</span>
+              <span>Vision-based Sensing</span>
+              <span>Haptic Feedback</span>
+            </div>
+          </div>
+          
+          <div className="research-item">
+            <div className="research-icon">🚁</div>
+            <h3>Aerial Manipulation</h3>
+            <p>Researching metamorphic drone arms and aerial manipulators for applications in infrastructure inspection, disaster response, and delivery.</p>
+            <div className="research-keywords">
+              <span>Foldable Drone Arms</span>
+              <span>Aerial Grippers</span>
+              <span>Metamorphic Mechanisms</span>
+            </div>
+          </div>
+          
+          <div className="research-item">
+            <div className="research-icon">🧠</div>
+            <h3>AI in Robotics</h3>
+            <p>Integrating artificial intelligence techniques to enhance robot control, autonomy, and human-robot interaction for more effective collaboration.</p>
+            <div className="research-keywords">
+              <span>Brain-Computer Interface</span>
+              <span>Machine Learning</span>
+              <span>Adaptive Control</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

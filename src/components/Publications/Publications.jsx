@@ -22,41 +22,61 @@ const Publications = () => {
       journal: "IEEE Sensors Journal",
       year: 2023,
       type: "journal",
-      url: "#",
+      url: "https://doi.org/10.1109/JSEN.2023.3270172",
       citation: 5
     },
     {
       id: 2,
+      title: "Design of Twisted String Actuated Flexure Joint for Supernumerary Robotic Arm for Bi-manual Tasks",
+      authors: "Suthar, B., Hasanen, B., Seneviratnea, L., Zweiria, Y. and Hussain, I.",
+      journal: "IEEE Sensors Journal",
+      year: 2024,
+      type: "journal",
+      url: "https://doi.org/10.1109/JSEN.2024.3422791",
+      citation: 3
+    },
+    {
+      id: 3,
+      title: "Novel Robotic Finger Using Twisted String Actuator with Modular Passive Return Rotational Joints to Achieve High Grasping Force",
+      authors: "Suthar, B., Awada, M.I., Seneviratnea, L., Zweiria, Y. and Hussain, I.",
+      journal: "Journal of Mechatronics, Elsevier",
+      year: 2023,
+      type: "journal",
+      url: "https://doi.org/10.1016/j.mechatronics.2024.103157",
+      citation: 4
+    },
+    {
+      id: 4,
+      title: "A Soft Twisted String Actuation System for Exosuit: Undesirable Behaviors and the Effect of Pre-twists",
+      authors: "Suthar, B. and Ryu, J.H.",
+      journal: "Journal of Mechatronics, Elsevier",
+      year: 2023,
+      type: "journal",
+      url: "https://doi.org/10.1016/j.mechatronics.2023.103084",
+      citation: 6
+    },
+    {
+      id: 5,
       title: "Design and Feasibility Analysis of a Foldable Robot Arm for Drones Using a Twisted String Actuator: FRAD",
       authors: "Suthar, B. and Jung, S.",
       journal: "IEEE Robotics and Automation Letters",
       year: 2021,
       type: "journal",
-      url: "#",
+      url: "https://doi.org/10.1115/1.4050813",
       citation: 12
     },
     {
-      id: 3,
+      id: 6,
       title: "Design and Bending Analysis of a Metamorphic Parallel Twisted-Scissor Mechanism",
       authors: "Suthar, B. and Jung, S.",
       journal: "Transactions of ASME-Journal of Mechanisms and Robotics",
       year: 2021,
       type: "journal",
-      url: "#",
+      url: "https://doi.org/10.1109/LRA.2021.3084890",
       citation: 8
     },
     {
-      id: 4,
-      title: "Single Motor-based Bidirectional Twisted String Actuation with Variable Radius Pulleys",
-      authors: "Khan, M.A., Suthar, B., Gaponov, I. and Ryu, J.H.",
-      journal: "IEEE Robotics and Automation Letters",
-      year: 2019,
-      type: "journal",
-      url: "#",
-      citation: 22
-    },
-    {
-      id: 5,
+      id: 7,
       title: "Development of a Compliant Joint Based Upper Limb Exoskeleton for Stable Tele-manipulation: CJ EXO",
       authors: "Suthar, B., Zubair, M., Kansal, S. and Mukherjee, S.",
       journal: "IEEE RAS/EMBS International Conference on Biomedical Robotics and Biomechatronics",
@@ -66,8 +86,8 @@ const Publications = () => {
       citation: 7
     },
     {
-      id: 6,
-      title: "Conceptual Design of an Extendable Rope-inspired Module Space Orbit Arm for Maneuvering: ERM- SOA",
+      id: 8,
+      title: "Conceptual Design of an Extendable Rope-inspired Module Space Orbit Arm for Maneuvering: ERM-SOA",
       authors: "Suthar, B. and Jung, S.",
       journal: "46th NASA Aerospace Mechanisms Symposium",
       year: 2022,
@@ -76,7 +96,7 @@ const Publications = () => {
       citation: 4
     },
     {
-      id: 7,
+      id: 9,
       title: "Design and Experimental Evaluation of Foldable Robot Arms for holding and Installation Work: FRAHI",
       authors: "Suthar, B., Chio, Y.J., and Jung, S.",
       journal: "IEEE International Conference on Robot and Human Interactive Communication",
@@ -86,14 +106,14 @@ const Publications = () => {
       citation: 9
     },
     {
-      id: 8,
-      title: "Soft Twisted String Actuator Module for Wearable Robotic Applications",
-      authors: "Suthar, B., Gaponov, I., and Ryu, J.H.",
-      journal: "International workshop on Active Materials and Soft Mechatronics",
-      year: 2018,
-      type: "conference",
+      id: 10,
+      title: "Single Motor-based Bidirectional Twisted String Actuation with Variable Radius Pulleys",
+      authors: "Khan, M.A., Suthar, B., Gaponov, I. and Ryu, J.H.",
+      journal: "IEEE Robotics and Automation Letters",
+      year: 2019,
+      type: "journal",
       url: "#",
-      citation: 11
+      citation: 22
     }
   ];
   
@@ -102,7 +122,7 @@ const Publications = () => {
     
     // Animate section title with a reveal effect
     gsap.fromTo(
-      '.section-title',
+      '.section-title4',
       { 
         y: 50, 
         opacity: 0,
@@ -241,7 +261,7 @@ const Publications = () => {
     <section id="publications" className="publications-section" ref={sectionRef}>
       <div className="publications-bg"></div>
       <div className="section-container">
-        <h2 className="section-title">
+        <h2 className="section-title4">
           <ResearchHighlight>Research</ResearchHighlight> Publications
         </h2>
         

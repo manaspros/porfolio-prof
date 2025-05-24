@@ -9,7 +9,7 @@
   padding: 0 20px;
 }
 
-.section-title {
+.section-title3 {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 60px;
@@ -17,7 +17,7 @@
   position: relative;
 }
 
-.section-title:after {
+.section-title3:after {
   content: '';
   display: block;
   width: 80px;
@@ -38,6 +38,8 @@
 
 .about-image img {
   width: 100%;
+  max-height: 700px; /* Added max-height to make image shorter */
+  object-fit: cover; /* Ensures the image covers the area properly */
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }

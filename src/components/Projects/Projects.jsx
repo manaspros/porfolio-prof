@@ -25,34 +25,7 @@ const Projects = () => {
     },
     {
       id: 2,
-      title: "Foldable Supplementary Robot Arm (FSRA)",
-      description: "A compact, foldable robotic arm that can be worn or deployed as needed, offering versatile assistance for construction work and other tasks.",
-      image: "https://static.wixstatic.com/media/fbe72c_d1ced464502c44d4a051e88e0fc61327~mv2.png/v1/crop/x_0,y_3,w_537,h_653/fill/w_276,h_344,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Raj_FRAC.png",
-      category: "foldable",
-      url: "#",
-      technologies: ["Foldable Mechanism", "Robotics", "Assistance"]
-    },
-    {
-      id: 3,
-      title: "Twisted String Mechanism for FDA (TSM-FDA)",
-      description: "A specialized actuation system using twisted string mechanism designed for Foldable Drone Arms, providing lightweight but powerful actuation.",
-      image: "https://via.placeholder.com/600x400?text=TSM-FDA",
-      category: "actuation",
-      url: "#",
-      technologies: ["Twisted String", "Drone Technology", "Actuation Systems"]
-    },
-    {
-      id: 4,
-      title: "Adaptive Coupling Sensor Exoskeleton (ACS-EXO)",
-      description: "An upper limb exoskeleton with adaptive sensor coupling that enables smooth human motion tracking for rehabilitation and assistance.",
-      image: "https://via.placeholder.com/600x400?text=ACS-EXO",
-      category: "exoskeleton",
-      url: "#",
-      technologies: ["Adaptive Sensors", "Exoskeleton", "Rehabilitation"]
-    },
-    {
-      id: 5,
-      title: "Supplementary Robotic Finger (SRF)",
+      title: "Sixth Robotic Finger (SRF)",
       description: "A robotic sixth finger design that provides supplementary grasping capabilities to assist individuals with hand impairments or for enhanced manipulation.",
       image: "https://static.wixstatic.com/media/fbe72c_ee7122692ad4403c9d25190d5644d1e0~mv2.png/v1/crop/x_8,y_0,w_502,h_242/fill/w_440,h_190,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/SRF.png",
       category: "assistance",
@@ -60,13 +33,40 @@ const Projects = () => {
       technologies: ["Soft Robotics", "Assistive Technology", "Hand Augmentation"]
     },
     {
-      id: 6,
-      title: "Foldable Robot Arms for Collaborative Work (FRAC)",
+      id: 3,
+      title: "Adaptive Sensor Coupling Exoskeleton (ASC-EXO)",
+      description: "A 7-DOF upper limb exoskeleton with adaptive sensor coupling that enables smooth human motion tracking for rehabilitation and assistance.",
+      image: "https://via.placeholder.com/600x400?text=ASC-EXO",
+      category: "exoskeleton",
+      url: "#",
+      technologies: ["Adaptive Sensors", "Exoskeleton", "Rehabilitation"]
+    },
+    {
+      id: 4,
+      title: "Foldable Robot Arms (FRAC)",
       description: "Designed for collaborative environments, these foldable robot arms offer versatile assistance while maintaining a compact form factor when not in use.",
       image: "https://i.ytimg.com/vi/DYgFDl-JJ0s/sddefault.jpg",
       category: "foldable",
       url: "#",
       technologies: ["Collaborative Robotics", "Foldable Mechanisms", "Human-Robot Interaction"]
+    },
+    {
+      id: 5,
+      title: "Foldable Drone Arm (FRAD)",
+      description: "A specialized robotic arm designed for drones that can fold compactly when not in use and extend for manipulation tasks during flight.",
+      image: "https://static.wixstatic.com/media/fbe72c_d1ced464502c44d4a051e88e0fc61327~mv2.png/v1/crop/x_0,y_3,w_537,h_653/fill/w_276,h_344,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Raj_FRAC.png",
+      category: "foldable",
+      url: "#",
+      technologies: ["Aerial Robotics", "Twisted String Actuator", "Metamorphic Mechanisms"]
+    },
+    {
+      id: 6,
+      title: "Brain-Computer Interface for Wearable Robotics",
+      description: "A system that uses brain signals to control wearable robotic devices, providing intuitive control for users with limited mobility.",
+      image: "https://via.placeholder.com/600x400?text=BCI-Robotics",
+      category: "wearable",
+      url: "#",
+      technologies: ["Brain-Computer Interface", "AI", "Assistive Technology"]
     }
   ];
   

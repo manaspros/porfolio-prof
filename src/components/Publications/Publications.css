@@ -38,7 +38,7 @@
   background: radial-gradient(circle, rgba(98, 60, 234, 0.05) 0%, rgba(98, 60, 234, 0) 70%);
 }
 
-.section-title {
+.section-title4 {
   font-size: 2.8rem;
   font-weight: 800;
   text-align: center;
@@ -553,7 +553,7 @@
 }
 
 @media (max-width: 768px) {
-  .section-title {
+  .section-title4 {
     font-size: 2.2rem;
   }
   
@@ -633,7 +633,7 @@
 
 /* Add for extra small screens */
 @media (max-width: 380px) {
-  .section-title {
+  .section-title4 {
     font-size: 2rem;
   }
   
