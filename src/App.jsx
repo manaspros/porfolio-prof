@@ -86,10 +86,15 @@ function App() {
       });
     }
 
-    // Simulate loading delay
+    // Adjust loading time for different devices
+    const loadingTime = settings.isMobile || settings.isLowPowerDevice 
+      ? 1200  // Shorter loading time for mobile/low-power devices
+      : 2000; // Normal loading time for desktop
+
+    // Simulate loading delay with reduced time for mobile
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2000)
+    }, loadingTime)
 
     // Fix for scrollbar issues - force recalculation on resize and after animations
     const handleResize = () => {
@@ -149,7 +154,7 @@ function App() {
     <MotionProvider>
       <div className="app-container">
         {isLoading ? (
-          <div className="loading-screen">
+          <div className={`loading-screen ${animSettings?.isMobile ? 'is-mobile-device' : ''}`}>
             <div className="robot-loader">
               <div className="robot-head"></div>
               <div className="robot-body">
@@ -157,7 +162,7 @@ function App() {
                 <div className="robot-arm right"></div>
               </div>
             </div>
-            <p className="loading-text">Initializing...</p>
+            <p className="loading-text">{animSettings?.isMobile ? 'Loading...' : 'Initializing...'}</p>
           </div>
         ) : (
           <div className="content-wrapper" style={{ overflowX: 'clip', width: '100%' }}>

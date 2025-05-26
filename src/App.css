@@ -580,3 +580,73 @@ section {
   animation: none !important;
   opacity: 0.5 !important;
 }
+
+/* Mobile optimization for loading screen */
+@media (max-width: 768px) {
+  .robot-loader {
+    width: 90px;
+    height: 110px;
+    transform: scale(0.9);
+  }
+  
+  .loading-text {
+    font-size: 1.1rem;
+    margin-top: 30px;
+  }
+  
+  /* Optimize animations for mobile devices */
+  .robot-head:before, .robot-head:after {
+    animation: blink 3s linear infinite;
+  }
+  .robot-head{
+    left: 15px;
+  }
+  .robot-body{
+    left: 5px;
+  }
+  
+  .robot-body:before {
+    animation: scan 2s ease-in-out infinite;
+  }
+  
+  .robot-body:after {
+    animation: sweep 4s linear infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+/* Further optimizations for very small screens */
+@media (max-width: 380px) {
+  .robot-loader {
+    width: 75px;
+    height: 90px;
+    transform: scale(0.8);
+  }
+  
+  .loading-text {
+    font-size: 1rem;
+    margin-top: 25px;
+  }
+}
+
+/* Landscape orientation fix for loading screen */
+@media (max-height: 500px) and (orientation: landscape) {
+  .robot-loader {
+    width: 70px;
+    height: 85px;
+    transform: scale(0.7);
+  }
+  
+  .loading-text {
+    font-size: 0.9rem;
+    margin-top: 15px;
+  }
+}
