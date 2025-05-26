@@ -8,12 +8,16 @@ export const ThemeToggler = () => {
   useEffect(() => {
     // Check if user previously set a preference
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-    // Set initial theme based on saved preference or system preference
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    // Only set dark mode if user explicitly chose it before
+    if (savedTheme === 'dark') {
       setIsDarkMode(true);
       document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      // Always default to light theme
+      setIsDarkMode(false);
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
     }
   }, []);
 
