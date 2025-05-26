@@ -419,7 +419,7 @@ const Contact = () => {
               <a href="https://www.youtube.com/channel/UClkWY-vpshRUFWZut_gqZhQ/videos" target="_blank" rel="noopener noreferrer" className="social-link">
                 <i className="fab fa-youtube"></i>
               </a>
-              <a href="https://www.linkedin.com/in/bhivraj-suthar-ph-d-0729aa33/" target="_blank" rel="noopener noreferrer" className="social-link">
+              <a href="https://www.linkedin.com/in/bhivraj-s-823528294/" target="_blank" rel="noopener noreferrer" className="social-link">
                 <i className="fab fa-linkedin"></i>
               </a>
             </div>

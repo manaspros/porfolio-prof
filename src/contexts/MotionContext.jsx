@@ -1,68 +1,56 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { isMobileDevice, hasLimitedPerformance } from '../utils/deviceDetection';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Create context for motion capabilities
 const MotionContext = createContext({
   shouldUseMotion: true,
   isMobile: false,
   isLowPower: false,
-  prefersReducedMotion: false
 });
 
 export const MotionProvider = ({ children }) => {
-  const [motionCapabilities, setMotionCapabilities] = useState({
+  const [deviceInfo, setDeviceInfo] = useState({
     shouldUseMotion: true,
     isMobile: false,
     isLowPower: false,
-    prefersReducedMotion: false
   });
 
   useEffect(() => {
-    // Detect device capabilities
-    const mobile = isMobileDevice();
-    const lowPower = hasLimitedPerformance();
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const userDisabledMotion = localStorage.getItem('disable-motion') === 'true';
-    
-    // Determine if we should use motion
-    const shouldUse = !mobile && !lowPower && !prefersReduced && !userDisabledMotion;
-    
-    setMotionCapabilities({
-      shouldUseMotion: shouldUse,
-      isMobile: mobile,
-      isLowPower: lowPower,
-      prefersReducedMotion: prefersReduced
-    });
-    
-    // Add listener for prefers-reduced-motion changes
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
-    const handleReducedMotionChange = (e) => {
-      setMotionCapabilities(prev => ({
-        ...prev,
-        prefersReducedMotion: e.matches,
-        shouldUseMotion: !e.matches && !prev.isMobile && !prev.isLowPower
-      }));
+    // Check if we're on a mobile device
+    const checkMobileDevice = () => {
+      const isMobile = window.innerWidth <= 768 || 
+                       navigator.maxTouchPoints > 0 ||
+                       window.matchMedia('(pointer: coarse)').matches;
+      
+      // Check for low power mode
+      const isLowPower = navigator.hardwareConcurrency && 
+                         navigator.hardwareConcurrency <= 4;
+      
+      // Check if user has requested reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      // Use motion except on mobile, low power devices, or if user prefers reduced motion
+      const shouldUseMotion = !prefersReducedMotion && 
+                             !(isMobile && isLowPower);
+      
+      setDeviceInfo({
+        shouldUseMotion,
+        isMobile,
+        isLowPower,
+      });
     };
-    
-    if (reducedMotionQuery.addEventListener) {
-      reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
-    } else {
-      // Fallback for older browsers
-      reducedMotionQuery.addListener(handleReducedMotionChange);
-    }
+
+    checkMobileDevice();
+
+    // Recheck on window resize
+    window.addEventListener('resize', checkMobileDevice);
     
     return () => {
-      if (reducedMotionQuery.removeEventListener) {
-        reducedMotionQuery.removeEventListener('change', handleReducedMotionChange);
-      } else {
-        reducedMotionQuery.removeListener(handleReducedMotionChange);
-      }
+      window.removeEventListener('resize', checkMobileDevice);
     };
   }, []);
 
   return (
-    <MotionContext.Provider value={motionCapabilities}>
+    <MotionContext.Provider value={deviceInfo}>
       {children}
     </MotionContext.Provider>
   );

@@ -1,5 +1,5 @@
 .education-section {
-  padding: 80px 20px;
+  padding: 120px 20px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   position: relative;
@@ -17,9 +17,10 @@
     radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%);
   pointer-events: none;
+  z-index: 1;
 }
 
-.section-title {
+.edu-section-title {
   text-align: center;
   font-size: 3.5rem;
   font-weight: 700;
@@ -28,20 +29,17 @@
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 2;
-  transform: translateY(30px);
-  opacity: 0;
-  animation: fadeInUp 1s ease-out forwards;
-  animation-delay: 0.2s;
 }
 
-@keyframes fadeInUp {
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.edu-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.section-title::after {
+.edu-section-title::after {
   content: '';
   display: block;
   width: 100px;
@@ -56,250 +54,620 @@
   margin: 0 auto;
   position: relative;
   z-index: 2;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding-bottom: 40px;
 }
 
-.timeline-line {
+.main-timeline-line {
   position: absolute;
   left: 50%;
-  top: 0;
+  top: 80px;
   bottom: 0;
   width: 4px;
   background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.5));
-  transform: translateX(-50%) scaleY(0);
-  transform-origin: top;
+  transform: translateX(-50%);
   border-radius: 2px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-  animation: drawLine 2s ease-out forwards;
-  animation-delay: 0.5s;
+  z-index: 1;
+  height: 100%;
 }
 
-@keyframes drawLine {
-  to {
-    transform: translateX(-50%) scaleY(1);
-  }
+.timeline-line {
+  display: none;
 }
 
-.education-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 60px;
+.timeline-container {
   position: relative;
+  margin-bottom: 80px;
 }
 
-.education-item.left {
-  flex-direction: row;
+.timeline-heading-title {
+  text-align: center;
+  color: #ffffff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  padding: 15px 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
 }
 
-.education-item.right {
-  flex-direction: row-reverse;
+.timeline-item {
+  display: flex;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-item.left-item {
+  justify-content: flex-start;
+  padding-right: 50%;
+  margin-right: 30px;
+}
+
+.timeline-item.right-item {
+  justify-content: flex-end;
+  padding-left: 50%;
+  margin-left: 30px;
 }
 
 .timeline-marker {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   z-index: 3;
-  margin: 0 30px;
+  top: 30px;
 }
 
-.timeline-dot {
+.marker-dot {
   width: 20px;
   height: 20px;
-  background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+  background: #ffffff;
   border-radius: 50%;
-  border: 4px solid #ffffff;
-  box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-  animation: pulse 2s infinite;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  border: 2px solid #764ba2;
+  position: relative;
+  z-index: 3;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.5); }
-  50% { box-shadow: 0 0 30px rgba(255, 107, 107, 0.8); }
-  100% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.5); }
+.marker-line {
+  display: none;
 }
 
-.timeline-year {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 600;
-  margin-top: 10px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  font-size: 0.9rem;
+.timeline-connector {
+  position: absolute;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  top: 10px;
+  z-index: 2;
 }
 
-.education-card {
+.left-item .timeline-connector {
+  right: 50%;
+  transform: translateX(20px);
+}
+
+.right-item .timeline-connector {
+  left: 50%;
+  transform: translateX(-20px);
+}
+
+.timeline-content {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-  padding: 30px;
-  width: 450px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  padding: 25px;
+  width: 90%;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  overflow: hidden;
+  max-width: 500px;
 }
 
-.education-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #ff6b6b, #ffd93d, #4ecdc4);
-  border-radius: 20px 20px 0 0;
+.timeline-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-.education-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.15);
+.education-content {
+  border-left: 4px solid #ff6b6b;
 }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
+.research-content {
+  border-left: 4px solid #ffd93d;
 }
 
-.degree-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  line-height: 1.3;
-  flex: 1;
+.timeline-years {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
 
-.institution-badge {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 10px;
-  border-radius: 12px;
-  margin-left: 15px;
-}
-
-.education-icon {
-  width: 24px;
-  height: 24px;
-  color: #ffd93d;
-}
-
-.institution-name {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 15px 0;
+.timeline-item-heading {
+  color: white;
+  font-size: 1.4rem;
+  margin: 0 0 10px 0;
   line-height: 1.4;
 }
 
-.description {
+.timeline-institution {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.timeline-details {
   color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin: 0 0 20px 0;
   font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
-.card-footer {
-  display: flex;
-  justify-content: flex-end;
+.education-bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  z-index: 0;
+  pointer-events: none;
 }
 
-.completion-badge {
-  background: linear-gradient(135deg, #4ecdc4, #44a08d);
-  color: #ffffff;
-  padding: 6px 16px;
-  border-radius: 15px;
+.circle-1 {
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 107, 107, 0.3);
+  top: -100px;
+  right: -100px;
+}
+
+.circle-2 {
+  width: 500px;
+  height: 500px;
+  background: rgba(102, 126, 234, 0.3);
+  bottom: -150px;
+  left: -150px;
+}
+
+.circle-3 {
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 217, 61, 0.3);
+  top: 40%;
+  left: 30%;
+}
+
+/* No motion styles */
+.no-motion {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Force content visibility regardless of animation state */
+.content-visible .timeline-item,
+.content-visible .timeline-content,
+.content-visible .timeline-marker,
+.content-visible .marker-dot,
+.content-visible .timeline-years,
+.content-visible .timeline-item-heading,
+.content-visible .timeline-institution,
+.content-visible .timeline-details {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Make everything visible on page load */
+.education-section.content-visible .timeline-line {
+  transform: translateX(-50%) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Mobile optimizations */
+.education-section.mobile-view {
+  padding: 80px 15px 60px;
+  overflow-x: hidden;
+}
+
+.mobile-view .edu-section-title {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+}
+
+.mobile-view .timeline-line {
+  left: 20px;
+  top: 40px;
+}
+
+.mobile-view .timeline-heading-title {
+  text-align: left;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  padding-left: 40px;
+}
+
+.mobile-view .timeline-container {
+  margin-bottom: 50px;
+}
+
+.mobile-layout {
+  padding-left: 20px;
+}
+
+.mobile-view .timeline-item {
+  padding: 0 0 0 40px !important;
+  margin-bottom: 30px;
+}
+
+.mobile-view .timeline-item.mobile-item {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.mobile-view .timeline-marker {
+  left: 20px;
+  transform: none;
+  top: 25px;
+}
+
+.mobile-view .marker-dot {
+  width: 16px;
+  height: 16px;
+}
+
+.mobile-view .timeline-content {
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+}
+
+.mobile-view .timeline-years {
   font-size: 0.85rem;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+  padding: 4px 12px;
+  margin-bottom: 10px;
 }
 
-/* Mobile Responsiveness */
+.mobile-view .timeline-item-heading {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.mobile-view .timeline-institution {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.mobile-view .timeline-details {
+  font-size: 0.9rem;
+}
+
+.mobile-view .reduced-opacity {
+  opacity: 0.1;
+  filter: blur(100px);
+}
+
+/* Ensure content is always visible on mobile */
 @media (max-width: 768px) {
-  .education-timeline {
-    padding: 0 20px;
+  .education-section {
+    padding: 80px 15px 60px;
   }
   
-  .timeline-line {
-    left: 30px;
+  .edu-section-title {
+    font-size: 2.2rem;
+    margin-bottom: 40px;
   }
   
-  .education-item,
-  .education-item.right {
-    flex-direction: row;
+  .main-timeline-line {
+    left: 20px;
+    height: calc(100% - 40px);
+    top: 40px;
+  }
+  
+  .timeline-heading-title {
+    text-align: left;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    padding-left: 40px;
+  }
+  
+  .timeline-container {
+    margin-bottom: 50px;
+  }
+  
+  .timeline-item {
+    padding: 0 0 0 40px !important;
+    margin-bottom: 30px;
+    justify-content: flex-start;
+    width: 100%;
   }
   
   .timeline-marker {
-    margin: 0 20px 0 0;
-    position: absolute;
-    left: 0;
+    left: 20px;
+    transform: none;
+    top: 25px;
   }
   
-  .education-card {
-    width: 100%;
-    margin-left: 60px;
-  }
-  
-  .section-title {
-    font-size: 2.5rem;
-  }
-  
-  .degree-title {
-    font-size: 1.3rem;
-  }
-  
-  .education-section {
-    overflow-x: hidden;
-    overflow-y: visible;
-  }
-  
-  .education-section::before {
-    opacity: 0.1; /* Reduce background decoration opacity */
-  }
-  
-  .education-timeline-item {
-    transform: none !important;
-    opacity: 1 !important;
-    position: relative;
-    z-index: 5;
+  .marker-dot {
+    width: 16px;
+    height: 16px;
   }
   
   .timeline-content {
-    transform: none !important;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important; /* Consistent shadow */
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
   }
   
-  /* Fix potential 3D transform issues */
-  .education-timeline, .education-timeline-item {
-    transform-style: flat !important;
-    perspective: none !important;
-    -webkit-transform-style: flat !important;
+  .timeline-years {
+    font-size: 0.85rem;
+    padding: 4px 12px;
+    margin-bottom: 10px;
   }
   
-  /* Ensure animations don't hide content */
-  .timeline-dot {
+  .timeline-item-heading {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .timeline-institution {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .timeline-details {
+    font-size: 0.9rem;
+  }
+  
+  .education-bg-circle {
+    opacity: 0.1;
+    filter: blur(100px);
+  }
+  
+  /* Fix any opacity issues caused by animations */
+  .timeline-item, .timeline-content, .marker-dot,
+  .timeline-years, .timeline-item-heading, .timeline-institution, 
+  .timeline-details {
     opacity: 1 !important;
     transform: none !important;
+    animation: none !important;
+    visibility: visible !important;
   }
 }
 
+/* Extra small devices */
 @media (max-width: 480px) {
-  .education-card {
+  .timeline-content {
+    padding: 15px;
+  }
+  
+  .edu-section-title {
+    font-size: 1.8rem;
+  }
+  
+  .timeline-heading-title {
+    font-size: 1.5rem;
+    padding-left: 35px;
+  }
+  
+  .timeline-item {
+    padding: 0 0 0 35px !important;
+  }
+  
+  .timeline-item-heading {
+    font-size: 1.1rem;
+  }
+  
+  .timeline-institution {
+    font-size: 0.95rem;
+  }
+  
+  .timeline-details {
+    font-size: 0.85rem;
+  }
+}
+
+/* Laptop specific styles */
+@media (min-width: 769px) and (max-width: 1366px) {
+  .timeline-content {
+    width: 95%;
     padding: 20px;
-    margin-left: 50px;
   }
   
-  .timeline-marker {
-    margin-right: 15px;
+  .timeline-item-heading {
+    font-size: 1.3rem;
   }
   
-  .timeline-line {
-    left: 25px;
+  .timeline-institution {
+    font-size: 1rem;
   }
+  
+  .timeline-details {
+    font-size: 0.9rem;
+  }
+  
+  /* Ensure proper timeline alignment on laptops */
+  .timeline-item.left-item {
+    padding-right: 48%;
+  }
+
+  .timeline-item.right-item {
+    padding-left: 48%;
+  }
+}
+
+/* Fix for animation issues - ensure visibility */
+.education-timeline {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Additional safety styles to prevent hidden content */
+.no-motion * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+/* Timelines container styling */
+.timelines-container {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  width: 100%;
+}
+
+.timeline-block {
+  position: relative;
+  padding: 20px 0;
+  border-radius: 16px;
+}
+
+/* Education timeline specific styles */
+.education-timeline {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding-bottom: 40px;
+}
+
+.education-heading {
+  color: #ff6b6b;
+}
+
+.education-heading::before {
+  content: '📚';
+  margin-right: 10px;
+}
+
+.education-line {
+  background: linear-gradient(to bottom, #ff6b6b, rgba(255, 107, 107, 0.5));
+}
+
+.education-dot {
+  background: #ffffff;
+  border-color: #ff6b6b;
+}
+
+.education-marker-line {
+  background: rgba(255, 107, 107, 0.7);
+}
+
+.education-years {
+  background: rgba(255, 107, 107, 0.3);
+}
+
+/* Research timeline specific styles */
+.research-timeline {
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding-bottom: 40px;
+}
+
+.research-heading {
+  color: #ffd93d;
+}
+
+.research-heading::before {
+  content: '🔬';
+  margin-right: 10px;
+}
+
+.research-line {
+  background: linear-gradient(to bottom, #ffd93d, rgba(255, 217, 61, 0.5));
+}
+
+.research-dot {
+  background: #ffffff;
+  border-color: #ffd93d;
+}
+
+.research-marker-line {
+  background: rgba(255, 217, 61, 0.7);
+}
+
+.research-years {
+  background: rgba(255, 217, 61, 0.3);
+}
+
+/* Timeline headings */
+.timeline-heading-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  padding: 15px 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+/* Mobile specific styles for separated timelines */
+@media (max-width: 768px) {
+  .timelines-container {
+    gap: 60px;
+  }
+
+  .timeline-block {
+    border-radius: 12px;
+    padding: 15px 0;
+  }
+
+  .education-timeline,
+  .research-timeline {
+    padding-bottom: 30px;
+  }
+
+  .timeline-heading-title {
+    font-size: 1.8rem;
+    padding: 10px 0;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .education-line,
+  .research-line {
+    left: 20px !important;
+  }
+
+  /* Make the mobile lines more distinct */
+  .education-timeline .main-timeline-line {
+    left: 20px;
+    height: calc(100% - 80px);
+    top: 80px;
+  }
+
+  .research-timeline .main-timeline-line {
+    left: 20px;
+    height: calc(100% - 80px);
+    top: 80px;
+  }
+}
+
+/* Fix for content visibility in mobile view */
+.mobile-view .education-timeline,
+.mobile-view .research-timeline {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Improve timeline item spacing */
+.timeline-item {
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
 }
