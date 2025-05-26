@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Awards = () => {
   const [activeAward, setActiveAward] = useState(null);
   const [showMoreAwards, setShowMoreAwards] = useState(false);
+  const [buttonPulse, setButtonPulse] = useState(false);
   const sectionRef = useRef(null);
   const timelineRef = useRef(null);
   const awardsRef = useRef(null);
@@ -490,6 +491,24 @@ const Awards = () => {
     createParticles();
     createGlowEffects();
     
+    // Add pulse animation to button when the section is visible
+    const pulseButton = () => {
+      if (awardsRef.current && buttonPulse === false) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              setButtonPulse(true);
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.5 });
+        
+        observer.observe(awardsRef.current);
+      }
+    };
+    
+    pulseButton();
+    
     // Comprehensive cleanup function
     return () => {
       console.log("Cleaning up awards animations");
@@ -607,11 +626,13 @@ const Awards = () => {
         {allAwards.length > 5 && (
           <div className="read-more-container">
             <button 
-              className={`read-more-btn ${showMoreAwards ? 'active' : ''}`} 
+              className={`read-more-btn ${showMoreAwards ? 'active' : ''} ${buttonPulse ? 'pulse' : ''}`} 
               onClick={toggleMoreAwards}
             >
-              {showMoreAwards ? 'Show Less' : `Show More Awards (${allAwards.length - 5} more)`} 
-              <span className="arrow-icon">{showMoreAwards ? '↑' : '↓'}</span>
+              {showMoreAwards 
+                ? <>Show Less <span className="arrow-icon">↑</span></>
+                : <>Show More Awards <span className="award-count">({allAwards.length - 5})</span> <span className="arrow-icon">↓</span></>
+              }
             </button>
           </div>
         )}

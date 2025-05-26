@@ -236,14 +236,49 @@ const Publications = () => {
     return () => {
       clearTimeout(animationTimeout);
       try {
-        // Only kill ScrollTrigger instances created by this component
-        const componentTriggers = ScrollTrigger.getAll().filter(trigger => 
-          trigger.vars.trigger && 
-          sectionRef.current && 
-          (sectionRef.current.contains(trigger.vars.trigger) || 
-           trigger.vars.trigger.closest('#publications'))
-        );
-        componentTriggers.forEach(trigger => trigger.kill());
+        // Improved cleanup to handle different trigger types
+        if (ScrollTrigger && sectionRef.current) {
+          const componentTriggers = ScrollTrigger.getAll().filter(trigger => {
+            // Only process triggers that have vars and a trigger property
+            if (!trigger.vars || !trigger.vars.trigger) return false;
+            
+            // Handle different types of triggers
+            const triggerElement = trigger.vars.trigger;
+            
+            // Case 1: If the trigger is a DOM element, check if it's contained in our section
+            if (triggerElement instanceof Element) {
+              return sectionRef.current.contains(triggerElement);
+            }
+            
+            // Case 2: If the trigger is a string selector, check if it's related to publications
+            if (typeof triggerElement === 'string') {
+              return triggerElement.includes('publication') || 
+                    triggerElement.includes('pub-') ||
+                    triggerElement === '.section-title4' ||
+                    triggerElement === '.filter-controls';
+            }
+            
+            // Case 3: If trigger has a closest method (might be a wrapped selector)
+            if (triggerElement.closest && typeof triggerElement.closest === 'function') {
+              try {
+                return triggerElement.closest('#publications') !== null;
+              } catch (e) {
+                // If closest fails, ignore this trigger
+                return false;
+              }
+            }
+            
+            // Default: don't include triggers we can't identify
+            return false;
+          });
+          
+          // Kill the identified triggers
+          componentTriggers.forEach(trigger => {
+            if (trigger && trigger.kill) {
+              trigger.kill();
+            }
+          });
+        }
       } catch (error) {
         console.error('Error cleaning up ScrollTrigger:', error);
       }

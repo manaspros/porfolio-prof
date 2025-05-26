@@ -462,50 +462,105 @@
   right: 0;
 }
 
-/* Read more button styles */
+/* Update the read-more button styling to match website theme */
+
 .read-more-container {
   text-align: center;
-  margin: 2rem 0;
+  margin: 3rem 0 2rem;
   padding-top: 1rem;
 }
 
 .read-more-btn {
-  background: linear-gradient(135deg, #0066cc 0%, #4a8eff 100%);
+  background: linear-gradient(135deg, #4a8eff 0%, #0066cc 100%);
   color: white;
   border: none;
-  padding: 0.8rem 2rem;
-  border-radius: 30px;
+  padding: 0.9rem 2.5rem;
+  border-radius: 50px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+  gap: 0.8rem;
+  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Add shimmering effect on hover */
+.read-more-btn:before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(-45deg);
+  z-index: -1;
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.read-more-btn:hover:before {
+  animation: shimmer 2s infinite;
+  opacity: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-150%) rotate(-45deg);
+  }
+  100% {
+    transform: translateX(150%) rotate(-45deg);
+  }
 }
 
 .read-more-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
-  background: linear-gradient(135deg, #0066cc 0%, #5a9aff 100%);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 102, 204, 0.3), 0 5px 15px rgba(74, 142, 255, 0.2);
+  background: linear-gradient(135deg, #5a9aff 0%, #105cbf 100%);
+}
+
+.read-more-btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 5px 15px rgba(0, 102, 204, 0.2);
 }
 
 .read-more-btn.active {
-  background: linear-gradient(135deg, #005bb8 0%, #3a7aef 100%);
+  background: linear-gradient(135deg, #3a7aef 0%, #005bb8 100%);
 }
 
 .arrow-icon {
   font-size: 1.2rem;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: inline-block;
 }
 
 .read-more-btn:hover .arrow-icon {
-  transform: translateY(2px);
+  transform: translateY(3px);
 }
 
 .read-more-btn.active:hover .arrow-icon {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+}
+
+/* Button pulse effect when first visible */
+@keyframes pulsate {
+  0% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 102, 204, 0.2); }
+  50% { transform: scale(1.05); box-shadow: 0 15px 35px rgba(0, 102, 204, 0.4); }
+  100% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 102, 204, 0.2); }
+}
+
+.read-more-btn.pulse {
+  animation: pulsate 2s ease-in-out;
 }
 
 /* Additional awards section */
