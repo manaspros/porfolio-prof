@@ -138,24 +138,24 @@ const Education = () => {
   const researchExperience = [
     {
       id: 1,
-      years: "2021-2023",
-      position: "Post-Doctoral Research Fellow",
-      institution: "Khalifa University & KAIST, UAE & South Korea",
-      details: "Research on Foldable Robot Arms for Drones and Haptic Interfaces for VR/AR Applications"
+      years: "2023-Present",
+      position: "Assistant Professor",
+      institution: "Indian Institute of Technology Jodhpur (IITJ), India",
+      details: "Teaching and training on Tele-Robotics, Development of Novel Robotic Sixth Finger for Assisting Hemiplegic Patients"
     },
     {
       id: 2,
-      years: "2019-2020",
-      position: "Visiting Research Scholar",
-      institution: "DGIST (Daegu Gyeongbuk Institute of Science), South Korea",
-      details: "Research on Bio-inspired Robot Design and Soft Robotics"
+      years: "2021-2023",
+      position: "Post-doctoral Researcher",
+      institution: "Khalifa University, United Arab Emirates",
+      details: "Research on TSA-based robotic fingers, adaptive grippers, and Supernumerary Robotic Limbs for hemiplegic patients"
     },
     {
       id: 3,
-      years: "2015-2016",
-      position: "Research Assistant",
-      institution: "Indian Institute of Technology Delhi, India",
-      details: "Developed Innovative Mechanisms for Agricultural Robotics"
+      years: "2020-2021",
+      position: "Post-doctoral Researcher",
+      institution: "Chungnam National University, Republic of Korea",
+      details: "Design of deployable aerial manipulators and supplementary robot arms for construction assistance"
     }
   ];
 

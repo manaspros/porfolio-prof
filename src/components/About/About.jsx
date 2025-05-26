@@ -100,7 +100,7 @@ const About = () => {
         <h2 className="section-title3" ref={titleRef}>About Me</h2>
         <div className="about-content" ref={contentRef}>
           <div className="about-image">
-            <img src="https://static.wixstatic.com/media/fbe72c_def032ed0f264c089c4938788bdc67d7~mv2.jpg/v1/crop/x_60,y_10,w_534,h_1215/fill/w_322,h_784,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Raj1_JPG.jpg" alt="Dr. Bhivraj Suthar" />
+            <img src="https://static.wixstatic.com/media/fbe72c_e7f842092d234ac285b9bd150e16916d~mv2.jpg/v1/crop/x_0,y_0,w_311,h_516/fill/w_365,h_619,al_c,lg_1,q_80,enc_avif,quality_auto/TSA_SRL1.jpg" alt="Dr. Bhivraj Suthar" />
           </div>
           <div className="about-text">
             <h3>
