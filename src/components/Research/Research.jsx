@@ -202,6 +202,13 @@ const Research = () => {
             </div>
           </div>
         </div>
+        
+        {/* Add the missing research-cta section */}
+        <div className="research-cta">
+          <h3>Interested in Collaboration?</h3>
+          <p>Reach out to discuss potential research partnerships or learn more about our ongoing projects.</p>
+          <button className="cta-button">Contact for Research</button>
+        </div>
       </div>
     </section>
   );

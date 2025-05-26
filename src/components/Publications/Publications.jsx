@@ -6,8 +6,7 @@ import { ResearchHighlight } from '../ui/ResearchHighlight';
 import googleScholarService from '../../services/googleScholarService';
 import './Publications.css';
 
-// Register the ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
+// DO NOT register ScrollTrigger here - it's already registered in App.jsx
 
 const Publications = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -26,43 +25,48 @@ const Publications = () => {
   
   // Fetch publications from Google Scholar on component mount
   useEffect(() => {
-    const loadPublications = async () => {
-      try {
-        setLoading(true);
-        let fetchedPublications;
-        
-        // First try regular fetch with proxy
+    // Wrap everything in a try/catch to prevent breaking the entire app
+    try {
+      const loadPublications = async () => {
         try {
-          fetchedPublications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
-        } catch (proxyError) {
-          console.error('Proxy fetch failed:', proxyError);
+          setLoading(true);
+          let fetchedPublications;
           
-          // If proxy fails, try direct fetch
+          // First try regular fetch with proxy
           try {
-            fetchedPublications = await googleScholarService.directFetch('3KZSSEIAAAAJ');
-          } catch (directError) {
-            console.error('Direct fetch failed:', directError);
-            // Will fall through to fallback mock data
+            fetchedPublications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
+          } catch (proxyError) {
+            console.error('Proxy fetch failed:', proxyError);
+            
+            // If proxy fails, try direct fetch
+            try {
+              fetchedPublications = await googleScholarService.directFetch('3KZSSEIAAAAJ');
+            } catch (directError) {
+              console.error('Direct fetch failed:', directError);
+              // Will fall through to fallback mock data
+            }
           }
+          
+          setPublications(fetchedPublications);
+          
+          // Calculate statistics
+          const publicationStats = await googleScholarService.getPublicationStats(fetchedPublications);
+          setStats(publicationStats);
+          
+          setLastUpdated(new Date().toLocaleString());
+        } catch (error) {
+          console.error('Error loading publications:', error);
+          setPublications([]);
+        } finally {
+          setLoading(false);
         }
-        
-        setPublications(fetchedPublications);
-        
-        // Calculate statistics
-        const publicationStats = await googleScholarService.getPublicationStats(fetchedPublications);
-        setStats(publicationStats);
-        
-        setLastUpdated(new Date().toLocaleString());
-      } catch (error) {
-        console.error('Error loading publications:', error);
-        // Keep empty array on error
-        setPublications([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    loadPublications();
+      loadPublications();
+    } catch (error) {
+      console.error('Fatal error in Publications component:', error);
+      setLoading(false);
+    }
   }, []);
 
   // Handle manual refresh
@@ -94,116 +98,154 @@ const Publications = () => {
     }
   };
   
+  // Separate animation effect
   useEffect(() => {
-    // ScrollTrigger is already registered globally, no need to register again here
-    
-    // Animate section title with a reveal effect
-    gsap.fromTo(
-      '.section-title4',
-      { 
-        y: 50, 
-        opacity: 0,
-        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
-      },
-      {
-        y: 0,
-        opacity: 1,
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%'
+    // Ensure ScrollTrigger is ready before using it
+    if (!ScrollTrigger || !gsap) {
+      console.error('GSAP or ScrollTrigger not available');
+      return;
+    }
+
+    // Safety delay to ensure DOM is ready
+    const animationTimeout = setTimeout(() => {
+      try {
+        if (sectionRef.current) {
+          // Animate section title with a reveal effect
+          gsap.fromTo(
+            '.section-title4',
+            { 
+              y: 50, 
+              opacity: 0,
+              clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
+            },
+            {
+              y: 0,
+              opacity: 1,
+              clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+              duration: 1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 75%'
+              }
+            }
+          );
         }
-      }
-    );
-    
-    // Create a staggered reveal effect for filter buttons
-    gsap.fromTo(
-      '.filter-btn',
-      { 
-        scale: 0.8, 
-        opacity: 0,
-        y: 20
-      },
-      {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-          trigger: '.filter-controls',
-          start: 'top 85%'
-        }
-      }
-    );
-    
-    // Setup a scroll animation context for publication items
-    const updatePublicationItems = () => {
-      if (pubListRef.current) {
-        // Clean previous animations
-        const items = pubListRef.current.querySelectorAll('.publication-item');
         
-        gsap.fromTo(
-          items,
-          { 
-            y: 50, 
-            opacity: 0,
-            x: -20,
-            rotateX: "10deg"
-          },
-          {
-            y: 0,
-            x: 0,
-            opacity: 1,
-            rotateX: "0deg",
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: pubListRef.current,
-              start: 'top 85%',
-              once: false,
-              invalidateOnRefresh: true
+        // Safe way to select filter buttons
+        const filterControls = document.querySelector('.filter-controls');
+        if (filterControls) {
+          const filterButtons = filterControls.querySelectorAll('.filter-btn');
+          if (filterButtons && filterButtons.length > 0) {
+            // Create a staggered reveal effect for filter buttons
+            gsap.fromTo(
+              filterButtons,
+              { 
+                scale: 0.8, 
+                opacity: 0,
+                y: 20
+              },
+              {
+                scale: 1,
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                  trigger: '.filter-controls',
+                  start: 'top 85%'
+                }
+              }
+            );
+          }
+        }
+        
+        // Safe way to handle publication items
+        const updatePublicationItems = () => {
+          if (pubListRef.current) {
+            const items = pubListRef.current.querySelectorAll('.publication-item');
+            if (items && items.length > 0) {
+              // Setup a scroll animation context for publication items
+              gsap.fromTo(
+                items,
+                { 
+                  y: 50, 
+                  opacity: 0,
+                  x: -20,
+                  rotateX: "10deg"
+                },
+                {
+                  y: 0,
+                  x: 0,
+                  opacity: 1,
+                  rotateX: "0deg",
+                  duration: 0.8,
+                  stagger: 0.15,
+                  ease: "power3.out",
+                  scrollTrigger: {
+                    trigger: pubListRef.current,
+                    start: 'top 85%',
+                    once: false,
+                    invalidateOnRefresh: true
+                  }
+                }
+              );
             }
           }
-        );
+        };
+
+        // Run animation when needed
+        updatePublicationItems();
+
+        // Safe metrics animation
+        const metricsContainer = document.querySelector('.publications-metrics2');
+        if (metricsContainer) {
+          const metricElements = metricsContainer.querySelectorAll('.metric-number');
+          if (metricElements && metricElements.length > 0) {
+            // Animated 3D metrics counter
+            gsap.fromTo(
+              metricElements,
+              { 
+                opacity: 0,
+                rotateY: 90
+              },
+              {
+                textContent: function(i, target) {
+                  return target.getAttribute('data-value') || 0;
+                },
+                opacity: 1,
+                rotateY: 0,
+                duration: 2,
+                ease: "power2.out",
+                stagger: 0.2,
+                scrollTrigger: {
+                  trigger: '.publications-metrics2',
+                  start: 'top 80%'
+                },
+                snap: { textContent: 1 }
+              }
+            );
+          }
+        }
+      } catch (error) {
+        console.error('Error in Publications animations:', error);
       }
-    };
-    
-    // Run animation when filter or visible count changes
-    updatePublicationItems();
-    
-    // Animated 3D metrics counter
-    gsap.fromTo(
-      '.publications-metrics2 .metric-number',
-      { 
-        textContent: 0,
-        opacity: 0,
-        rotateY: 90
-      },
-      {
-        textContent: (i, target) => target.getAttribute('data-value'),
-        opacity: 1,
-        rotateY: 0,
-        duration: 2,
-        ease: "power2.out",
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: '.publications-metrics2',
-          start: 'top 80%'
-        },
-        snap: { textContent: 1 }
-      }
-    );
-    
+    }, 100); // Small delay to ensure DOM is ready
+
     return () => {
-      // Clean up animations
-      if (ScrollTrigger) {
-        const triggers = ScrollTrigger.getAll();
-        triggers.forEach(trigger => trigger.kill());
+      clearTimeout(animationTimeout);
+      try {
+        // Only kill ScrollTrigger instances created by this component
+        const componentTriggers = ScrollTrigger.getAll().filter(trigger => 
+          trigger.vars.trigger && 
+          sectionRef.current && 
+          (sectionRef.current.contains(trigger.vars.trigger) || 
+           trigger.vars.trigger.closest('#publications'))
+        );
+        componentTriggers.forEach(trigger => trigger.kill());
+      } catch (error) {
+        console.error('Error cleaning up ScrollTrigger:', error);
       }
     };
   }, [activeFilter, visibleCount, publications]);
@@ -229,19 +271,14 @@ const Publications = () => {
   
   // Handle load more
   const handleLoadMore = () => {
-    gsap.to(window, {
-      duration: 0.5,
-      scrollTo: { y: "+=" + window.innerHeight * 0.3, autoKill: true },
-      ease: "power2.inOut"
+    // Use native smooth scrolling instead of GSAP
+    window.scrollBy({
+      top: window.innerHeight * 0.3,
+      behavior: 'smooth'
     });
-    // Increase the count by 10 instead of 3 to show more publications at once
     setVisibleCount(prev => prev + 10);
   };
 
-  // Handle load all
-  const handleLoadAll = () => {
-    setVisibleCount(filteredPublications.length);
-  };
   
   return (
     <section id="publications" className="publications-section" ref={sectionRef}>
@@ -320,7 +357,10 @@ const Publications = () => {
               <div className="pub-decoration"></div>
               <div className="pub-citation">
                 <div className="citation-ring">
-                  <span className="citation-count">{pub.citation}</span>
+                  {/* Fix for NaN citations - ensure we always show a valid number */}
+                  <span className="citation-count">
+                    {isNaN(pub.citation) || pub.citation === undefined ? '0' : pub.citation}
+                  </span>
                 </div>
                 <span className="citation-label">Citations</span>
               </div>
@@ -381,16 +421,15 @@ const Publications = () => {
                 <path d="M12 21V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
-            <button className="load-all-btn" onClick={handleLoadAll}>
-              <span>Show All ({filteredPublications.length})</span>
-            </button>
           </div>
         )}
         
         <div className="publications-metrics2">
           <div className="metrics-card2">
             <div className="metric-item">
-              <span className="metric-number" data-value={stats.totalCitations}>{stats.totalCitations}</span>
+              <span className="metric-number" data-value={stats.totalCitations || 0}>
+                {isNaN(stats.totalCitations) ? '0' : stats.totalCitations}
+              </span>
               <svg className="citations-icon" viewBox="0 0 24 24" width="40" height="40">
                 <path d="M7,6 C7,4.34314575 8.34314575,3 10,3 L17,3 C18.6568542,3 20,4.34314575 20,6 L20,18 C20,19.6568542 18.6568542,21 17,21 L10,21 C8.34314575,21 7,19.6568542 7,18 L7,6 Z" fill="#0066cc" opacity="0.2"></path>
                 <path d="M4,4 L4,16 C4,17.1045695 4.8954305,18 6,18 L17,18" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></path>

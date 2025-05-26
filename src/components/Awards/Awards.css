@@ -462,6 +462,69 @@
   right: 0;
 }
 
+/* Read more button styles */
+.read-more-container {
+  text-align: center;
+  margin: 2rem 0;
+  padding-top: 1rem;
+}
+
+.read-more-btn {
+  background: linear-gradient(135deg, #0066cc 0%, #4a8eff 100%);
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+}
+
+.read-more-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
+  background: linear-gradient(135deg, #0066cc 0%, #5a9aff 100%);
+}
+
+.read-more-btn.active {
+  background: linear-gradient(135deg, #005bb8 0%, #3a7aef 100%);
+}
+
+.arrow-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.read-more-btn:hover .arrow-icon {
+  transform: translateY(2px);
+}
+
+.read-more-btn.active:hover .arrow-icon {
+  transform: translateY(-2px);
+}
+
+/* Additional awards section */
+.additional-awards {
+  overflow: hidden;
+  animation: expandSection 0.5s ease-out forwards;
+}
+
+@keyframes expandSection {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 2000px;
+    opacity: 1;
+  }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 992px) {
   .section-title {

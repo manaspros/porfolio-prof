@@ -42,12 +42,14 @@ function App() {
 
     window.addEventListener('resize', handleResize)
 
-    // Initialize ScrollTrigger with better settings
+    // Enhanced ScrollTrigger configuration
     ScrollTrigger.config({
       autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize',
       ignoreMobileResize: false, // Allow refresh on mobile resize
       limitCallbacks: true, // Limit excessive callbacks
       syncInterval: 200, // Increase sync interval for better performance
+      // Add tolerance for smoother operation
+      tolerance: 5
     })
 
     // Periodically refresh layout during initial load

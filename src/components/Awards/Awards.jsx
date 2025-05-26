@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Awards = () => {
   const [activeAward, setActiveAward] = useState(null);
+  const [showMoreAwards, setShowMoreAwards] = useState(false);
   const sectionRef = useRef(null);
   const timelineRef = useRef(null);
   const awardsRef = useRef(null);
@@ -15,7 +16,8 @@ const Awards = () => {
   const particlesRef = useRef([]);
   const glowsRef = useRef([]);
   
-  const awards = [
+  // Combined array of all awards
+  const allAwards = [
     {
       id: 1,
       year: 2022,
@@ -50,9 +52,83 @@ const Awards = () => {
       title: "Asia Haptics Demo Finalist",
       organization: "Asia Haptics Conference, USA",
       description: "A Novel FerroFluid-based Fingertip Tactile Display for Concurrently Displaying Texture and Geometric Perception was selected as a finalist for a Demo in Asia Haptics-2018, San Francisco, USA."
+    },
+    {
+      id: 6,
+      year: 2024,
+      title: "Technical Session Chair",
+      organization: "Advances in Robotics (AIR), IIT Jodhpur",
+      description: "Member of Technical Session Chair in Advances in Robotics (AIR) biennial international conferences organized by The Robotics Society during 2-5 July, 2024."
+    },
+    {
+      id: 7,
+      year: 2024,
+      title: "Technical Program Committee Member",
+      organization: "ICEFEET-2024, NIT Patna",
+      description: "Member of Technical Program Committee in the 4th International Conference on Emerging Frontiers in Electrical and Electronic Technologies during 21-23, November 2024."
+    },
+    {
+      id: 8,
+      year: 2024,
+      title: "Workshop Delegate",
+      organization: "DEBEL (DRDO), Bengaluru",
+      description: "Delegate in the Workshop 'Emerging Technologies and Challenges for Exoskeleton' on 16-17 April 2024."
+    },
+    {
+      id: 9,
+      year: 2023,
+      title: "Faculty Advisor",
+      organization: "ISRO Robotic Challenge",
+      description: "Faculty advisor of the 'IIT Jodhpur Robotics team' for ISRO Robotic Challenge-URSC, successfully clearing the first round of the competition."
+    },
+    {
+      id: 10,
+      year: 2015,
+      title: "Gandhian Young Technological Innovation Award",
+      organization: "President of India",
+      description: "Received award by the PRESIDENT OF INDIA for the innovation idea 'Inchworm Mechanism for solar panel cleaning robot' in March 2015, New Delhi, India."
+    },
+    {
+      id: 11,
+      year: 2015,
+      title: "IIT Delhi Class of 89 Innovation Award",
+      organization: "IIT Delhi",
+      description: "Runner-up award of IIT Delhi Class of 89 Innovation Award 2015, New Delhi, India."
+    },
+    {
+      id: 12,
+      year: 2015,
+      title: "Young Professional Engineering Award",
+      organization: "Maharana Pratap University of Agriculture and Technology",
+      description: "Received Young Professional Engineering Award from MPUAT, Udaipur, Rajasthan, India."
+    },
+    {
+      id: 13,
+      year: 2015,
+      title: "Best Presentation Award",
+      organization: "National Conference on Solar Robotics",
+      description: "Received the Best Presentation Award at Jamia Milia Islamia, New Delhi, India, August 2015."
+    },
+    {
+      id: 14,
+      year: 2015,
+      title: "Judge Committee Member",
+      organization: "ROBOTRONICS-2015, Amity International School",
+      description: "Invited as a Judge in Robotics competition at Amity International School, Gurgaon, Delhi-NCR India."
+    },
+    {
+      id: 15,
+      year: 2011,
+      title: "Junior Research Fellowship",
+      organization: "IIT Delhi",
+      description: "Recipient of a Junior Research Fellowship from the Industrial Research and Development Unit, Indian Institute of Technology Delhi, India, August 2011."
     }
   ];
   
+  // Get the awards to display based on showMore state
+  const displayedAwards = showMoreAwards ? allAwards : allAwards.slice(0, 5);
+  
+  // Missing grants array added here
   const grants = [
     {
       id: 1,
@@ -211,9 +287,7 @@ const Awards = () => {
         end: 'bottom 20%',
         toggleActions: 'play none none reverse',
         // Prevent duplicate animations
-        once: false,
-        onEnter: () => console.log('Awards section entered'),
-        onLeaveBack: () => console.log('Awards section left')
+        once: false
       }
     });
     
@@ -475,14 +549,43 @@ const Awards = () => {
     };
   }, []);
   
+  // Toggle function to show/hide more awards
+  const toggleMoreAwards = () => {
+    setShowMoreAwards(prevState => !prevState);
+    
+    // Animate the newly displayed awards when they appear
+    if (!showMoreAwards) {
+      // Small delay to allow DOM update
+      setTimeout(() => {
+        const newItems = document.querySelectorAll('.award-item:nth-child(n+6)');
+        if (newItems.length > 0) {
+          gsap.fromTo(
+            newItems,
+            { 
+              x: -50, 
+              opacity: 0
+            },
+            {
+              x: 0,
+              opacity: 1,
+              stagger: 0.1,
+              duration: 0.6,
+              ease: "power2.out"
+            }
+          );
+        }
+      }, 50);
+    }
+  };
+  
   return (
     <section id="awards" className="awards-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title">Awards & Recognition</h2>
+        <h2 className="section-title">Awards</h2>
         
         <h3 className="section-subtitle">Honors & Recognition</h3>
         <div className="awards-timeline" ref={awardsRef}>
-          {awards.map(award => (
+          {displayedAwards.map(award => (
             <div 
               className="award-item" 
               key={award.id}
@@ -499,6 +602,19 @@ const Awards = () => {
             </div>
           ))}
         </div>
+        
+        {/* Read more button */}
+        {allAwards.length > 5 && (
+          <div className="read-more-container">
+            <button 
+              className={`read-more-btn ${showMoreAwards ? 'active' : ''}`} 
+              onClick={toggleMoreAwards}
+            >
+              {showMoreAwards ? 'Show Less' : `Show More Awards (${allAwards.length - 5} more)`} 
+              <span className="arrow-icon">{showMoreAwards ? '↑' : '↓'}</span>
+            </button>
+          </div>
+        )}
         
         <h3 className="section-subtitle grants-subtitle">Grants & Other Recognitions</h3>
         <div className="grants-container" ref={grantsRef}>

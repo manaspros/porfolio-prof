@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import googleScholarService from '../../services/googleScholarService';
 import './Hero.css';
 
 // Register ScrollTrigger plugin
@@ -10,7 +11,39 @@ const Hero = () => {
   const heroRef = useRef(null);
   const contentRef = useRef(null);
   const imageRef = useRef(null);
+  const [scholarStats, setScholarStats] = useState({
+    papers: '15+', // Fallback values
+    journals: '7',
+    patents: '10+'
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Fetch Google Scholar stats
+  useEffect(() => {
+    const fetchScholarStats = async () => {
+      try {
+        // Use the existing service to fetch publications
+        const publications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
+        const stats = await googleScholarService.getPublicationStats(publications);
+        
+        // Update state with the fetched stats
+        setScholarStats({
+          papers: publications.length.toString(),
+          journals: stats.journalCount.toString(),
+          patents: '7' // You may need to implement a way to extract patent count
+        });
+      } catch (error) {
+        console.error('Error fetching scholar stats for hero section:', error);
+        // Fallback values remain in place
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchScholarStats();
+  }, []);
+
+  // Animation effect
   useEffect(() => {
     // Make sure GSAP is available
     if (!gsap) return;
@@ -120,16 +153,31 @@ const Hero = () => {
           
           <div className="hero-stats">
             <div className="hero-stat">
-              <span className="stat-number">15+</span>
-              <span className="stat-label">Innovative Robots</span>
+              <span className="stat-number">
+                {isLoading ? 
+                  <span className="loading-placeholder"></span> : 
+                  scholarStats.papers
+                }
+              </span>
+              <span className="stat-label">Published Papers</span>
             </div>
             <div className="hero-stat">
-              <span className="stat-number">7</span>
+              <span className="stat-number">
+                {isLoading ? 
+                  <span className="loading-placeholder"></span> : 
+                  scholarStats.journals
+                }
+              </span>
+              <span className="stat-label">Journal Articles</span>
+            </div>
+            <div className="hero-stat">
+              <span className="stat-number">
+                {isLoading ? 
+                  <span className="loading-placeholder"></span> : 
+                  scholarStats.patents
+                }
+              </span>
               <span className="stat-label">Patents</span>
-            </div>
-            <div className="hero-stat">
-              <span className="stat-number">10+</span>
-              <span className="stat-label">Awards</span>
             </div>
           </div>
           
@@ -159,7 +207,7 @@ const Hero = () => {
             <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M30 0L60 30L30 60L0 30L30 0Z" fill="url(#paint0_linear)" />
               <defs>
-                <linearGradient id="paint0_linear" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+                       <linearGradient id="paint0_linear" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
                   <stop stopColor="#623CEA" />
                   <stop offset="1" stopColor="#FF7D54" />
                 </linearGradient>

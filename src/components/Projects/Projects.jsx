@@ -36,7 +36,7 @@ const Projects = () => {
       id: 3,
       title: "Adaptive Sensor Coupling Exoskeleton (ASC-EXO)",
       description: "A 7-DOF upper limb exoskeleton with adaptive sensor coupling that enables smooth human motion tracking for rehabilitation and assistance.",
-      image: "https://via.placeholder.com/600x400?text=ASC-EXO",
+      image: "https://placehold.co/600x400?text=ASC-EXO",
       category: "exoskeleton",
       url: "#",
       technologies: ["Adaptive Sensors", "Exoskeleton", "Rehabilitation"]
@@ -63,7 +63,7 @@ const Projects = () => {
       id: 6,
       title: "Brain-Computer Interface for Wearable Robotics",
       description: "A system that uses brain signals to control wearable robotic devices, providing intuitive control for users with limited mobility.",
-      image: "https://via.placeholder.com/600x400?text=BCI-Robotics",
+      image: "https://placehold.co/600x400?text=BCI-Robotics",
       category: "wearable",
       url: "#",
       technologies: ["Brain-Computer Interface", "AI", "Assistive Technology"]
@@ -334,7 +334,7 @@ const Projects = () => {
   return (
     <section id="projects" className="projects-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title">Innovative Robotics</h2>
+        <h2 className="section-title">Projects</h2>
         <p className="section-subtitle2">
           Explore our portfolio of cutting-edge robotic systems designed to revolutionize 
           human-machine interactions and solve real-world challenges
