@@ -21,19 +21,19 @@ const Education = () => {
       degree: "Ph.D. (Wearable Robotics, Mechanical Engineering)",
       institution: "Korea University of Technology and Education, Republic of Korea",
       year: "2020",
-      description: "CGPA: 4.01/4.5\nResearch Fellow, IRIS Lab, Korea Advanced Institute of Science and Technology (KAIST), Republic of Korea.\nThesis: Design and Development of TSA Soft Actuator for Exosuit\nSupervisor: Professor Jee Hwan Ryu, IRIS Lab, KAIST, Republic of Korea\nCourses: Applied Robotics, Haptics and Telerobotics System, Advanced Signal Processing, Advanced Data Analysis, Modeling and Control, Non-linear Control System, Mechanical Behaviour of Materials and Microsystem Design."
+      description: "Research Fellow, IRIS Lab, Korea Advanced Institute of Science and Technology (KAIST), Republic of Korea.\nThesis: Design and Development of TSA Soft Actuator for Exosuit\nSupervisor: Professor Jee Hwan Ryu, IRIS Lab, KAIST, Republic of Korea\nCourses: Applied Robotics, Haptics and Telerobotics System, Advanced Signal Processing, Advanced Data Analysis, Modeling and Control, Non-linear Control System, Mechanical Behaviour of Materials and Microsystem Design."
     },
     {
       degree: "M.Tech. (Cleaning Robotics, Center for Energy Studies)",
       institution: "Indian Institute of Technology Delhi, India (48th QS Rank in Engineering and Technology)",
       year: "2015",
-      description: "CGPA: 7.15/10\nThesis: Development of an Inchworm Mechanism for Solar Panel Cleaning Robot\nSupervisor: Professor Viresh Dutta (Supervisor, Center for Energy Studies) and Professor Sudipto Mukherjee (Co-Supervisor, Department of Mechanical Engineering)"
+      description: "Thesis: Development of an Inchworm Mechanism for Solar Panel Cleaning Robot\nSupervisor: Professor Viresh Dutta (Supervisor, Center for Energy Studies) and Professor Sudipto Mukherjee (Co-Supervisor, Department of Mechanical Engineering)"
     },
     {
       degree: "B.E. (Mechatronics, Electrical Engineering)",
       institution: "College of Technology and Engineering (CTAE), Rajasthan, India",
       year: "2010",
-      description: "Percentage: 71.90/100"
+      description: ""
     }
   ];
 

@@ -1,7 +1,9 @@
+// filepath: /run/media/manas/New Volume/Code/learing react/porfolio-prof-main/src/components/Publications/Publications.jsx
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ResearchHighlight } from '../ui/ResearchHighlight';
+import googleScholarService from '../../services/googleScholarService';
 import './Publications.css';
 
 // Register the ScrollTrigger plugin
@@ -9,113 +11,88 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Publications = () => {
   const [activeFilter, setActiveFilter] = useState('all');
-  const [visibleCount, setVisibleCount] = useState(5);
+  const [visibleCount, setVisibleCount] = useState(5); // Start with showing 10 publications
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [publications, setPublications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    totalCitations: 0,
+    journalCount: 0,
+    conferenceCount: 0
+  });
+  const [lastUpdated, setLastUpdated] = useState(null);
   const sectionRef = useRef(null);
   const pubListRef = useRef(null);
   
-  const publications = [
-    {
-      id: 1,
-      title: "Design of Adaptive Sensor Coupling-based Upper Limb 7-DOF Exoskeleton for Smooth Human Motion Tracking: ASC-EXO",
-      authors: "Suthar, B., Mohd.Zubair, Kansal, S. and Mukherjee, S.",
-      journal: "IEEE Sensors Journal",
-      year: 2023,
-      type: "journal",
-      url: "https://doi.org/10.1109/JSEN.2023.3270172",
-      citation: 5
-    },
-    {
-      id: 2,
-      title: "Design of Twisted String Actuated Flexure Joint for Supernumerary Robotic Arm for Bi-manual Tasks",
-      authors: "Suthar, B., Hasanen, B., Seneviratnea, L., Zweiria, Y. and Hussain, I.",
-      journal: "IEEE Sensors Journal",
-      year: 2024,
-      type: "journal",
-      url: "https://doi.org/10.1109/JSEN.2024.3422791",
-      citation: 3
-    },
-    {
-      id: 3,
-      title: "Novel Robotic Finger Using Twisted String Actuator with Modular Passive Return Rotational Joints to Achieve High Grasping Force",
-      authors: "Suthar, B., Awada, M.I., Seneviratnea, L., Zweiria, Y. and Hussain, I.",
-      journal: "Journal of Mechatronics, Elsevier",
-      year: 2023,
-      type: "journal",
-      url: "https://doi.org/10.1016/j.mechatronics.2024.103157",
-      citation: 4
-    },
-    {
-      id: 4,
-      title: "A Soft Twisted String Actuation System for Exosuit: Undesirable Behaviors and the Effect of Pre-twists",
-      authors: "Suthar, B. and Ryu, J.H.",
-      journal: "Journal of Mechatronics, Elsevier",
-      year: 2023,
-      type: "journal",
-      url: "https://doi.org/10.1016/j.mechatronics.2023.103084",
-      citation: 6
-    },
-    {
-      id: 5,
-      title: "Design and Feasibility Analysis of a Foldable Robot Arm for Drones Using a Twisted String Actuator: FRAD",
-      authors: "Suthar, B. and Jung, S.",
-      journal: "IEEE Robotics and Automation Letters",
-      year: 2021,
-      type: "journal",
-      url: "https://doi.org/10.1115/1.4050813",
-      citation: 12
-    },
-    {
-      id: 6,
-      title: "Design and Bending Analysis of a Metamorphic Parallel Twisted-Scissor Mechanism",
-      authors: "Suthar, B. and Jung, S.",
-      journal: "Transactions of ASME-Journal of Mechanisms and Robotics",
-      year: 2021,
-      type: "journal",
-      url: "https://doi.org/10.1109/LRA.2021.3084890",
-      citation: 8
-    },
-    {
-      id: 7,
-      title: "Development of a Compliant Joint Based Upper Limb Exoskeleton for Stable Tele-manipulation: CJ EXO",
-      authors: "Suthar, B., Zubair, M., Kansal, S. and Mukherjee, S.",
-      journal: "IEEE RAS/EMBS International Conference on Biomedical Robotics and Biomechatronics",
-      year: 2022,
-      type: "conference",
-      url: "#",
-      citation: 7
-    },
-    {
-      id: 8,
-      title: "Conceptual Design of an Extendable Rope-inspired Module Space Orbit Arm for Maneuvering: ERM-SOA",
-      authors: "Suthar, B. and Jung, S.",
-      journal: "46th NASA Aerospace Mechanisms Symposium",
-      year: 2022,
-      type: "conference",
-      url: "#",
-      citation: 4
-    },
-    {
-      id: 9,
-      title: "Design and Experimental Evaluation of Foldable Robot Arms for holding and Installation Work: FRAHI",
-      authors: "Suthar, B., Chio, Y.J., and Jung, S.",
-      journal: "IEEE International Conference on Robot and Human Interactive Communication",
-      year: 2021,
-      type: "conference",
-      url: "#",
-      citation: 9
-    },
-    {
-      id: 10,
-      title: "Single Motor-based Bidirectional Twisted String Actuation with Variable Radius Pulleys",
-      authors: "Khan, M.A., Suthar, B., Gaponov, I. and Ryu, J.H.",
-      journal: "IEEE Robotics and Automation Letters",
-      year: 2019,
-      type: "journal",
-      url: "#",
-      citation: 22
+  // Fetch publications from Google Scholar on component mount
+  useEffect(() => {
+    const loadPublications = async () => {
+      try {
+        setLoading(true);
+        let fetchedPublications;
+        
+        // First try regular fetch with proxy
+        try {
+          fetchedPublications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
+        } catch (proxyError) {
+          console.error('Proxy fetch failed:', proxyError);
+          
+          // If proxy fails, try direct fetch
+          try {
+            fetchedPublications = await googleScholarService.directFetch('3KZSSEIAAAAJ');
+          } catch (directError) {
+            console.error('Direct fetch failed:', directError);
+            // Will fall through to fallback mock data
+          }
+        }
+        
+        setPublications(fetchedPublications);
+        
+        // Calculate statistics
+        const publicationStats = await googleScholarService.getPublicationStats(fetchedPublications);
+        setStats(publicationStats);
+        
+        setLastUpdated(new Date().toLocaleString());
+      } catch (error) {
+        console.error('Error loading publications:', error);
+        // Keep empty array on error
+        setPublications([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPublications();
+  }, []);
+
+  // Handle manual refresh
+  const handleRefresh = async () => {
+    try {
+      setLoading(true);
+      
+      // First try to clear the cache
+      try {
+        localStorage.removeItem('scholar_publications');
+      } catch (e) {
+        console.warn('Failed to clear cache:', e);
+      }
+      
+      // Try fetching fresh data
+      const freshPublications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
+      setPublications(freshPublications);
+      
+      const publicationStats = await googleScholarService.getPublicationStats(freshPublications);
+      setStats(publicationStats);
+      
+      // Update the last updated time and indicate the data source
+      const source = localStorage.getItem('data_source') || 'unknown source';
+      setLastUpdated(`${new Date().toLocaleString()} (from ${source})`);
+    } catch (error) {
+      console.error('Error refreshing publications:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
   
   useEffect(() => {
     // ScrollTrigger is already registered globally, no need to register again here
@@ -223,13 +200,13 @@ const Publications = () => {
     );
     
     return () => {
-      // Clean up animations - this was causing the error
+      // Clean up animations
       if (ScrollTrigger) {
         const triggers = ScrollTrigger.getAll();
         triggers.forEach(trigger => trigger.kill());
       }
     };
-  }, [activeFilter, visibleCount]);
+  }, [activeFilter, visibleCount, publications]);
   
   // Handle hover effects
   const handleMouseEnter = (id) => {
@@ -246,6 +223,9 @@ const Publications = () => {
     : publications.filter(pub => pub.type === activeFilter);
     
   const displayedPublications = filteredPublications.slice(0, visibleCount);
+
+  // Check if there are more publications to load
+  const hasMorePublications = visibleCount < filteredPublications.length;
   
   // Handle load more
   const handleLoadMore = () => {
@@ -254,16 +234,53 @@ const Publications = () => {
       scrollTo: { y: "+=" + window.innerHeight * 0.3, autoKill: true },
       ease: "power2.inOut"
     });
-    setVisibleCount(prev => prev + 3);
+    // Increase the count by 10 instead of 3 to show more publications at once
+    setVisibleCount(prev => prev + 10);
+  };
+
+  // Handle load all
+  const handleLoadAll = () => {
+    setVisibleCount(filteredPublications.length);
   };
   
   return (
     <section id="publications" className="publications-section" ref={sectionRef}>
       <div className="publications-bg"></div>
       <div className="section-container">
-        <h2 className="section-title4">
-          <ResearchHighlight>Research</ResearchHighlight> Publications
-        </h2>
+        <div className="publications-header">
+          <h2 className="section-title4">
+            <ResearchHighlight>Research</ResearchHighlight> Publications
+          </h2>
+          
+          {/* Loading indicator and refresh controls */}
+          <div className="publications-controls">
+            {loading && (
+              <div className="loading-indicator">
+                <div className="loading-spinner"></div>
+                <span>Loading publication data...</span>
+              </div>
+            )}
+            
+            <div className="update-info">
+              {lastUpdated && (
+                <span className="last-updated">
+                  Last updated: {lastUpdated} <small>(using local data)</small>
+                </span>
+              )}
+              <button 
+                className="refresh-btn" 
+                onClick={handleRefresh}
+                disabled={loading}
+                title="Refresh publications from local data"
+              >
+                <svg className={`refresh-icon ${loading ? 'spinning' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 4V9H4.58152M4.58152 9C5.80611 6.78392 8.18951 5.19621 11.0174 5.19621C15.0138 5.19621 18.25 8.43241 18.25 12.4288C18.25 16.4252 15.0138 19.6614 11.0174 19.6614C8.18951 19.6614 5.80611 18.0737 4.58152 15.8576M4.58152 9H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Refresh
+              </button>
+            </div>
+          </div>
+        </div>
         
         <div className="filter-controls">
           <button 
@@ -272,6 +289,7 @@ const Publications = () => {
           >
             <span className="filter-icon">📚</span>
             <span>All Publications</span>
+            <span className="filter-count">({publications.length})</span>
           </button>
           <button 
             className={`filter-btn ${activeFilter === 'journal' ? 'active' : ''}`}
@@ -279,6 +297,7 @@ const Publications = () => {
           >
             <span className="filter-icon">📰</span>
             <span>Journal Articles</span>
+            <span className="filter-count">({stats.journalCount})</span>
           </button>
           <button 
             className={`filter-btn ${activeFilter === 'conference' ? 'active' : ''}`}
@@ -286,13 +305,14 @@ const Publications = () => {
           >
             <span className="filter-icon">🎤</span>
             <span>Conference Papers</span>
+            <span className="filter-count">({stats.conferenceCount})</span>
           </button>
         </div>
         
         <div className="publications-list" ref={pubListRef}>
           {displayedPublications.map(pub => (
             <div 
-              className={`publication-item ${hoveredItem === pub.id ? 'hovered' : ''}`} 
+              className={`publication-item ${hoveredItem === pub.id ? 'hovered' : ''} publication-type-${pub.type}`} 
               key={pub.id}
               onMouseEnter={() => handleMouseEnter(pub.id)}
               onMouseLeave={handleMouseLeave}
@@ -313,7 +333,7 @@ const Publications = () => {
                   <span className="pub-type-badge">{pub.type === 'journal' ? 'Journal Article' : 'Conference Paper'}</span>
                 </div>
                 <div className="pub-links">
-                  <a href={pub.url} className="pub-link primary">
+                  <a href={pub.url} className="pub-link primary" target="_blank" rel="noopener noreferrer">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M15 3H21V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -335,10 +355,25 @@ const Publications = () => {
               </div>
             </div>
           ))}
+          
+          {publications.length === 0 && !loading && (
+            <div className="no-publications">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M3 17L12 22L21 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M3 12L12 17L21 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <h3>No publications found</h3>
+              <p>Unable to fetch publications at this time. Please try refreshing.</p>
+              <button className="retry-btn" onClick={handleRefresh}>
+                Try Again
+              </button>
+            </div>
+          )}
         </div>
         
-        {visibleCount < filteredPublications.length && (
-          <div className="load-more">
+        {hasMorePublications && (
+          <div className="load-more-controls">
             <button className="load-more-btn" onClick={handleLoadMore}>
               <span>Load More Publications</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -346,13 +381,16 @@ const Publications = () => {
                 <path d="M12 21V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
+            <button className="load-all-btn" onClick={handleLoadAll}>
+              <span>Show All ({filteredPublications.length})</span>
+            </button>
           </div>
         )}
         
         <div className="publications-metrics2">
           <div className="metrics-card2">
             <div className="metric-item">
-              <span className="metric-number" data-value="100+">0</span>
+              <span className="metric-number" data-value={stats.totalCitations}>{stats.totalCitations}</span>
               <svg className="citations-icon" viewBox="0 0 24 24" width="40" height="40">
                 <path d="M7,6 C7,4.34314575 8.34314575,3 10,3 L17,3 C18.6568542,3 20,4.34314575 20,6 L20,18 C20,19.6568542 18.6568542,21 17,21 L10,21 C8.34314575,21 7,19.6568542 7,18 L7,6 Z" fill="#0066cc" opacity="0.2"></path>
                 <path d="M4,4 L4,16 C4,17.1045695 4.8954305,18 6,18 L17,18" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></path>
@@ -364,7 +402,7 @@ const Publications = () => {
               <span className="metric-label">Total Citations</span>
             </div>
             <div className="metric-item">
-              <span className="metric-number" data-value="9">0</span>
+              <span className="metric-number" data-value={stats.journalCount}>{stats.journalCount}</span>
               <svg className="journal-icon" viewBox="0 0 24 24" width="40" height="40">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="#0066cc" opacity="0.2"></rect>
                 <line x1="3" y1="9" x2="21" y2="9" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></line>
@@ -375,7 +413,7 @@ const Publications = () => {
               <span className="metric-label">Journal Articles</span>
             </div>
             <div className="metric-item">
-              <span className="metric-number" data-value="15+">0</span>
+              <span className="metric-number" data-value={stats.conferenceCount}>{stats.conferenceCount}</span>
               <svg className="conference-icon" viewBox="0 0 24 24" width="40" height="40">
                 <circle cx="12" cy="12" r="9" fill="#0066cc" opacity="0.2"></circle>
                 <path d="M12,8 L12,16" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></path>

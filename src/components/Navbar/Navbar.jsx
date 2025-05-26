@@ -67,7 +67,7 @@ const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-logo">
           <a href="#home">
-            <span className="logo-text">Dr.<span className="logo-highlight">Suthar</span></span>
+            <span className="logo-text">Dr.<span className="logo-highlight"> Bhivraj Suthar</span></span>
           </a>
         </div>
         
