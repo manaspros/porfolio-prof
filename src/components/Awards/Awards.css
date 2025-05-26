@@ -698,3 +698,44 @@
     padding: 0 15px;
   }
 }
+
+/* Mobile visibility fixes */
+@media (max-width: 768px) {
+  .awards-section {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+  
+  .award-particle, .award-glow {
+    opacity: 0.08 !important; /* Reduce background element opacity */
+  }
+  
+  .award-item {
+    transform: none !important;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 5;
+    transform-style: flat !important;
+    -webkit-transform-style: flat !important;
+  }
+  
+  .award-content {
+    transform: none !important;
+  }
+  
+  .grant-item {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix potential animation issues */
+  .award-shine, .award-year {
+    transform: none !important;
+  }
+  
+  /* Ensure quote is visible */
+  .awards-quote {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

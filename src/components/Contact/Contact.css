@@ -371,6 +371,51 @@
   .social-links {
     justify-content: center;
   }
+  
+  /* Mobile visibility fixes */
+  .contact-section {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+  
+  .contact-particle {
+    opacity: 0.05 !important; /* Reduce background particle opacity */
+  }
+  
+  .glow-effect {
+    opacity: 0.08 !important; /* Reduce glow opacity */
+  }
+  
+  .contact-form-container, .contact-info {
+    transform: none !important;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Fix potentially problematic animations */
+  .form-group, .info-item {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  /* Ensure form is usable */
+  .form-group input,
+  .form-group textarea {
+    opacity: 1 !important;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Fix grid for single column */
+  .contact-grid {
+    display: block;
+  }
+  
+  .contact-form-container, .info-item {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
 
 /* Add for extra small devices */

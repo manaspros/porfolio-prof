@@ -401,8 +401,182 @@ section {
   }
 }
 
-/* Fix for potential overflows in grid layouts */
-.research-grid, .projects-grid, .grants-container {
-  width: 100%;
-  box-sizing: border-box;
+/* Global mobile fixes */
+@media (max-width: 768px) {
+  /* Ensure all sections are visible */
+  section {
+    transform: none !important;
+    opacity: 1 !important;
+    min-height: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Fix potential issues with section titles */
+  .section-title, .section-title3, .section-title4 {
+    transform: none !important;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Background decorations less prominent on mobile */
+  .shape-decoration {
+    opacity: 0.08 !important;
+  }
+  
+  /* Disable 3D transforms on mobile to prevent rendering issues */
+  * {
+    transform-style: flat !important;
+    -webkit-transform-style: flat !important;
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
+  }
+  
+  /* Ensure no clipping of content */
+  .content-wrapper, .viewport-constraint {
+    overflow: visible !important;
+  }
+  
+  /* Prevent fixed positioning issues */
+  .app-container {
+    overflow: visible;
+  }
+  
+  /* Make sure GSAP markers don't interfere if enabled */
+  .gsap-marker-scroller-start, .gsap-marker-scroller-end,
+  .gsap-marker-start, .gsap-marker-end {
+    display: none !important;
+  }
+}
+
+/* Mobile and Performance Optimization Classes */
+
+/* Base mobile optimization */
+.is-mobile-device {
+  --reduced-motion: 1;
+  --animation-scale: 0.7;
+}
+
+/* Low-power device optimizations */
+.is-low-power-device {
+  --reduced-motion: 1;
+  --animation-scale: 0.5;
+}
+
+/* Respect user preference for reduced motion */
+.prefers-reduced-motion {
+  --reduced-motion: 1;
+  --animation-scale: 0;
+}
+
+/* Mobile optimization common styles */
+.mobile-optimized section {
+  /* Ensure elements are visible regardless of animation state */
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* Ensure text is always visible regardless of animation state on mobile */
+.is-mobile-device .section-title,
+.is-mobile-device .section-subtitle,
+.is-mobile-device h1, 
+.is-mobile-device h2, 
+.is-mobile-device h3, 
+.is-mobile-device h4,
+.is-mobile-device h5,
+.is-mobile-device h6,
+.is-mobile-device p,
+.is-mobile-device .content-block {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  clip-path: none !important;
+}
+
+/* Disable complex visual effects on mobile */
+.is-mobile-device .parallax-element {
+  transform: none !important;
+}
+
+.is-mobile-device .animated-gradient {
+  animation: none !important;
+  background-size: 100% !important;
+}
+
+/* Adjust card display on mobile */
+.is-mobile-device .card-3d {
+  transform-style: flat !important;
+  perspective: none !important;
+}
+
+.is-mobile-device .card-shine,
+.is-mobile-device .card-glow {
+  display: none !important;
+}
+
+/* Special handling for Awards section */
+.is-mobile-device .award-particle,
+.is-mobile-device .award-glow {
+  display: none !important;
+}
+
+.is-mobile-device .award-item,
+.is-mobile-device .grant-item {
+  transform: none !important;
+  opacity: 1 !important;
+  transition: box-shadow 0.3s ease !important;
+}
+
+/* Special handling for Publications section */
+.is-mobile-device .publication-item {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+.is-mobile-device .publication-item:hover {
+  transform: translateY(-5px) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Special handling for Research section */
+.is-mobile-device .research-area {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+.is-mobile-device .research-icon-container {
+  transform: none !important;
+}
+
+/* Special handling for Collaborations section */
+.is-mobile-device .collab-bg-decoration {
+  opacity: 0.05 !important;
+  filter: blur(30px) !important;
+}
+
+.is-mobile-device .collab-card {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+.is-mobile-device .collab-card:active {
+  transform: translateY(-5px) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Special handling for Hero section */
+.is-mobile-device .hero-particle,
+.is-mobile-device .hero-glow {
+  display: none !important;
+}
+
+.is-mobile-device .profile-picture-container::before,
+.is-mobile-device .profile-picture-container::after {
+  animation: none !important;
+  opacity: 0.5 !important;
 }

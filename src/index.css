@@ -398,3 +398,65 @@ body {
     padding: var(--spacing-xl) var(--spacing-lg);
   }
 }
+
+/* Motion optimization for mobile and low-power devices */
+.disable-motion * {
+  /* Override any transform properties to ensure visibility */
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Force Framer Motion components to be visible on mobile */
+.disable-motion [data-framer-component-type],
+.disable-motion [data-motion],
+.disable-motion div[style*="transform:"],
+.disable-motion div[style*="opacity:"],
+.disable-motion div[style*="transition:"] {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  visibility: visible !important;
+  display: block !important;
+  /* Allow only simple fade transitions for better performance */
+  transition: opacity 0.3s ease-out !important;
+}
+
+/* Fix specific motion component issues */
+.disable-motion [data-framer-component-type="MotionDiv"],
+.disable-motion .framer-motion-element {
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fix for components that hide content until animated */
+.disable-motion .waiting-for-animation,
+.disable-motion .hidden-until-animated {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+/* Ensure Education section timeline elements are visible */
+.disable-motion .timeline-item,
+.disable-motion .education-content,
+.disable-motion .education-card {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Animation override for scrollbar thumb */
+.is-mobile-device ::-webkit-scrollbar-thumb {
+  animation: none !important;
+  background: rgba(0, 102, 204, 0.5) !important;
+}
+
+/* Replace beam-pulse animation with static styling on mobile */
+.is-mobile-device .beam-path-highlight {
+  animation: none !important;
+  stroke-dasharray: none !important;
+  stroke-width: 3px !important;
+  opacity: 0.8 !important;
+}

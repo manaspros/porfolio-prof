@@ -323,34 +323,42 @@
 }
 
 @media (max-width: 768px) {
+  .research-section {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+  
   .research-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
   
-  .research-cta {
-    padding: 25px 15px;
+  .research-item {
+    transform: none !important; /* Remove transforms that might hide content */
+    opacity: 1 !important; /* Ensure visibility */
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
   }
   
-  .research-cta h3 {
-    font-size: 1.8rem;
+  .research-item-content {
+    transform: none !important;
   }
   
-  .research-cta p {
-    font-size: 1rem;
+  /* Ensure decorations don't interfere with content */
+  .research-bg-blob {
+    z-index: 1;
+    opacity: 0.1; /* Make background elements more subtle */
   }
   
-  .research-button {
-    width: 100%;
-    text-align: center;
-    padding: 12px 25px;
-  }
-  
-  .research-item h3 {
-    font-size: 1.5rem;
+  /* Fix potential 3D transform issues */
+  .research-item, .research-item-inner {
+    transform-style: flat !important;
+    perspective: none !important;
+    -webkit-transform-style: flat !important;
   }
 }
 
-/* Add for extra small screens */
 @media (max-width: 380px) {
   .research-section {
     padding: 70px 0;

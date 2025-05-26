@@ -48,77 +48,105 @@ const Hero = () => {
     // Make sure GSAP is available
     if (!gsap) return;
     
-    // Create timeline for hero animations with ScrollTrigger
-    const tl = gsap.timeline({ 
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top 80%', // Start when the top of hero section is 80% into the viewport
-        end: 'bottom 20%',
-        toggleActions: 'play none none reverse', // Play on enter, reverse on leave
-        id: 'hero-animations' // Add ID for easier debugging
-      },
-      defaults: { 
-        ease: "power3.out",
-        overwrite: 'auto', // Prevent animation conflicts
-        clearProps: 'transform' // Clean up after animations
-      } 
-    });
+    // Check if device is mobile for conditional animations
+    const isMobile = window.innerWidth <= 768;
     
-    // Animate hero content elements
-    tl.fromTo(
-      '.hero-greeting',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 }
-    )
-    .fromTo(
-      '.hero-name',
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1 },
-      "-=0.4"
-    )
-    .fromTo(
-      '.hero-title',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.6"
-    )
-    .fromTo(
-      '.hero-description',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.4"
-    )
-    .fromTo(
-      '.hero-stats',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.4"
-    )
-    .fromTo(
-      '.cta-buttons',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.6"
-    )
-    .fromTo(
-      '.image-container',
-      { scale: 0.9, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 1.2 },
-      "-=1.2"
-    )
-    .fromTo(
-      '.floating-element',
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 },
-      "-=0.6"
-    )
-    .fromTo(
-      '.scroll-indicator',
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.4"
-    );
+    const tl = gsap.timeline();
 
+    // Simplified animations for mobile
+    if (isMobile) {
+      // Simpler animations for mobile to prevent display issues
+      tl.to('.hero-content', {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+      })
+      .to('.hero-image', {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, "-=0.4")
+      .to('.hero-cta', {
+        opacity: 1,
+        y: 0,
+        duration: 0.5
+      }, "-=0.3");
+    } else {
+      // Original animations for desktop
+      // Create timeline for hero animations with ScrollTrigger
+      const tl = gsap.timeline({ 
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%', // Start when the top of hero section is 80% into the viewport
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse', // Play on enter, reverse on leave
+          id: 'hero-animations' // Add ID for easier debugging
+        },
+        defaults: { 
+          ease: "power3.out",
+          overwrite: 'auto', // Prevent animation conflicts
+          clearProps: 'transform' // Clean up after animations
+        } 
+      });
+      
+      // Animate hero content elements
+      tl.fromTo(
+        '.hero-greeting',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 }
+      )
+      .fromTo(
+        '.hero-name',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1 },
+        "-=0.4"
+      )
+      .fromTo(
+        '.hero-title',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.6"
+      )
+      .fromTo(
+        '.hero-description',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.4"
+      )
+      .fromTo(
+        '.hero-stats',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.4"
+      )
+      .fromTo(
+        '.cta-buttons',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.6"
+      )
+      .fromTo(
+        '.image-container',
+        { scale: 0.9, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.2 },
+        "-=1.2"
+      )
+      .fromTo(
+        '.floating-element',
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 },
+        "-=0.6"
+      )
+      .fromTo(
+        '.scroll-indicator',
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        "-=0.4"
+      );
+    }
+    
     // Clean up function
     return () => {
       if (tl) tl.kill();

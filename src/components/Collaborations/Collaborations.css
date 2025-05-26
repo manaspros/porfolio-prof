@@ -330,6 +330,28 @@
   .collab-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
+
+  .collab-card {
+    transform: none !important; /* Prevent transform issues on mobile */
+    opacity: 1 !important; /* Ensure cards are visible */
+    position: relative; /* Ensure proper stacking */
+    z-index: 2; /* Raise above background decorations */
+  }
+  
+  .collab-bg-decoration {
+    opacity: 0.08; /* Reduce background decoration opacity */
+  }
+  
+  /* Ensure animations don't push content off-screen */
+  .card-shine, .card-glow {
+    transform: none !important;
+  }
+  
+  /* Fix potential scroll issues */
+  .collaborations-section {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
 }
 
 @media (max-width: 480px) {
@@ -342,10 +364,12 @@
   }
 
   .collab-grid {
-    grid-template-columns: 1fr;
+    display: block; /* Convert grid to block on very small screens */
   }
-
+  
   .collab-card {
-    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important; /* Consistent shadow */
   }
 }

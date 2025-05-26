@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useMotion } from '../../contexts/MotionContext'; // Import the motion context
 import './Education.css';
 
 const Education = () => {
@@ -9,96 +10,194 @@ const Education = () => {
     threshold: 0.2,
     triggerOnce: true,
   });
+  
+  // Use motion context to determine if we should animate
+  const { shouldUseMotion, isMobile } = useMotion();
+  
+  // Timeline content refs for static rendering
+  const timelineRef = useRef(null);
 
   useEffect(() => {
-    if (inView) {
+    if (inView && shouldUseMotion) {
       controls.start('visible');
+    } else if (isMobile) {
+      // Ensure everything is visible on mobile
+      controls.set('staticVisible');
     }
-  }, [controls, inView]);
+  }, [controls, inView, shouldUseMotion, isMobile]);
 
-  const educationItems = [
-    {
-      degree: "Ph.D. (Wearable Robotics, Mechanical Engineering)",
-      institution: "Korea University of Technology and Education, Republic of Korea",
-      year: "2020",
-      description: "Research Fellow, IRIS Lab, Korea Advanced Institute of Science and Technology (KAIST), Republic of Korea.\nThesis: Design and Development of TSA Soft Actuator for Exosuit\nSupervisor: Professor Jee Hwan Ryu, IRIS Lab, KAIST, Republic of Korea\nCourses: Applied Robotics, Haptics and Telerobotics System, Advanced Signal Processing, Advanced Data Analysis, Modeling and Control, Non-linear Control System, Mechanical Behaviour of Materials and Microsystem Design."
-    },
-    {
-      degree: "M.Tech. (Cleaning Robotics, Center for Energy Studies)",
-      institution: "Indian Institute of Technology Delhi, India (48th QS Rank in Engineering and Technology)",
-      year: "2015",
-      description: "Thesis: Development of an Inchworm Mechanism for Solar Panel Cleaning Robot\nSupervisor: Professor Viresh Dutta (Supervisor, Center for Energy Studies) and Professor Sudipto Mukherjee (Co-Supervisor, Department of Mechanical Engineering)"
-    },
-    {
-      degree: "B.E. (Mechatronics, Electrical Engineering)",
-      institution: "College of Technology and Engineering (CTAE), Rajasthan, India",
-      year: "2010",
-      description: ""
-    }
-  ];
-
+  // Define animation variants
   const containerVariants = {
-    hidden: {},
+    hidden: { opacity: 0 },
     visible: {
+      opacity: 1,
       transition: {
-        staggerChildren: 0.3
-      }
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
+      },
+    },
+    staticVisible: {
+      opacity: 1,
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { y: 20, opacity: 0 },
     visible: {
-      opacity: 1,
       y: 0,
+      opacity: 1,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
+        ease: [0.17, 0.67, 0.83, 0.67],
+      },
+    },
+    staticVisible: {
+      y: 0,
+      opacity: 1,
     }
   };
 
-  return (
-    <section id="education" className="education-section">
-      <h2 className="section-title">Education</h2>
-      <motion.div
-        className="education-timeline"
-        ref={ref}
-        variants={containerVariants}
-        initial="hidden"
-        animate={controls}
-      >
-        {educationItems.map((item, index) => (
-          <motion.div 
-            className={`education-item ${index % 2 === 0 ? 'left' : 'right'}`}
-            key={index}
-            variants={itemVariants}
-          >
-            <div className="timeline-marker">
-              <div className="timeline-dot"></div>
-              <div className="timeline-year">{item.year}</div>
-            </div>
-            <div className="education-card">
-              <div className="card-header">
-                <h3 className="degree-title">{item.degree}</h3>
-                <div className="institution-badge">
-                  <svg className="education-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
-                  </svg>
-                </div>
-              </div>
-              <h4 className="institution-name">{item.institution}</h4>
-              <p className="description">{item.description.split('\n').map((text, i) => (
-                <React.Fragment key={i}>
-                  {text}
-                  <br />
-                </React.Fragment>
-              ))}</p>
-            </div>
-          </motion.div>
-        ))}
-        <div className="timeline-line"></div>
+  // Education timeline data
+  const educationTimeline = [
+    {
+      id: 1,
+      years: "2017-2021",
+      degree: "Ph.D. in Mechatronics Engineering (Wearable Robotics)",
+      institution: "Korea University of Technology & Education, South Korea",
+      details: "Thesis: Design and Analysis of Twisted String Actuators for Exoskeleton Applications"
+    },
+    {
+      id: 2,
+      years: "2015-2017",
+      degree: "Masters in Design Engineering",
+      institution: "Indian Institute of Technology Delhi, India",
+      details: "Thesis: Inchworm Mechanism for Solar Panel Cleaning Robot"
+    },
+    {
+      id: 3,
+      years: "2011-2015",
+      degree: "Bachelors in Mechanical Engineering",
+      institution: "RTU Rajasthan, India",
+      details: "Graduated with First Division Honors"
+    }
+  ];
+
+  // Research experience data
+  const researchExperience = [
+    {
+      id: 1,
+      years: "2021-2023",
+      position: "Post-Doctoral Research Fellow",
+      institution: "Khalifa University & KAIST, UAE & South Korea",
+      details: "Research on Foldable Robot Arms for Drones and Haptic Interfaces for VR/AR Applications"
+    },
+    {
+      id: 2,
+      years: "2019-2020",
+      position: "Visiting Research Scholar",
+      institution: "DGIST (Daegu Gyeongbuk Institute of Science), South Korea",
+      details: "Research on Bio-inspired Robot Design and Soft Robotics"
+    },
+    {
+      id: 3,
+      years: "2015-2016",
+      position: "Research Assistant",
+      institution: "Indian Institute of Technology Delhi, India",
+      details: "Developed Innovative Mechanisms for Agricultural Robotics"
+    }
+  ];
+
+  // Component to conditionally render motion elements
+  const SafeMotionSection = ({ children, variants, className, ...props }) => {
+    return shouldUseMotion ? (
+      <motion.section 
+        className={className} 
+        variants={variants}
+        {...props}>
+        {children}
+      </motion.section>
+    ) : (
+      <section className={`${className} no-motion`}>
+        {children}
+      </section>
+    );
+  };
+
+  const SafeMotionDiv = ({ children, variants, className, ...props }) => {
+    return shouldUseMotion ? (
+      <motion.div 
+        className={className} 
+        variants={variants}
+        {...props}>
+        {children}
       </motion.div>
+    ) : (
+      <div className={`${className} no-motion`}>
+        {children}
+      </div>
+    );
+  };
+
+  return (
+    <section id="education" className="education-section" ref={ref}>
+      <div className="section-container">
+        <h2 className="section-title">Education & Research Experience</h2>
+        
+        <SafeMotionSection
+          className="education-timeline"
+          ref={timelineRef}
+          variants={containerVariants}
+          initial={shouldUseMotion ? "hidden" : "staticVisible"}
+          animate={controls}
+        >
+          <div className="timeline-line"></div>
+          
+          <div className="timeline-container education">
+            <h3 className="timeline-title">Education</h3>
+            
+            {educationTimeline.map(edu => (
+              <SafeMotionDiv
+                key={edu.id}
+                className="timeline-item"
+                variants={itemVariants}
+              >
+                <div className="timeline-marker"></div>
+                <div className="timeline-content education-content">
+                  <div className="timeline-years">{edu.years}</div>
+                  <h4 className="timeline-heading">{edu.degree}</h4>
+                  <div className="timeline-institution">{edu.institution}</div>
+                  <p className="timeline-details">{edu.details}</p>
+                </div>
+              </SafeMotionDiv>
+            ))}
+          </div>
+          
+          <div className="timeline-container research">
+            <h3 className="timeline-title">Research Experience</h3>
+            
+            {researchExperience.map(exp => (
+              <SafeMotionDiv
+                key={exp.id}
+                className="timeline-item"
+                variants={itemVariants}
+              >
+                <div className="timeline-marker"></div>
+                <div className="timeline-content research-content">
+                  <div className="timeline-years">{exp.years}</div>
+                  <h4 className="timeline-heading">{exp.position}</h4>
+                  <div className="timeline-institution">{exp.institution}</div>
+                  <p className="timeline-details">{exp.details}</p>
+                </div>
+              </SafeMotionDiv>
+            ))}
+          </div>
+        </SafeMotionSection>
+      </div>
+      
+      {/* Background decoration elements */}
+      <div className="education-bg-circle circle-1"></div>
+      <div className="education-bg-circle circle-2"></div>
+      <div className="education-bg-circle circle-3"></div>
     </section>
   );
 };

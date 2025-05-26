@@ -253,6 +253,40 @@
   .degree-title {
     font-size: 1.3rem;
   }
+  
+  .education-section {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+  
+  .education-section::before {
+    opacity: 0.1; /* Reduce background decoration opacity */
+  }
+  
+  .education-timeline-item {
+    transform: none !important;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 5;
+  }
+  
+  .timeline-content {
+    transform: none !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important; /* Consistent shadow */
+  }
+  
+  /* Fix potential 3D transform issues */
+  .education-timeline, .education-timeline-item {
+    transform-style: flat !important;
+    perspective: none !important;
+    -webkit-transform-style: flat !important;
+  }
+  
+  /* Ensure animations don't hide content */
+  .timeline-dot {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 @media (max-width: 480px) {

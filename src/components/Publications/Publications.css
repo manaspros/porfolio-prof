@@ -701,6 +701,47 @@
   .refresh-btn {
     align-self: flex-start;
   }
+  
+  .publication-item {
+    transform: none !important; /* Prevent transform issues */
+    opacity: 1 !important; /* Ensure visibility */
+    position: relative;
+    z-index: 10; /* Ensure above background elements */
+  }
+  
+  .publications-section {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+  
+  /* Fix potential animation issues */
+  .pub-decoration, .pub-content, .pub-citation {
+    transform: none !important; /* Reset any transforms */
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Ensure metrics are visible */
+  .publications-metrics2 {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  .metric-item {
+    transform: none !important;
+  }
+  
+  /* Fix potential scroll/overflow issues */
+  .publications-list {
+    overflow: visible;
+  }
+  
+  /* Adjust buttons for better touch targets */
+  .filter-btn, .load-more-btn {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    min-height: 44px; /* Better touch target */
+  }
 }
 
 @media (max-width: 992px) {
