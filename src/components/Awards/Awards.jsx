@@ -56,31 +56,38 @@ const Awards = () => {
   const grants = [
     {
       id: 1,
-      years: "2015",
-      title: "Gandhian Young Technological Innovation Award",
-      amount: "Presidential Recognition",
-      agency: "President of India"
+      years: "Current",
+      title: "Design and Development of a Soft Exosuit for Upper Arm Rehabilitation with GUI Monitoring",
+      amount: "₹45,50,000",
+      agency: "Prime Minister Early Career Research Grant Award, India"
     },
     {
       id: 2,
-      years: "2015",
-      title: "IIT Delhi Class of 89 Innovation Award",
-      amount: "Runner-up",
-      agency: "IIT Delhi"
+      years: "Current",
+      title: "Next-Generation Prosthetic hand",
+      amount: "₹1,32,00,000",
+      agency: "IHFC, IIT Delhi and DST, India"
     },
     {
       id: 3,
-      years: "2015",
-      title: "Young Professional Engineering Award",
-      amount: "Recognition",
-      agency: "MPUAT, Udaipur"
+      years: "Current",
+      title: "Next-Generation Mobility: AI-powered Brain-Muscle-Controlled Lower Limb Exoskeleton",
+      amount: "₹25,00,000",
+      agency: "Seed Grant, IIT Jodhpur, India"
     },
     {
-      id: 4, 
-      years: "2023-Present",
-      title: "Prime Minister Early Career Research Grant Award",
-      amount: "₹45,50,000",
-      agency: "Government of India"
+      id: 4,
+      years: "Current", 
+      title: "Affordable and Energy-Efficient EMG-Controlled 3-Finger Prosthetic Hand for Amputees",
+      amount: "₹8,50,000",
+      agency: "International NGO BMVSS, India"
+    },
+    {
+      id: 5,
+      years: "Current", 
+      title: "Spacecraft Docking Soft Impact Dynamics Modelling and Simulation",
+      amount: "₹28,00,000",
+      agency: "Indian Space Research Organisation, India"
     }
   ];
   
