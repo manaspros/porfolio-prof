@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import emailjs from '@emailjs/browser';
 import './Contact.css';
 
 // Register ScrollTrigger plugin
@@ -225,49 +226,75 @@ const Contact = () => {
     btn.innerHTML = '<span class="loading-spinner"></span> Sending...';
     btn.disabled = true;
     
-    // Simulating form submission
-    setTimeout(() => {
-      setFormStatus({
-        submitted: true,
-        error: false,
-        message: 'Thank you for your message! I will get back to you soon.'
-      });
-      
-      // Reset form after submission
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      
-      // Reset button
-      btn.innerHTML = 'Send Message';
-      btn.disabled = false;
-      
-      // Show success animation
-      gsap.fromTo(
-        '.form-status',
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }
-      );
-      
-      // Reset status after 5 seconds
-      setTimeout(() => {
-        gsap.to('.form-status', {
-          opacity: 0,
-          y: -10,
-          duration: 0.5,
-          onComplete: () => {
-            setFormStatus({
-              submitted: false,
-              error: false,
-              message: ''
-            });
-          }
+    // EmailJS configuration - replace with your actual IDs
+    const serviceId = 'YOUR_SERVICE_ID';
+    const templateId = 'YOUR_TEMPLATE_ID'; 
+    const publicKey = 'YOUR_PUBLIC_KEY';
+    
+    // Prepare template parameters
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      subject: formData.subject,
+      message: formData.message
+    };
+    
+    // Send email using EmailJS
+    emailjs.send(serviceId, templateId, templateParams, publicKey)
+      .then((result) => {
+        console.log('Email sent successfully:', result.text);
+        
+        setFormStatus({
+          submitted: true,
+          error: false,
+          message: 'Thank you for your message! I will get back to you soon.'
         });
-      }, 5000);
-    }, 1500);
+        
+        // Reset form after submission
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      })
+      .catch((error) => {
+        console.error('Failed to send email:', error);
+        
+        setFormStatus({
+          submitted: true,
+          error: true,
+          message: 'Sorry, something went wrong. Please try again later.'
+        });
+      })
+      .finally(() => {
+        // Reset button
+        btn.innerHTML = 'Send Message';
+        btn.disabled = false;
+        
+        // Show status animation
+        gsap.fromTo(
+          '.form-status',
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }
+        );
+        
+        // Reset status after 5 seconds
+        setTimeout(() => {
+          gsap.to('.form-status', {
+            opacity: 0,
+            y: -10,
+            duration: 0.5,
+            onComplete: () => {
+              setFormStatus({
+                submitted: false,
+                error: false,
+                message: ''
+              });
+            }
+          });
+        }, 5000);
+      });
   };
   
   return (

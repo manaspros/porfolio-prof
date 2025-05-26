@@ -16,26 +16,50 @@ const Navbar = () => {
         setIsScrolled(false);
       }
       
-      // Update active section based on scroll position
-      const sections = document.querySelectorAll('section[id]');
+      // Update active section based on scroll position - improved logic
+      const sections = document.querySelectorAll('section[id], div[id]');
+      
+      // Find the section closest to the top of the viewport
+      let current = '';
+      let minDistance = Number.MAX_VALUE;
+      
       sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
+        const sectionTop = section.offsetTop - 150;
         const sectionHeight = section.offsetHeight;
         const id = section.getAttribute('id');
+        const distance = Math.abs(window.scrollY - sectionTop);
         
-        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-          setActiveSection(id);
+        // Check if we're within this section or if this is the closest section
+        if (
+          (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) ||
+          distance < minDistance
+        ) {
+          minDistance = distance;
+          current = id;
         }
       });
+      
+      if (current && current !== activeSection) {
+        setActiveSection(current);
+      }
     };
 
+    // Run once on component mount to set initial active section
+    handleScroll();
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [activeSection]);
 
-  // Toggle mobile menu
+  // Toggle mobile menu with section highlighting
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+  
+  // Handle nav item click - set active section explicitly
+  const handleNavClick = (sectionId) => {
+    setActiveSection(sectionId);
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -57,7 +81,7 @@ const Navbar = () => {
           <li>
             <a 
               href="#home" 
-              onClick={() => setIsMobileMenuOpen(false)} 
+              onClick={() => handleNavClick('home')} 
               className={activeSection === 'home' ? 'active' : ''}
             >
               Home
@@ -66,7 +90,7 @@ const Navbar = () => {
           <li>
             <a 
               href="#about" 
-              onClick={() => setIsMobileMenuOpen(false)} 
+              onClick={() => handleNavClick('about')} 
               className={activeSection === 'about' ? 'active' : ''}
             >
               About
@@ -75,7 +99,7 @@ const Navbar = () => {
           <li>
             <a 
               href="#research" 
-              onClick={() => setIsMobileMenuOpen(false)} 
+              onClick={() => handleNavClick('research')} 
               className={activeSection === 'research' ? 'active' : ''}
             >
               Research
@@ -84,7 +108,7 @@ const Navbar = () => {
           <li>
             <a 
               href="#publications" 
-              onClick={() => setIsMobileMenuOpen(false)} 
+              onClick={() => handleNavClick('publications')} 
               className={activeSection === 'publications' ? 'active' : ''}
             >
               Publications
@@ -93,7 +117,7 @@ const Navbar = () => {
           <li>
             <a 
               href="#projects" 
-              onClick={() => setIsMobileMenuOpen(false)} 
+              onClick={() => handleNavClick('projects')} 
               className={activeSection === 'projects' ? 'active' : ''}
             >
               Projects
@@ -102,7 +126,7 @@ const Navbar = () => {
           <li>
             <a 
               href="#awards" 
-              onClick={() => setIsMobileMenuOpen(false)} 
+              onClick={() => handleNavClick('awards')} 
               className={activeSection === 'awards' ? 'active' : ''}
             >
               Awards
@@ -111,7 +135,7 @@ const Navbar = () => {
           <li>
             <a 
               href="#contact" 
-              onClick={() => setIsMobileMenuOpen(false)} 
+              onClick={() => handleNavClick('contact')} 
               className={activeSection === 'contact' ? 'active' : ''}
             >
               Contact

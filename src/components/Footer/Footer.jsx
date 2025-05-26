@@ -52,7 +52,7 @@ const Footer = () => {
             <div className="footer-links-column">
               <h3>Connect</h3>
               <ul>
-                <li><a href="https://www.linkedin.com/in/bhivraj-suthar-ph-d-0729aa33/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://www.linkedin.com/in/bhivraj-s-823528294/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
                 <li><a href="https://scholar.google.com/citations?user=3KZSSEIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
                 <li><a href="https://www.researchgate.net/profile/Bhivraj_Suthar2" target="_blank" rel="noopener noreferrer">ResearchGate</a></li>
                 <li><a href="https://www.youtube.com/channel/UClkWY-vpshRUFWZut_gqZhQ/videos" target="_blank" rel="noopener noreferrer">YouTube</a></li>
