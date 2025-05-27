@@ -6,42 +6,65 @@
   width: 100%;
   max-width: 100vw;
   padding: 20px 0;
-  /* Add a stylish gradient background with low opacity when not scrolled */
-  background: linear-gradient(135deg, rgba(98, 60, 234, 0.08) 0%, rgba(255, 125, 84, 0.08) 100%);
-  /* Add a subtle glass-like border at the bottom */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* Use theme-specific color variables for background */
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  /* Add subtle gradient highlight at top */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: all var(--transition-medium);
   z-index: 1000;
   box-sizing: border-box;
-  /* Remove the transition that conflicts with animation */
-  transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+  /* Avoid overflow into hero section */
+  overflow: visible;
+  height: auto;
+}
+
+/* Dark theme styles for navbar */
+[data-theme="dark"] .navbar {
+  background: rgba(30, 30, 40, 0.8);
+  border-bottom: 1px solid rgba(70, 70, 90, 0.5);
+  box-shadow: inset 0 1px 0 rgba(90, 90, 120, 0.2);
 }
 
 .navbar.scrolled {
-  background: linear-gradient(135deg, rgba(249, 249, 253, 0.92) 0%, rgba(249, 249, 253, 0.95) 100%);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  background: rgba(249, 249, 253, 0.85);
   box-shadow: 
     0 5px 30px rgba(0, 0, 0, 0.05),
-    0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    0 -2px 0 rgba(98, 60, 234, 0.5) inset;
   padding: 12px 0;
-  /* Replace animation with better implementation */
-  animation: navbarReveal 0.5s ease-out;
 }
 
-/* Revised animation with more noticeable effect */
-@keyframes navbarReveal {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  50% {
-    transform: translateY(5px);
-    opacity: 0.95;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/* Dark theme styles for scrolled navbar */
+[data-theme="dark"] .navbar.scrolled {
+  background: rgba(25, 25, 35, 0.9);
+  box-shadow: 
+    0 5px 30px rgba(0, 0, 0, 0.2),
+    0 -2px 0 rgba(98, 60, 234, 0.6) inset;
+}
+
+/* Add decorative accent line with gradient */
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, 
+    rgba(98, 60, 234, 0.7), 
+    rgba(255, 125, 84, 0.7),
+    rgba(98, 60, 234, 0.7)
+  );
+  background-size: 200% 100%;
+  animation: gradientMove 6s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .navbar-container {
@@ -49,39 +72,50 @@
   justify-content: space-between;
   align-items: center;
   max-width: var(--container-2xl);
-  width: calc(100% - 40px); /* Ensure padding doesn't cause overflow */
+  width: calc(100% - 40px);
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
   position: relative;
+  /* Add decorative element */
+  overflow: visible;
 }
 
-/* Add decorative elements to navbar */
+/* Add decorative colored shapes - with adjusted z-index and positioning */
 .navbar-container::before {
   content: '';
   position: absolute;
   top: -20px;
-  left: -50px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(98, 60, 234, 0.1) 0%, rgba(255, 125, 84, 0.1) 100%);
+  left: -10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  background: linear-gradient(135deg, rgba(98, 60, 234, 0.15), rgba(255, 125, 84, 0.15));
   z-index: -1;
-  filter: blur(20px);
+  animation: floatNav 8s ease-in-out infinite;
+  pointer-events: none; /* Prevent interaction with this element */
 }
 
 .navbar-container::after {
   content: '';
   position: absolute;
-  top: 25px;
-  right: 0px;
+  bottom: -10px;
+  right: 15%;
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, rgba(98, 60, 234, 0.15) 0%, rgba(255, 125, 84, 0.15) 100%);
+  border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  background: linear-gradient(135deg, rgba(255, 125, 84, 0.1), rgba(98, 60, 234, 0.1));
   z-index: -1;
-  transform: rotate(25deg);
-  filter: blur(10px);
+  animation: floatNav 6s ease-in-out infinite;
+  animation-delay: 1s;
+  pointer-events: none; /* Prevent interaction with this element */
+}
+
+/* Separate animation keyframes for navbar to avoid conflicts */
+@keyframes floatNav {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
 
 .navbar-logo a {
@@ -91,8 +125,34 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  /* Add text shadow for better visibility */
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  /* Add subtle text shadow for improved readability */
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+  position: relative;
+}
+
+/* Dark theme text shadow for better visibility */
+[data-theme="dark"] .navbar-logo a {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Add animated underline to logo */
+.navbar-logo a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: scaleX(0.7);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  transition: transform 0.3s ease;
+  opacity: 0.7;
+}
+
+.navbar-logo a:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 .logo-text {
@@ -100,23 +160,40 @@
   letter-spacing: -0.03em;
 }
 
+/* Dark theme styles for logo text - make it explicitly white */
+[data-theme="dark"] .logo-text {
+  color: #ffffff;
+}
+
 .logo-highlight {
   color: var(--color-primary);
   position: relative;
 }
 
-/* Add a subtle glow effect to the logo highlight */
+/* Add glowing dot after logo text */
 .logo-highlight::after {
   content: '';
-  position: absolute;
-  width: 100%;
-  height: 10px;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
-  opacity: 0.2;
-  filter: blur(8px);
-  z-index: -1;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: 50%;
+  margin-left: 5px;
+  vertical-align: top;
+  box-shadow: 0 0 8px rgba(98, 60, 234, 0.6);
+  animation: pulse 2s infinite;
+}
+
+/* Dark theme styles for logo highlight to ensure it remains visible */
+[data-theme="dark"] .logo-highlight {
+  color: var(--color-primary);
+  text-shadow: 0 0 5px rgba(98, 60, 234, 0.3);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); }
 }
 
 .navbar-links {
@@ -124,13 +201,23 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  /* Add a subtle background to improve link visibility */
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 30px;
-  padding: 5px 15px;
+  /* Add subtle background for better visibility */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 40px;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.03),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+  padding: 6px 15px;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+/* Dark theme styles for navbar links */
+[data-theme="dark"] .navbar-links {
+  background: rgba(40, 40, 60, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(70, 70, 100, 0.4) inset;
 }
 
 .navbar-links li {
@@ -141,20 +228,23 @@
   text-decoration: none;
   color: var(--color-dark);
   font-weight: 500;
-  padding: 8px 12px;
+  padding: 8px 5px;
   position: relative;
   transition: all var(--transition-medium);
-  /* Add subtle text shadow for better readability */
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+/* Dark theme styles for navbar link text - make it explicitly white */
+[data-theme="dark"] .navbar-links a {
+  color: #ffffff;
 }
 
 .navbar-links a:after {
   content: '';
   position: absolute;
-  bottom: 2px;
-  left: 8px;
+  bottom: 0;
+  left: 0;
   width: 0;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   transition: width var(--transition-medium);
   border-radius: 2px;
@@ -162,11 +252,22 @@
 
 .navbar-links a:hover, .navbar-links a.active {
   color: var(--color-primary);
-  transform: translateY(-2px);
+}
+
+/* Ensure active/hover states have good contrast in dark mode */
+[data-theme="dark"] .navbar-links a:hover, 
+[data-theme="dark"] .navbar-links a.active {
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(98, 60, 234, 0.4);
 }
 
 .navbar-links a:hover:after, .navbar-links a.active:after {
-  width: calc(100% - 16px);
+  width: 100%;
+}
+
+/* Add subtle indicator for active links */
+.navbar-links a.active {
+  font-weight: 600;
 }
 
 .navbar-menu-toggle {
@@ -183,6 +284,11 @@
   margin: 5px 0;
   background-color: var(--color-dark);
   transition: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+/* Dark theme styles for mobile menu toggle */
+[data-theme="dark"] .navbar-menu-toggle span {
+  background-color: var(--color-light);
 }
 
 .navbar-menu-toggle.active span:nth-child(1) {
@@ -223,16 +329,21 @@
     width: 300px;
     height: 100vh;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     padding-top: 100px;
     transition: right var(--transition-medium);
     box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
     border-radius: 0;
-    /* Add gradient border on the left for visual interest */
-    border-left: 3px solid;
+    border-left: 3px solid transparent;
     border-image: linear-gradient(to bottom, var(--color-primary), var(--color-secondary)) 1;
+  }
+  
+  /* Dark theme mobile menu */
+  [data-theme="dark"] .navbar-links {
+    background: rgba(25, 25, 35, 0.95);
+    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
   }
 
   .navbar-links.active {

@@ -6,8 +6,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-
-  // Handle scrolling effect
+  
+  // Handle scrolling effect - with optimized scroll handler
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -44,26 +44,36 @@ const Navbar = () => {
       }
     };
 
+    // Use passive true for better scroll performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
     // Run once on component mount to set initial active section
     handleScroll();
     
-    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeSection]);
 
   // Toggle mobile menu with section highlighting
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    
+    // If opening the menu, prevent scrolling on the body
+    if (!isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
   };
   
   // Handle nav item click - set active section explicitly
   const handleNavClick = (sectionId) => {
     setActiveSection(sectionId);
     setIsMobileMenuOpen(false);
+    document.body.style.overflow = ''; // Restore scrolling
   };
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`} role="navigation" aria-label="main navigation">
       <div className="navbar-container">
         <div className="navbar-logo">
           <a href="#home">
@@ -71,7 +81,7 @@ const Navbar = () => {
           </a>
         </div>
         
-        <div className={`navbar-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>
+        <div className={`navbar-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu} aria-expanded={isMobileMenuOpen} aria-label="menu">
           <span></span>
           <span></span>
           <span></span>
