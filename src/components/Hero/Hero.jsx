@@ -191,12 +191,9 @@ const Hero = () => {
             </div>
             <div className="hero-stat">
               <span className="stat-number">
-                {isLoading ? 
-                  <span className="loading-placeholder"></span> : 
-                  scholarStats.journals
-                }
+                15+
               </span>
-              <span className="stat-label">Journal Articles</span>
+              <span className="stat-label">Robots Developed</span>
             </div>
             <div className="hero-stat">
               <span className="stat-number">

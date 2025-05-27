@@ -62,17 +62,32 @@
   font-size: 1.1rem;
   line-height: 1.6;
   color: #555;
+  text-align: justify;
 }
 
 .about-stats {
   display: flex;
-  justify-content: space-between;
-  margin: 30px 0;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .stat-item {
-  text-align: center;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.experience-stat {
+  margin-bottom: 0.5rem;
+}
+
+.stat-heading {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  background: linear-gradient(to right, #623CEA, #FF7D54);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
 }
 
 .stat-number {
@@ -131,6 +146,71 @@
   margin: -0.5rem -1rem;
 }
 
+/* International Experience Styles */
+.international-experience {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.international-experience h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #623CEA, #FF7D54);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+.country-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.country-flag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.flag-icon {
+  width: 40px;
+  height: 30px;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease;
+}
+
+.flag-icon:hover {
+  transform: scale(1.1);
+}
+
+.flag-icon.south-korea {
+  background-image: url('https://flagcdn.com/kr.svg');
+}
+
+.flag-icon.australia {
+  background-image: url('https://flagcdn.com/au.svg');
+}
+
+.flag-icon.uae {
+  background-image: url('https://flagcdn.com/ae.svg');
+}
+
+.flag-icon.usa {
+  background-image: url('https://flagcdn.com/us.svg');
+}
+
+.country-flag span {
+  font-size: 0.8rem;
+  color: #555;
+}
+
 @media (max-width: 992px) {
   .about-content {
     flex-direction: column;
@@ -160,5 +240,13 @@
   .about-links {
     flex-direction: column;
     gap: 15px;
+  }
+  
+  .country-flags {
+    justify-content: center;
+  }
+  
+  .country-flag {
+    margin-bottom: 1rem;
   }
 }

@@ -134,7 +134,7 @@ const Research = () => {
   return (
     <section id="research" className="research-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title3">Research Areas</h2>
+        <h2 className="section-title3">Research</h2>
         <div className="research-grid">
           <div className="research-item">
             <div className="research-icon">🦾</div>
@@ -207,7 +207,7 @@ const Research = () => {
         <div className="research-cta">
           <h3>Interested in Collaboration?</h3>
           <p>Reach out to discuss potential research partnerships or learn more about our ongoing projects.</p>
-          <button className="cta-button">Contact for Research</button>
+          <a href="#contact" className="cta-button">Contact for Research</a>
         </div>
       </div>
     </section>

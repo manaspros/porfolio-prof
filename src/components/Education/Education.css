@@ -37,6 +37,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
 .edu-section-title::after {
@@ -57,6 +59,10 @@
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   padding-bottom: 40px;
+}
+
+.timelines-container {
+  margin: 2rem 0;
 }
 
 .main-timeline-line {
@@ -80,6 +86,14 @@
 .timeline-container {
   position: relative;
   margin-bottom: 80px;
+}
+
+.timeline-block {
+  position: relative;
+  padding: 20px 0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .timeline-heading-title {
@@ -522,23 +536,9 @@
   transform: none !important;
 }
 
-/* Timelines container styling */
-.timelines-container {
-  display: flex;
-  flex-direction: column;
-  gap: 80px;
-  width: 100%;
-}
-
-.timeline-block {
-  position: relative;
-  padding: 20px 0;
-  border-radius: 16px;
-}
-
-/* Education timeline specific styles */
-.education-timeline {
-  background: rgba(255, 255, 255, 0.05);
+/* Add spacing around timeline content */
+.edu-container {
+  padding: 2
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   padding-bottom: 40px;
 }

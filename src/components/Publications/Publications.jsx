@@ -69,7 +69,7 @@ const Publications = () => {
     }
   }, []);
 
-  // Handle manual refresh
+  // Handle refresh
   const handleRefresh = async () => {
     try {
       setLoading(true);
@@ -294,11 +294,8 @@ const Publications = () => {
     setHoveredItem(null);
   };
   
-  // Filter publications based on active filter
-  const filteredPublications = activeFilter === 'all' 
-    ? publications 
-    : publications.filter(pub => pub.type === activeFilter);
-    
+  // Always use all publications since we're removing filters
+  const filteredPublications = publications;
   const displayedPublications = filteredPublications.slice(0, visibleCount);
 
   // Check if there are more publications to load
@@ -354,32 +351,6 @@ const Publications = () => {
           </div>
         </div>
         
-        <div className="filter-controls">
-          <button 
-            className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveFilter('all')}
-          >
-            <span className="filter-icon">📚</span>
-            <span>All Publications</span>
-            <span className="filter-count">({publications.length})</span>
-          </button>
-          <button 
-            className={`filter-btn ${activeFilter === 'journal' ? 'active' : ''}`}
-            onClick={() => setActiveFilter('journal')}
-          >
-            <span className="filter-icon">📰</span>
-            <span>Journal Articles</span>
-            <span className="filter-count">({stats.journalCount})</span>
-          </button>
-          <button 
-            className={`filter-btn ${activeFilter === 'conference' ? 'active' : ''}`}
-            onClick={() => setActiveFilter('conference')}
-          >
-            <span className="filter-icon">🎤</span>
-            <span>Conference Papers</span>
-            <span className="filter-count">({stats.conferenceCount})</span>
-          </button>
-        </div>
         
         <div className="publications-list" ref={pubListRef}>
           {displayedPublications.map(pub => (

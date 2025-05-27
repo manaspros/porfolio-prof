@@ -2,6 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Projects.css';
+import first from '../../assets/1.jpeg';
+// import second from '../../assets/2.jpeg';
+import third from '../../assets/3.jpeg';
+// import fourth from '../../assets/4.jpeg';
+import fifth from '../../assets/5.jpeg';
+import sixth from '../../assets/6.jpeg';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -18,7 +24,7 @@ const Projects = () => {
       id: 1,
       title: "Supplementary Robotic Limb (SRL)",
       description: "A wearable robotic arm that provides supplementary capabilities for assistance in various tasks, designed to be lightweight and adaptable.",
-      image: "https://static.wixstatic.com/media/fbe72c_e7f842092d234ac285b9bd150e16916d~mv2.jpg/v1/crop/x_0,y_0,w_311,h_516/fill/w_359,h_619,al_c,lg_1,q_80,enc_avif,quality_auto/TSA_SRL1.jpg",
+      image: first,
       category: "wearable",
       url: "#",
       technologies: ["Twisted String Actuators", "Robotics", "Wearable Technology"]
@@ -36,7 +42,7 @@ const Projects = () => {
       id: 3,
       title: "Adaptive Sensor Coupling Exoskeleton (ASC-EXO)",
       description: "A 7-DOF upper limb exoskeleton with adaptive sensor coupling that enables smooth human motion tracking for rehabilitation and assistance.",
-      image: "https://placehold.co/600x400?text=ASC-EXO",
+      image: third,
       category: "exoskeleton",
       url: "#",
       technologies: ["Adaptive Sensors", "Exoskeleton", "Rehabilitation"]
@@ -45,7 +51,7 @@ const Projects = () => {
       id: 4,
       title: "Foldable Robot Arms (FRAC)",
       description: "Designed for collaborative environments, these foldable robot arms offer versatile assistance while maintaining a compact form factor when not in use.",
-      image: "https://i.ytimg.com/vi/DYgFDl-JJ0s/sddefault.jpg",
+      image: "https://static.wixstatic.com/media/fbe72c_d1ced464502c44d4a051e88e0fc61327~mv2.png/v1/crop/x_0,y_3,w_537,h_653/fill/w_276,h_344,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Raj_FRAC.png",
       category: "foldable",
       url: "#",
       technologies: ["Collaborative Robotics", "Foldable Mechanisms", "Human-Robot Interaction"]
@@ -54,7 +60,7 @@ const Projects = () => {
       id: 5,
       title: "Foldable Drone Arm (FRAD)",
       description: "A specialized robotic arm designed for drones that can fold compactly when not in use and extend for manipulation tasks during flight.",
-      image: "https://static.wixstatic.com/media/fbe72c_d1ced464502c44d4a051e88e0fc61327~mv2.png/v1/crop/x_0,y_3,w_537,h_653/fill/w_276,h_344,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Raj_FRAC.png",
+      image: fifth,
       category: "foldable",
       url: "#",
       technologies: ["Aerial Robotics", "Twisted String Actuator", "Metamorphic Mechanisms"]
@@ -63,7 +69,7 @@ const Projects = () => {
       id: 6,
       title: "Brain-Computer Interface for Wearable Robotics",
       description: "A system that uses brain signals to control wearable robotic devices, providing intuitive control for users with limited mobility.",
-      image: "https://placehold.co/600x400?text=BCI-Robotics",
+      image: sixth,
       category: "wearable",
       url: "#",
       technologies: ["Brain-Computer Interface", "AI", "Assistive Technology"]

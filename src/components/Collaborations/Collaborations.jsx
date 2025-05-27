@@ -21,15 +21,15 @@ const Collaborations = () => {
     },
     {
       id: 2,
-      name: "KAIST",
-      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/9/94/KAIST_logo.svg/1200px-KAIST_logo.svg.png",
+      name: "KWANGWOON UNIVERSITY, SOUTH KOREA",
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/Kwangwoon_University_logo.svg/300px-Kwangwoon_University_logo.svg.png",
       description: "Joint projects on haptic interfaces and wearable robotics technologies.",
-      website: "https://www.kaist.ac.kr/en/"
+      website: "https://www.kw.ac.kr/ko/"
     },
     {
       id: 3,
       name: "Khalifa University",
-      logo: "https://www.ku.ac.ae/wp-content/themes/ku-2022-child/img/logo.svg",
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/KUSTAR_Logo.jpg/500px-KUSTAR_Logo.jpg",
       description: "Research partnership on drone manipulators and aerial robotics.",
       website: "https://www.ku.ac.ae/"
     },
@@ -43,16 +43,30 @@ const Collaborations = () => {
     {
       id: 5,
       name: "BMVSS (Jaipur Foot)",
-      logo: "https://jaipurfoot.org/images/logo.png",
+      logo: "https://www.jaipurfoot.org/wp-content/uploads/2023/07/Logo-2.png",
       description: "Developing affordable prosthetic solutions for amputees in partnership with this NGO.",
       website: "https://www.jaipurfoot.org/"
     },
     {
       id: 6,
-      name: "DRDO",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/DRDO_Logo.svg/800px-DRDO_Logo.svg.png",
+      name: "IHFC delhi",
+      logo: "https://home.iitd.ac.in/public/storage/uploads/IHFC%20Logo_1624899127.png",
       description: "Joint research on exoskeleton technologies and defense applications.",
-      website: "https://www.drdo.gov.in/"
+      website: "https://www.ihfc.co.in/"
+    },
+    {
+      id: 7,
+      name: "AIIMS Jodhpur",
+      logo: "https://upload.wikimedia.org/wikipedia/en/1/1d/The_Official_Seal_of_AIIMS_Jodhpur.png",
+      description: "Collaborative research on medical robotics and healthcare automation technologies.",
+      website: "https://www.aiimsjodhpur.edu.in/"
+    },
+    {
+      id: 8,
+      name: "University of Siena, Italy",
+      logo: "https://upload.wikimedia.org/wikipedia/en/c/c1/University_of_Siena.png",
+      description: "International partnership on haptic robotics and advanced control systems research.",
+      website: "https://www.unisi.it/en"
     }
   ];
 
@@ -64,7 +78,7 @@ const Collaborations = () => {
       try {
         // Animate the title
         gsap.fromTo(
-          '.collab-title',
+          '.collab-title2',
           {
             y: 50,
             opacity: 0,
@@ -177,7 +191,7 @@ const Collaborations = () => {
   return (
     <section id="collaborations" className="collaborations-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title collab-title">Research Collaborations</h2>
+        <h2 className="collab-title2">Collaborations</h2>
         <p className="collab-subtitle">Proudly working with leading institutions and organizations to advance the frontier of robotics and AI research.</p>
         
         <div className="collab-grid" ref={cardsRef}>

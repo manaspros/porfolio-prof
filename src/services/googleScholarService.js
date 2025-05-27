@@ -265,11 +265,33 @@ class GoogleScholarService {
       'ieee conf', 'ieee int', 'international conference'
     ];
     
-    const journalKeywords = [
-      'journal', 'transactions', 'letters', 'review', 'bulletin', 
-      'quarterly', 'annals', 'ieee j', 'advances in', 'international journal',
-      'acta', 'archives', 'elsevier'
-    ];
+const journalKeywords = [
+  'Journal Article', // Explicitly stated in your citation list
+  'Robotics and Autonomous Systems',
+  'Scientific Reports',
+  'IEEE Access',
+  'IEEE Sensors Journal',
+  'Mechatronics',
+  'IEEE Transactions on Industrial Electronics',
+  'Robotica',
+  'Journal of Mechanisms and Robotics', // From "Transactions of the ASME-Journal of Mechanisms and Robotics"
+  'Applied Sciences',
+  'International Journal of Current Science',
+  'International Journal of Information Technology',
+  'Computational Intelligence in Software Modeling',
+  'International Journal of Robotics and Automation (IJRA)',
+  'Current Science',
+  '대한전자공학회 학술대회', // Keep this as it's categorized as "Journal Article" in your list
+  // General keywords
+  'Journal',
+  'Transactions',
+  'Letters',
+  'Review',
+  'Elsevier',
+  'Springer Nature',
+  'MDPI',
+  'IEEE'
+];
     
     const pubLower = publication.toLowerCase();
     

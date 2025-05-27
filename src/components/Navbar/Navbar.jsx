@@ -107,6 +107,15 @@ const Navbar = () => {
           </li>
           <li>
             <a 
+              href="#collaborations" 
+              onClick={() => handleNavClick('collaborations')} 
+              className={activeSection === 'collaborations' ? 'active' : ''}
+            >
+              Collaborations
+            </a>
+          </li>
+          <li>
+            <a 
               href="#publications" 
               onClick={() => handleNavClick('publications')} 
               className={activeSection === 'publications' ? 'active' : ''}

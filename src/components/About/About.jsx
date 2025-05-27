@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import only, don't register
 import { PointerHighlight } from '../ui/PointerHighlight';
 import './About.css';
+import about from '../../assets/about.jpeg';
 
 // REMOVE THIS LINE: gsap.registerPlugin(ScrollTrigger);
 
@@ -97,10 +98,10 @@ const About = () => {
   return (
     <section id="about" className="about-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title3" ref={titleRef}>About Me</h2>
+        <h2 className="section-title3" ref={titleRef}>About</h2>
         <div className="about-content" ref={contentRef}>
           <div className="about-image">
-            <img src="https://static.wixstatic.com/media/fbe72c_e7f842092d234ac285b9bd150e16916d~mv2.jpg/v1/crop/x_0,y_0,w_311,h_516/fill/w_365,h_619,al_c,lg_1,q_80,enc_avif,quality_auto/TSA_SRL1.jpg" alt="Dr. Bhivraj Suthar" />
+            <img src={about} alt="Dr. Bhivraj Suthar" />
           </div>
           <div className="about-text">
             <h3>
@@ -123,17 +124,30 @@ const About = () => {
               Dr. Suthar's journey is encapsulated in the phrase "Robot artist to Roboticist." His passion for robotics ignited during childhood, leading to a remarkable career with over 15 innovative robots developed in-house and 7 patents. He has received the prestigious Prime Minister Early Career Research Grant Award and has secured research funding of more than 2 crore INR.
             </p>
             <div className="about-stats">
-              <div className="stat-item">
+              <div className="stat-item experience-stat">
                 <span className="stat-number">5+</span>
                 <span className="stat-desc">Years Research Experience</span>
               </div>
-              <div className="stat-item">
-                <span className="stat-number">15+</span>
-                <span className="stat-desc">Robots Developed</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">7</span>
-                <span className="stat-desc">Patents</span>
+              <div className="stat-item international-stat">
+                <span className="stat-heading">International Experience</span>
+                <div className="country-flags">
+                  <div className="country-flag">
+                    <div className="flag-icon south-korea"></div>
+                    <span>South Korea</span>
+                  </div>
+                  <div className="country-flag">
+                    <div className="flag-icon australia"></div>
+                    <span>Australia</span>
+                  </div>
+                  <div className="country-flag">
+                    <div className="flag-icon uae"></div>
+                    <span>UAE</span>
+                  </div>
+                  <div className="country-flag">
+                    <div className="flag-icon usa"></div>
+                    <span>USA</span>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="about-links">
