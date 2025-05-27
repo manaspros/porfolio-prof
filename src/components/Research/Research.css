@@ -3,6 +3,7 @@
   background-color: #ffffff;
   position: relative;
   overflow: hidden;
+  max-width: 100vw; /* Prevent content from exceeding viewport width */
 }
 
 .research-section::before {
@@ -36,6 +37,9 @@
   margin-top: 50px;
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .research-item {
@@ -51,6 +55,11 @@
   display: flex;
   flex-direction: column;
   z-index: 1;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .research-item:hover {
@@ -130,6 +139,9 @@
   margin-top: auto;
   position: relative;
   z-index: 1;
+  width: 100%;
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .research-keywords span {
@@ -159,6 +171,9 @@
   z-index: 1;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px 15px;
 }
 
 .research-cta::before {
@@ -324,8 +339,9 @@
 
 @media (max-width: 768px) {
   .research-section {
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow: hidden; /* Force hidden overflow on mobile */
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .research-grid {
@@ -339,6 +355,11 @@
     position: relative;
     z-index: 2;
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .research-item-content {
@@ -370,7 +391,7 @@
   }
   
   .research-item {
-    padding: 20px;
+    padding: 20px 15px;
   }
   
   .research-icon {
