@@ -318,7 +318,7 @@ const Publications = () => {
       <div className="section-container">
         <div className="publications-header">
           <h2 className="section-title4">
-            <ResearchHighlight>Research</ResearchHighlight> Publications
+            <ResearchHighlight>Publications</ResearchHighlight> 
           </h2>
           
           {/* Loading indicator and refresh controls */}
