@@ -300,7 +300,7 @@ const Contact = () => {
   return (
     <section id="contact" className="contact-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title">Get in Touch</h2>
+        <h2 className="section-title">Contact</h2>
         
         <p className="contact-intro">
           I'm always interested in research collaborations, speaking opportunities, and mentoring talented students. 
