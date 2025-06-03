@@ -1,13 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap");
 
 /* CSS Reset and Base Styles */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
@@ -16,8 +18,8 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -28,7 +30,12 @@ body {
   scroll-behavior: smooth;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-weight: 600;
@@ -70,32 +77,32 @@ button:focus {
 
 /* Modern color scheme */
 :root {
-  --color-primary: #623CEA;
-  --color-secondary: #FF7D54;
-  --color-accent: #2CDCBD;
-  --color-highlight: #F2C94C;
-  --color-dark: #1A1A2E;
+  --color-primary: #623cea;
+  --color-secondary: #ff7d54;
+  --color-accent: #2cdcbd;
+  --color-highlight: #f2c94c;
+  --color-dark: #1a1a2e;
   --color-dark-alt: #242436;
-  --color-light: #F9F9FD;
+  --color-light: #f9f9fd;
   --color-gray: #888;
   --color-gray-light: #aaa;
-  
+
   /* Typography */
-  --font-primary: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-display: 'Outfit', sans-serif;
-  
+  --font-primary: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+
   /* Transitions */
   --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-medium: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-  
+
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
   --spacing-lg: a4rem;
   --spacing-xl: 8rem;
-  
+
   /* Container widths */
   --container-sm: 640px;
   --container-md: 768px;
@@ -109,10 +116,13 @@ button:focus {
   --border-radius-lg: 24px;
   --border-radius-xl: 32px;
   --border-radius-full: 9999px;
-  
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
   /* Base styles */
   font-family: var(--font-primary);
@@ -127,13 +137,13 @@ button:focus {
   scroll-behavior: smooth;
 
   /* Scrollbar Colors - Light Theme */
-  --scrollbar-thumb: linear-gradient(135deg, #623CEA 0%, #FF7D54 100%);
+  --scrollbar-thumb: linear-gradient(135deg, #623cea 0%, #ff7d54 100%);
   --scrollbar-track: #f0f0f0;
   --scrollbar-hover: linear-gradient(135deg, #5028d1 0%, #e05e3d 100%);
 }
 
 /* Dark theme adjustments */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --color-primary: #8665f7;
   --color-secondary: #ff9474;
   --color-accent: #2cdcbd;
@@ -143,23 +153,23 @@ button:focus {
   --color-light: #1a1a2e;
   --color-gray: #888;
   --color-gray-light: #aaa;
-  
+
   /* Typography */
-  --font-primary: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-display: 'Outfit', sans-serif;
-  
+  --font-primary: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+
   /* Transitions */
   --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-medium: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-  
+
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
   --spacing-lg: a4rem;
   --spacing-xl: 8rem;
-  
+
   /* Container widths */
   --container-sm: 640px;
   --container-md: 768px;
@@ -173,10 +183,13 @@ button:focus {
   --border-radius-lg: 24px;
   --border-radius-xl: 32px;
   --border-radius-full: 9999px;
-  
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
   /* Base styles */
   font-family: var(--font-primary);
@@ -221,7 +234,7 @@ button:focus {
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #623CEA var(--scrollbar-track);
+  scrollbar-color: #623cea var(--scrollbar-track);
 }
 
 /* Animation for scrollbar gradient */
@@ -249,7 +262,12 @@ body {
   background-color: var(--color-light);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.2;
@@ -326,7 +344,11 @@ section {
 
 /* Utility classes */
 .text-gradient {
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -354,7 +376,9 @@ section {
 }
 
 /* Fix for Intermittent Scrollbar Issue */
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -363,7 +387,8 @@ html, body, #root {
   overscroll-behavior-x: none; /* Prevents bounce effects on some browsers */
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden; /* Force hidden horizontal scrollbar */
   max-width: 100vw; /* Ensure no content exceeds viewport width */
   position: relative; /* For proper overflow handling */
@@ -377,8 +402,10 @@ body {
 }
 
 /* Fix GSAP animations to prevent overflow */
-.gsap-marker-scroller-start, .gsap-marker-scroller-end, 
-.gsap-marker-start, .gsap-marker-end {
+.gsap-marker-scroller-start,
+.gsap-marker-scroller-end,
+.gsap-marker-start,
+.gsap-marker-end {
   display: none !important; /* Hide GSAP markers that might cause scrollbar */
 }
 
@@ -387,7 +414,7 @@ body {
   section {
     padding: var(--spacing-lg) var(--spacing-md);
   }
-  
+
   .container {
     padding: 0 var(--spacing-md);
   }
@@ -407,7 +434,7 @@ body {
   animation: none !important;
 }
 
-/* Force Framer Motion components to be visible on mobile */
+/* Force Framer Motion components to be visible when motion is disabled */
 .disable-motion [data-framer-component-type],
 .disable-motion [data-motion],
 .disable-motion div[style*="transform:"],
@@ -418,27 +445,45 @@ body {
   filter: none !important;
   visibility: visible !important;
   display: block !important;
-  /* Allow only simple fade transitions for better performance */
   transition: opacity 0.3s ease-out !important;
 }
 
-/* Fix specific motion component issues */
-.disable-motion [data-framer-component-type="MotionDiv"],
+/* Fix specific motion component issues when motion is disabled */
 .disable-motion .framer-motion-element {
   transform: none !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
 
-/* Fix for components that hide content until animated */
-.disable-motion .waiting-for-animation,
-.disable-motion .hidden-until-animated {
+/* Hero section specific motion fixes */
+.disable-motion .hero-section,
+.disable-motion .hero-section * {
   opacity: 1 !important;
-  visibility: visible !important;
   transform: none !important;
+  visibility: visible !important;
+  animation: none !important;
+  transition: none !important;
 }
 
-/* Ensure Education section timeline elements are visible */
+/* Ensure Hero elements are immediately visible when motion is disabled */
+.disable-motion .hero-content,
+.disable-motion .hero-image,
+.disable-motion .hero-greeting,
+.disable-motion .hero-name,
+.disable-motion .hero-title,
+.disable-motion .hero-description,
+.disable-motion .hero-stats,
+.disable-motion .cta-buttons,
+.disable-motion .image-container,
+.disable-motion .floating-element,
+.disable-motion .scroll-indicator {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Ensure Education section timeline elements are visible when motion is disabled */
 .disable-motion .timeline-item,
 .disable-motion .education-content,
 .disable-motion .education-card {
@@ -447,16 +492,48 @@ body {
   visibility: visible !important;
 }
 
-/* Animation override for scrollbar thumb */
-.is-mobile-device ::-webkit-scrollbar-thumb {
-  animation: none !important;
-  background: rgba(0, 102, 204, 0.5) !important;
+/* Remove Research component interference - let component handle its own animations */
+
+/* Navigation fixes - these apply regardless of motion settings */
+.section-content-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  clip-path: none !important;
 }
 
-/* Replace beam-pulse animation with static styling on mobile */
-.is-mobile-device .beam-path-highlight {
-  animation: none !important;
-  stroke-dasharray: none !important;
-  stroke-width: 3px !important;
-  opacity: 0.8 !important;
+/* Ensure immediate visibility on navigation */
+.navigation-triggered * {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  clip-path: none !important;
+  transition: none !important;
+}
+
+/* Force content visibility when scrolled to */
+.in-viewport {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  clip-path: none !important;
+}
+
+/* Fallback for sections that should always be visible */
+section {
+  min-height: auto;
+}
+
+section > * {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Override GSAP hidden states during navigation */
+.force-visible,
+.force-visible * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  clip-path: none !important;
 }

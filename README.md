@@ -3,6 +3,7 @@
 This folder contains all the content data for the website. You can edit these files to update the information displayed on the website without touching any of the website code.
 
 ## Table of Contents
+
 - [How to Edit Files](#how-to-edit-files)
 - [Collaborations Data](#collaborations-data)
 - [Projects Data](#projects-data)
@@ -12,12 +13,14 @@ This folder contains all the content data for the website. You can edit these fi
 ## How to Edit Files
 
 ### Important Rules
+
 1. **Don't change the file names** - keep the files named exactly as they are
 2. **Don't delete the first and last lines** of each file (`export const...` and closing `];`)
 3. **Maintain the format** - each entry follows the same pattern with commas and curly braces
 4. **Always save your changes** after editing
 
 ### Step-by-Step Editing
+
 1. Open the file you want to edit using a text editor like Notepad, Notepad++, Visual Studio Code, or TextEdit
 2. Find the entry you want to change
 3. Edit only the text between quotes `"example text"`
@@ -92,6 +95,7 @@ This file controls the projects section of the website. Each entry has:
 ### About Image Sources
 
 For project images, you can either:
+
 1. Use a direct URL to an image on the internet (must start with `http://` or `https://`)
 2. Use one of the existing image references: `"first"`, `"third"`, `"fifth"`, or `"sixth"`
 
@@ -100,6 +104,7 @@ If you want to add new project images, please contact your web developer.
 ### Project Categories
 
 The website allows filtering projects by category. Use only these categories:
+
 - `"wearable"` - For wearable robotic devices
 - `"foldable"` - For foldable/metamorphic mechanisms
 - `"exoskeleton"` - For exoskeleton systems
@@ -140,7 +145,7 @@ To change an icon, you can copy-paste a different emoji from websites like [Emoj
 Just add more items inside the square brackets, separated by commas. For example:
 
 ```javascript
-technologies: ["First Item", "Second Item", "Third Item", "Fourth Item"]
+technologies: ["First Item", "Second Item", "Third Item", "Fourth Item"];
 ```
 
 ### What if my text is very long?
@@ -155,6 +160,7 @@ description: "This is the first part of my description " +
 ### What if I make a mistake and the website breaks?
 
 If you save a file with errors and the website stops working:
+
 1. Reopen the file you just edited
 2. Look for missing quotes, commas, or braces
 3. If you can't find the error, restore from your latest backup or contact your web developer

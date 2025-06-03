@@ -1,75 +1,79 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import only, don't register
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PointerHighlight } from '../ui/PointerHighlight';
 import { researchTopics } from '../../data/research';
 import './Research.css';
 
 const Research = () => {
   const sectionRef = useRef(null);
-  
+  const animationsInitialized = useRef(false);
+
   useEffect(() => {
-    const researchItems = document.querySelectorAll('.research-item');
-    
-    // Create a specific timeline for the research section title with better settings
-    const titleTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current.querySelector('.section-title3'),
-        start: 'top 75%',
-        end: 'top 25%',
-        toggleActions: 'play none none reverse',
-        id: 'research-title-animation',
-        markers: false // Remove this in production
+    // Prevent duplicate initialization
+    if (animationsInitialized.current) return;
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const researchItems = section.querySelectorAll('.research-item');
+    const titleElement = section.querySelector('.section-title3');
+    const ctaElement = section.querySelector('.research-cta');
+
+    // Mark as initialized
+    animationsInitialized.current = true;
+
+    // Kill any existing animations for this section first
+    ScrollTrigger.getAll().forEach(trigger => {
+      if (trigger.vars.id && trigger.vars.id.includes('research-')) {
+        trigger.kill();
       }
     });
-    
-    titleTl.fromTo(
-      sectionRef.current.querySelector('.section-title3'),
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power3.out"
-      }
-    );
-        gsap.fromTo(
-      '.section-title3',
-      { 
-        y: 50, 
-        opacity: 0,
-        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
-      },
-      {
-        y: 0,
-        opacity: 1,
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-        duration: 1,
-        ease: "power3.out",
+
+    // Create title animation
+    let titleTl = null;
+    if (titleElement) {
+      titleTl = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%'
+          trigger: titleElement,
+          start: 'top 75%',
+          end: 'top 25%',
+          toggleActions: 'play none none reverse',
+          id: 'research-title-animation',
+          markers: false
         }
-      }
-    );
-    
-    // Enhanced staggered animation for research items with individual triggers
+      });
+
+      titleTl.fromTo(
+        titleElement,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out"
+        }
+      );
+    }
+
+    // Create individual timelines for research items
+    const itemTimelines = [];
     researchItems.forEach((item, index) => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: item,
-          start: 'top 85%', // More specific start point
-          end: 'bottom 15%', // More specific end point
+          start: 'top 85%',
+          end: 'bottom 15%',
           toggleActions: 'play none none reverse',
           id: `research-item-animation-${index}`,
-          markers: false // Remove this in production
+          markers: false
         }
       });
-      
+
       tl.fromTo(
         item,
-        { 
-          y: 80, 
+        {
+          y: 80,
           opacity: 0,
           scale: 0.95
         },
@@ -80,55 +84,90 @@ const Research = () => {
           duration: 0.7,
           ease: "power2.out"
         }
-      ).fromTo(
-        item.querySelector('.research-icon'),
-        { scale: 0.5, opacity: 0, rotation: -30 },
-        { scale: 1, opacity: 1, rotation: 0, duration: 0.5 },
-        "-=0.4"
-      ).fromTo(
-        item.querySelector('h3'),
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5 },
-        "-=0.3"
-      ).fromTo(
-        item.querySelector('p'),
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5 },
-        "-=0.2"
-      ).fromTo(
-        item.querySelector('.research-keywords'),
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 },
-        "-=0.3"
       );
-    });
-    
-    // Animate the CTA section
-    gsap.fromTo(
-      '.research-cta',
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: '.research-cta',
-          start: 'top 80%'
-        }
+
+      const icon = item.querySelector('.research-icon');
+      const title = item.querySelector('h3');
+      const description = item.querySelector('p');
+      const keywords = item.querySelector('.research-keywords');
+
+      if (icon) {
+        tl.fromTo(
+          icon,
+          { scale: 0.5, opacity: 0, rotation: -30 },
+          { scale: 1, opacity: 1, rotation: 0, duration: 0.5 },
+          "-=0.4"
+        );
       }
-    );
-    
-    // Improved cleanup function
-    return () => {
-      if (titleTl) titleTl.kill();
-      
-      // Kill all ScrollTrigger instances related to this component
-      const researchTriggers = ScrollTrigger.getAll().filter(trigger => 
-        (trigger.vars.id && trigger.vars.id.includes('research-')) || 
-        (trigger.vars.trigger && sectionRef.current && sectionRef.current.contains(trigger.vars.trigger))
+
+      if (title) {
+        tl.fromTo(
+          title,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 },
+          "-=0.3"
+        );
+      }
+
+      if (description) {
+        tl.fromTo(
+          description,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 },
+          "-=0.2"
+        );
+      }
+
+      if (keywords) {
+        tl.fromTo(
+          keywords,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 },
+          "-=0.3"
+        );
+      }
+
+      itemTimelines.push(tl);
+    });
+
+    // Animate CTA section
+    let ctaTl = null;
+    if (ctaElement) {
+      ctaTl = gsap.fromTo(
+        ctaElement,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: ctaElement,
+            start: 'top 80%',
+            id: 'research-cta-animation'
+          }
+        }
       );
-      
-      researchTriggers.forEach(trigger => trigger.kill());
+    }
+
+    // Cleanup function
+    return () => {
+      animationsInitialized.current = false;
+
+      // Kill title timeline
+      if (titleTl) titleTl.kill();
+
+      // Kill item timelines
+      itemTimelines.forEach(tl => tl.kill());
+
+      // Kill CTA timeline
+      if (ctaTl) ctaTl.kill();
+
+      // Kill all research-related ScrollTrigger instances
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars.id && trigger.vars.id.includes('research-')) {
+          trigger.kill();
+        }
+      });
     };
   }, []);
 
@@ -150,7 +189,7 @@ const Research = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="research-cta">
           <h3>Interested in Collaboration?</h3>
           <p>Reach out to discuss potential research partnerships or learn more about our ongoing projects.</p>

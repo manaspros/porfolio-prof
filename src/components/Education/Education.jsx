@@ -20,14 +20,14 @@ const Education = () => {
     threshold: 0.1,
     triggerOnce: true,
   });
-  
+
   // Use motion context with error handling
-  const { shouldUseMotion = false, isMobile = false } = 
+  const { shouldUseMotion = false, isMobile = false } =
     typeof useMotion === 'function' ? useMotion() : { shouldUseMotion: false, isMobile: false };
-  
+
   // Timeline content refs for static rendering
   const timelineRef = useRef(null);
-  
+
   // Track window size to handle resizing
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   // Add a state to ensure content visibility
@@ -40,12 +40,12 @@ const Education = () => {
     };
 
     window.addEventListener('resize', handleResize);
-    
+
     // Force content to be visible after a timeout
     const visibilityTimeout = setTimeout(() => {
       setContentVisible(true);
     }, 1000);
-    
+
     return () => {
       window.removeEventListener('resize', handleResize);
       clearTimeout(visibilityTimeout);
@@ -55,7 +55,7 @@ const Education = () => {
   useEffect(() => {
     // Always set content visible after component mount
     setContentVisible(true);
-    
+
     try {
       if (inView) {
         if (shouldUseMotion && !isMobile) {
@@ -75,7 +75,7 @@ const Education = () => {
       // Fall back to static content if animation fails
       controls.set('staticVisible');
     }
-    
+
   }, [controls, inView, shouldUseMotion, isMobile, windowWidth]);
 
   // Define animation variants
@@ -165,8 +165,8 @@ const Education = () => {
     if (shouldUseMotion && !isMobile && typeof motion !== 'undefined') {
       try {
         return (
-          <motion.section 
-            className={`${className} ${isMobile ? 'mobile-view' : ''} ${contentVisible ? 'content-visible' : ''}`} 
+          <motion.section
+            className={`${className} ${isMobile ? 'mobile-view' : ''} ${contentVisible ? 'content-visible' : ''}`}
             variants={variants}
             {...props}>
             {children}
@@ -182,7 +182,7 @@ const Education = () => {
         );
       }
     }
-    
+
     // Default to static rendering
     return (
       <section className={`${className} no-motion ${isMobile ? 'mobile-view' : ''} ${contentVisible ? 'content-visible' : ''}`}>
@@ -196,8 +196,8 @@ const Education = () => {
     if (shouldUseMotion && !isMobile && typeof motion !== 'undefined') {
       try {
         return (
-          <motion.div 
-            className={`${className} ${isMobile ? 'mobile-view' : ''} ${contentVisible ? 'content-visible' : ''}`} 
+          <motion.div
+            className={`${className} ${isMobile ? 'mobile-view' : ''} ${contentVisible ? 'content-visible' : ''}`}
             variants={variants}
             {...props}>
             {children}
@@ -213,7 +213,7 @@ const Education = () => {
         );
       }
     }
-    
+
     // Default to static rendering
     return (
       <div className={`${className} no-motion ${isMobile ? 'mobile-view' : ''} ${contentVisible ? 'content-visible' : ''}`}>
@@ -226,7 +226,7 @@ const Education = () => {
     <section id="education" className={`education-section ${isMobile ? 'mobile-view' : ''} ${contentVisible ? 'content-visible' : ''}`} ref={ref}>
       <div className="edu-container">
         <h2 className="edu-section-title">Education & Research Experience</h2>
-        
+
         <div className="timelines-container">
           {/* Education Timeline */}
           <SafeMotionSection
@@ -238,7 +238,7 @@ const Education = () => {
           >
             <h3 className="timeline-heading-title education-heading">Education</h3>
             <div className="main-timeline-line education-line"></div>
-            
+
             <div className={`timeline-container education ${isMobile ? 'mobile-layout' : ''}`}>
               {educationTimeline.map((edu, index) => (
                 <SafeMotionDiv
@@ -260,7 +260,7 @@ const Education = () => {
               ))}
             </div>
           </SafeMotionSection>
-          
+
           {/* Research Timeline */}
           <SafeMotionSection
             className="research-timeline timeline-block"
@@ -270,7 +270,7 @@ const Education = () => {
           >
             <h3 className="timeline-heading-title research-heading">Research Experience</h3>
             <div className="main-timeline-line research-line"></div>
-            
+
             <div className={`timeline-container research ${isMobile ? 'mobile-layout' : ''}`}>
               {researchExperience.map((exp, index) => (
                 <SafeMotionDiv
@@ -294,7 +294,7 @@ const Education = () => {
           </SafeMotionSection>
         </div>
       </div>
-      
+
       {/* Background decoration elements - simplified for mobile */}
       <div className={`education-bg-circle circle-1 ${isMobile ? 'reduced-opacity' : ''}`}></div>
       <div className={`education-bg-circle circle-2 ${isMobile ? 'reduced-opacity' : ''}`}></div>

@@ -11,15 +11,15 @@ const About = () => {
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
   const titleRef = useRef(null);
-  
+
   useEffect(() => {
     // Create separate timelines for title and content with their own triggers
-    
+
     // Title animation with more specific trigger settings
     const titleTl = gsap.timeline({
       scrollTrigger: {
         trigger: titleRef.current,
-        start: 'top 75%', 
+        start: 'top 75%',
         end: 'top 25%',
         toggleActions: 'play none none reverse',
         id: 'about-title-animation',
@@ -29,16 +29,16 @@ const About = () => {
     });
 
     titleTl.fromTo(
-      titleRef.current, 
+      titleRef.current,
       { y: 50, opacity: 0 },
-      { 
-        y: 0, 
-        opacity: 1, 
+      {
+        y: 0,
+        opacity: 1,
         duration: 0.8,
         ease: 'power3.out'
       }
     );
-    
+
     // Content animation with more specific trigger
     const contentTl = gsap.timeline({
       scrollTrigger: {
@@ -50,31 +50,13 @@ const About = () => {
         markers: false // Remove this in production
       }
     });
-    gsap.fromTo(
-      '.section-title3',
-      { 
-        y: 50, 
-        opacity: 0,
-        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
-      },
+
+    contentTl.fromTo(
+      contentRef.current,
+      { y: 100, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%'
-        }
-      }
-    );
-    contentTl.fromTo(
-      contentRef.current, 
-      { y: 100, opacity: 0 },
-      { 
-        y: 0, 
-        opacity: 1, 
         duration: 1.2,
         ease: 'power3.out'
       }
@@ -84,13 +66,13 @@ const About = () => {
     return () => {
       if (titleTl) titleTl.kill();
       if (contentTl) contentTl.kill();
-      
+
       // Kill specific ScrollTrigger instances
-      const aboutTriggers = ScrollTrigger.getAll().filter(trigger => 
-        trigger.vars.id === 'about-title-animation' || 
+      const aboutTriggers = ScrollTrigger.getAll().filter(trigger =>
+        trigger.vars.id === 'about-title-animation' ||
         trigger.vars.id === 'about-content-animation'
       );
-      
+
       aboutTriggers.forEach(trigger => trigger.kill());
     };
   }, []);
@@ -114,7 +96,7 @@ const About = () => {
               </PointerHighlight>
             </h3>
             <p>
-              Dr. Suthar is working as an Assistant Professor at the School of Artificial Intelligence and Data Science at IIT Jodhpur, India. 
+              Dr. Suthar is working as an Assistant Professor at the School of Artificial Intelligence and Data Science at IIT Jodhpur, India.
               He is also associated with the Next-Gen BIRD Lab, focusing on Bio-inspired Robotics and Artificial Intelligence research.
             </p>
             <p>

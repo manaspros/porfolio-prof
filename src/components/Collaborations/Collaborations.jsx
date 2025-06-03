@@ -10,6 +10,32 @@ const Collaborations = () => {
   const sectionRef = useRef(null);
   const cardsRef = useRef(null);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [theme, setTheme] = useState('light');
+
+  // Theme detection effect
+  useEffect(() => {
+    // Get initial theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    const currentTheme = document.documentElement.getAttribute('data-theme') || savedTheme;
+    setTheme(currentTheme);
+
+    // Listen for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          const newTheme = document.documentElement.getAttribute('data-theme') || 'light';
+          setTheme(newTheme);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     // Exit early if we're missing dependencies
@@ -96,18 +122,18 @@ const Collaborations = () => {
           const sectionTriggers = ScrollTrigger.getAll().filter(trigger => {
             // Check if trigger element is within our section or matches our selectors
             const triggerElement = trigger.vars.trigger;
-            
+
             if (triggerElement instanceof Element) {
               return sectionRef.current.contains(triggerElement);
             }
-            
+
             if (typeof triggerElement === 'string') {
               return triggerElement.includes('collab');
             }
-            
+
             return false;
           });
-          
+
           // Kill those triggers
           sectionTriggers.forEach(trigger => {
             if (trigger && trigger.kill) {
@@ -130,15 +156,19 @@ const Collaborations = () => {
   };
 
   return (
-    <section id="collaborations" className="collaborations-section" ref={sectionRef}>
+    <section
+      id="collaborations"
+      className={`collaborations-section ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}
+      ref={sectionRef}
+    >
       <div className="section-container">
         <h2 className="collab-title2">Collaborations</h2>
         <p className="collab-subtitle">Proudly working with leading institutions and organizations to advance the frontier of robotics and AI research.</p>
-        
+
         <div className="collab-grid" ref={cardsRef}>
           {collaborations.map((collab) => (
-            <div 
-              className={`collab-card ${hoveredCard === collab.id ? 'hovered' : ''}`}
+            <div
+              className={`collab-card ${hoveredCard === collab.id ? 'hovered' : ''} ${theme === 'dark' ? 'dark-card' : 'light-card'}`}
               key={collab.id}
               onMouseEnter={() => handleCardHover(collab.id)}
               onMouseLeave={handleCardLeave}
@@ -150,16 +180,16 @@ const Collaborations = () => {
                 <h3 className="collab-name">{collab.name}</h3>
                 <p className="collab-description">{collab.description}</p>
                 <div className="collab-button-container">
-                  <a 
-                    href={collab.website} 
-                    target="_blank" 
+                  <a
+                    href={collab.website}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="collab-button"
                   >
                     Visit Website
                     <svg className="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M7 17L17 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M7 7H17V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M7 17L17 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M7 7H17V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </a>
                 </div>
@@ -172,14 +202,14 @@ const Collaborations = () => {
 
         <div className="collab-footer">
           <p>Interested in collaborating with our research group?</p>
-          <a href="#contact" className="collab-contact-button">Get in Touch</a>
+          <a href="#contact" className={`collab-contact-button ${theme === 'dark' ? 'dark-button' : 'light-button'}`}>Get in Touch</a>
         </div>
       </div>
-      
+
       {/* Background decorations */}
-      <div className="collab-bg-decoration collab-glow-1"></div>
-      <div className="collab-bg-decoration collab-glow-2"></div>
-      <div className="collab-bg-decoration collab-glow-3"></div>
+      <div className={`collab-bg-decoration collab-glow-1 ${theme === 'dark' ? 'dark-glow' : 'light-glow'}`}></div>
+      <div className={`collab-bg-decoration collab-glow-2 ${theme === 'dark' ? 'dark-glow' : 'light-glow'}`}></div>
+      <div className={`collab-bg-decoration collab-glow-3 ${theme === 'dark' ? 'dark-glow' : 'light-glow'}`}></div>
     </section>
   );
 };

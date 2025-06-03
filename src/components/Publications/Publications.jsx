@@ -16,13 +16,13 @@ const Publications = () => {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalCitations: 0,
-    journalCount: 0,
-    conferenceCount: 0
+    hIndex: 0,
+    i10Index: 0
   });
   const [lastUpdated, setLastUpdated] = useState(null);
   const sectionRef = useRef(null);
   const pubListRef = useRef(null);
-  
+
   // Fetch publications from Google Scholar on component mount
   useEffect(() => {
     // Wrap everything in a try/catch to prevent breaking the entire app
@@ -31,13 +31,13 @@ const Publications = () => {
         try {
           setLoading(true);
           let fetchedPublications;
-          
+
           // First try regular fetch with proxy
           try {
             fetchedPublications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
           } catch (proxyError) {
             console.error('Proxy fetch failed:', proxyError);
-            
+
             // If proxy fails, try direct fetch
             try {
               fetchedPublications = await googleScholarService.directFetch('3KZSSEIAAAAJ');
@@ -46,13 +46,13 @@ const Publications = () => {
               // Will fall through to fallback mock data
             }
           }
-          
+
           setPublications(fetchedPublications);
-          
+
           // Calculate statistics
           const publicationStats = await googleScholarService.getPublicationStats(fetchedPublications);
           setStats(publicationStats);
-          
+
           setLastUpdated(new Date().toLocaleString());
         } catch (error) {
           console.error('Error loading publications:', error);
@@ -73,23 +73,23 @@ const Publications = () => {
   const handleRefresh = async () => {
     try {
       setLoading(true);
-      
+
       // First try to clear the cache
       try {
         localStorage.removeItem('scholar_publications');
       } catch (e) {
         console.warn('Failed to clear cache:', e);
       }
-      
+
       // Try fetching fresh data
       const freshPublications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
       setPublications(freshPublications);
-      
+
       const publicationStats = await googleScholarService.getPublicationStats(freshPublications);
       setStats(publicationStats);
-      
+
       // Update the last updated time and indicate the data source
-      const source = localStorage.getItem('data_source') || 'unknown source';
+      const source = localStorage.getItem('data_source') || 'Google Scholar';
       setLastUpdated(`${new Date().toLocaleString()} (from ${source})`);
     } catch (error) {
       console.error('Error refreshing publications:', error);
@@ -97,7 +97,7 @@ const Publications = () => {
       setLoading(false);
     }
   };
-  
+
   // Separate animation effect
   useEffect(() => {
     // Ensure ScrollTrigger is ready before using it
@@ -113,8 +113,8 @@ const Publications = () => {
           // Animate section title with a reveal effect
           gsap.fromTo(
             '.section-title4',
-            { 
-              y: 50, 
+            {
+              y: 50,
               opacity: 0,
               clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
             },
@@ -131,7 +131,7 @@ const Publications = () => {
             }
           );
         }
-        
+
         // Safe way to select filter buttons
         const filterControls = document.querySelector('.filter-controls');
         if (filterControls) {
@@ -140,8 +140,8 @@ const Publications = () => {
             // Create a staggered reveal effect for filter buttons
             gsap.fromTo(
               filterButtons,
-              { 
-                scale: 0.8, 
+              {
+                scale: 0.8,
                 opacity: 0,
                 y: 20
               },
@@ -160,7 +160,7 @@ const Publications = () => {
             );
           }
         }
-        
+
         // Safe way to handle publication items
         const updatePublicationItems = () => {
           if (pubListRef.current) {
@@ -169,8 +169,8 @@ const Publications = () => {
               // Setup a scroll animation context for publication items
               gsap.fromTo(
                 items,
-                { 
-                  y: 50, 
+                {
+                  y: 50,
                   opacity: 0,
                   x: -20,
                   rotateX: "10deg"
@@ -206,12 +206,12 @@ const Publications = () => {
             // Animated 3D metrics counter
             gsap.fromTo(
               metricElements,
-              { 
+              {
                 opacity: 0,
                 rotateY: 90
               },
               {
-                textContent: function(i, target) {
+                textContent: function (i, target) {
                   return target.getAttribute('data-value') || 0;
                 },
                 opacity: 1,
@@ -241,23 +241,23 @@ const Publications = () => {
           const componentTriggers = ScrollTrigger.getAll().filter(trigger => {
             // Only process triggers that have vars and a trigger property
             if (!trigger.vars || !trigger.vars.trigger) return false;
-            
+
             // Handle different types of triggers
             const triggerElement = trigger.vars.trigger;
-            
+
             // Case 1: If the trigger is a DOM element, check if it's contained in our section
             if (triggerElement instanceof Element) {
               return sectionRef.current.contains(triggerElement);
             }
-            
+
             // Case 2: If the trigger is a string selector, check if it's related to publications
             if (typeof triggerElement === 'string') {
-              return triggerElement.includes('publication') || 
-                    triggerElement.includes('pub-') ||
-                    triggerElement === '.section-title4' ||
-                    triggerElement === '.filter-controls';
+              return triggerElement.includes('publication') ||
+                triggerElement.includes('pub-') ||
+                triggerElement === '.section-title4' ||
+                triggerElement === '.filter-controls';
             }
-            
+
             // Case 3: If trigger has a closest method (might be a wrapped selector)
             if (triggerElement.closest && typeof triggerElement.closest === 'function') {
               try {
@@ -267,11 +267,11 @@ const Publications = () => {
                 return false;
               }
             }
-            
+
             // Default: don't include triggers we can't identify
             return false;
           });
-          
+
           // Kill the identified triggers
           componentTriggers.forEach(trigger => {
             if (trigger && trigger.kill) {
@@ -284,23 +284,23 @@ const Publications = () => {
       }
     };
   }, [activeFilter, visibleCount, publications]);
-  
+
   // Handle hover effects
   const handleMouseEnter = (id) => {
     setHoveredItem(id);
   };
-  
+
   const handleMouseLeave = () => {
     setHoveredItem(null);
   };
-  
+
   // Always use all publications since we're removing filters
   const filteredPublications = publications;
   const displayedPublications = filteredPublications.slice(0, visibleCount);
 
   // Check if there are more publications to load
   const hasMorePublications = visibleCount < filteredPublications.length;
-  
+
   // Handle load more
   const handleLoadMore = () => {
     // Use native smooth scrolling instead of GSAP
@@ -311,16 +311,16 @@ const Publications = () => {
     setVisibleCount(prev => prev + 10);
   };
 
-  
+
   return (
     <section id="publications" className="publications-section" ref={sectionRef}>
       <div className="publications-bg"></div>
       <div className="section-container">
         <div className="publications-header">
           <h2 className="section-title4">
-            <ResearchHighlight>Publications</ResearchHighlight> 
+            <ResearchHighlight>Publications</ResearchHighlight>
           </h2>
-          
+
           {/* Loading indicator and refresh controls */}
           <div className="publications-controls">
             {loading && (
@@ -329,33 +329,33 @@ const Publications = () => {
                 <span>Loading publication data...</span>
               </div>
             )}
-            
+
             <div className="update-info">
               {lastUpdated && (
                 <span className="last-updated">
-                  Last updated: {lastUpdated} <small>(using local data)</small>
+                  Last updated: {lastUpdated.replace('(using local data)', '(using Google Scholar data)')}
                 </span>
               )}
-              <button 
-                className="refresh-btn" 
+              <button
+                className="refresh-btn"
                 onClick={handleRefresh}
                 disabled={loading}
                 title="Refresh publications from local data"
               >
                 <svg className={`refresh-icon ${loading ? 'spinning' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 4V9H4.58152M4.58152 9C5.80611 6.78392 8.18951 5.19621 11.0174 5.19621C15.0138 5.19621 18.25 8.43241 18.25 12.4288C18.25 16.4252 15.0138 19.6614 11.0174 19.6614C8.18951 19.6614 5.80611 18.0737 4.58152 15.8576M4.58152 9H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M4 4V9H4.58152M4.58152 9C5.80611 6.78392 8.18951 5.19621 11.0174 5.19621C15.0138 5.19621 18.25 8.43241 18.25 12.4288C18.25 16.4252 15.0138 19.6614 11.0174 19.6614C8.18951 19.6614 5.80611 18.0737 4.58152 15.8576M4.58152 9H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 Refresh
               </button>
             </div>
           </div>
         </div>
-        
-        
+
+
         <div className="publications-list" ref={pubListRef}>
           {displayedPublications.map(pub => (
-            <div 
-              className={`publication-item ${hoveredItem === pub.id ? 'hovered' : ''} publication-type-${pub.type}`} 
+            <div
+              className={`publication-item ${hoveredItem === pub.id ? 'hovered' : ''} publication-type-${pub.type}`}
               key={pub.id}
               onMouseEnter={() => handleMouseEnter(pub.id)}
               onMouseLeave={handleMouseLeave}
@@ -381,19 +381,19 @@ const Publications = () => {
                 <div className="pub-links">
                   <a href={pub.url} className="pub-link primary" target="_blank" rel="noopener noreferrer">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M15 3H21V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M10 14L21 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M15 3H21V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M10 14L21 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     View Publication
                   </a>
                   <a href="#" className="pub-link secondary">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M9 7H7V9H9V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M9 15H7V17H9V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M17 7H11V9H17V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M17 15H11V17H17V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M9 7H7V9H9V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M9 15H7V17H9V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M17 7H11V9H17V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M17 15H11V17H17V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     Cite
                   </a>
@@ -401,13 +401,13 @@ const Publications = () => {
               </div>
             </div>
           ))}
-          
+
           {publications.length === 0 && !loading && (
             <div className="no-publications">
               <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3 17L12 22L21 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3 12L12 17L21 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M3 17L12 22L21 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M3 12L12 17L21 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <h3>No publications found</h3>
               <p>Unable to fetch publications at this time. Please try refreshing.</p>
@@ -417,19 +417,19 @@ const Publications = () => {
             </div>
           )}
         </div>
-        
+
         {hasMorePublications && (
           <div className="load-more-controls">
             <button className="load-more-btn" onClick={handleLoadMore}>
               <span>Load More Publications</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 14L12 21L5 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 21V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M19 14L12 21L5 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M12 21V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
         )}
-        
+
         <div className="publications-metrics2">
           <div className="metrics-card2">
             <div className="metric-item">
@@ -447,25 +447,22 @@ const Publications = () => {
               <span className="metric-label">Total Citations</span>
             </div>
             <div className="metric-item">
-              <span className="metric-number" data-value={stats.journalCount}>{stats.journalCount}</span>
-              <svg className="journal-icon" viewBox="0 0 24 24" width="40" height="40">
+              <span className="metric-number" data-value={stats.hIndex}>{stats.hIndex}</span>
+              <svg className="h-index-icon" viewBox="0 0 24 24" width="40" height="40">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="#0066cc" opacity="0.2"></rect>
-                <line x1="3" y1="9" x2="21" y2="9" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></line>
-                <line x1="9" y1="21" x2="9" y2="9" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></line>
-                <rect x="12" y="12" width="6" height="3" rx="1" fill="#0066cc"></rect>
-                <rect x="12" y="17" width="6" height="3" rx="1" fill="#0066cc"></rect>
+                <path d="M7 7v10M17 7v10M7 12h10" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></path>
+                <circle cx="12" cy="6" r="1.5" fill="#0066cc"></circle>
               </svg>
-              <span className="metric-label">Journal Articles</span>
+              <span className="metric-label">H-index</span>
             </div>
             <div className="metric-item">
-              <span className="metric-number" data-value={stats.conferenceCount}>{stats.conferenceCount}</span>
-              <svg className="conference-icon" viewBox="0 0 24 24" width="40" height="40">
+              <span className="metric-number" data-value={stats.i10Index}>{stats.i10Index}</span>
+              <svg className="i10-index-icon" viewBox="0 0 24 24" width="40" height="40">
                 <circle cx="12" cy="12" r="9" fill="#0066cc" opacity="0.2"></circle>
-                <path d="M12,8 L12,16" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></path>
-                <path d="M9,10 L15,10" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></path>
-                <path d="M7,14 L17,14" stroke="#0066cc" strokeWidth="2" strokeLinecap="round"></path>
+                <path d="M8 7v10M10 7h2M14 7v4a3 3 0 110 6v0a3 3 0 01-3-3" stroke="#0066cc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                <circle cx="14" cy="17" r="1" fill="#0066cc"></circle>
               </svg>
-              <span className="metric-label">Conference Papers</span>
+              <span className="metric-label">i10-index</span>
             </div>
           </div>
         </div>

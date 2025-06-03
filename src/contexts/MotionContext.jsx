@@ -17,33 +17,47 @@ export const MotionProvider = ({ children }) => {
   useEffect(() => {
     // Check if we're on a mobile device
     const checkMobileDevice = () => {
-      const isMobile = window.innerWidth <= 768 || 
-                       navigator.maxTouchPoints > 0 ||
-                       window.matchMedia('(pointer: coarse)').matches;
-      
+      const isMobile = window.innerWidth <= 768 ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia('(pointer: coarse)').matches;
+
       // Check for low power mode
-      const isLowPower = navigator.hardwareConcurrency && 
-                         navigator.hardwareConcurrency <= 4;
-      
+      const isLowPower = navigator.hardwareConcurrency &&
+        navigator.hardwareConcurrency <= 4;
+
       // Check if user has requested reduced motion
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      
+
       // Use motion except on mobile, low power devices, or if user prefers reduced motion
-      const shouldUseMotion = !prefersReducedMotion && 
-                             !(isMobile && isLowPower);
-      
+      const shouldUseMotion = !prefersReducedMotion &&
+        !(isMobile && isLowPower);
+
       setDeviceInfo({
         shouldUseMotion,
         isMobile,
         isLowPower,
       });
+
+      // Apply classes to body based on motion capabilities
+      const body = document.body;
+      if (!shouldUseMotion) {
+        body.classList.add('disable-motion');
+      } else {
+        body.classList.remove('disable-motion');
+      }
+
+      if (isMobile) {
+        body.classList.add('is-mobile-device');
+      } else {
+        body.classList.remove('is-mobile-device');
+      }
     };
 
     checkMobileDevice();
 
     // Recheck on window resize
     window.addEventListener('resize', checkMobileDevice);
-    
+
     return () => {
       window.removeEventListener('resize', checkMobileDevice);
     };

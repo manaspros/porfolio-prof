@@ -14,7 +14,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(249, 249, 253, 0.8) 0%, rgba(242, 242, 250, 0.8) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(249, 249, 253, 0.8) 0%,
+    rgba(242, 242, 250, 0.8) 100%
+  );
   z-index: -2;
 }
 
@@ -30,7 +34,11 @@
   right: 0;
   width: 30vw;
   height: 30vw;
-  background: radial-gradient(circle, rgba(98, 60, 234, 0.15) 0%, rgba(98, 60, 234, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(98, 60, 234, 0.15) 0%,
+    rgba(98, 60, 234, 0) 70%
+  );
 }
 
 .blur-2 {
@@ -38,7 +46,11 @@
   left: 0;
   width: 25vw;
   height: 25vw;
-  background: radial-gradient(circle, rgba(255, 125, 84, 0.1) 0%, rgba(255, 125, 84, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 125, 84, 0.1) 0%,
+    rgba(255, 125, 84, 0) 70%
+  );
 }
 
 .hero-container {
@@ -139,7 +151,7 @@
   width: 100%;
   height: 100%;
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  background-image: url('https://placehold.co/400x500');
+  background-image: url("https://placehold.co/400x500");
   background-size: cover;
   background-position: center;
   box-shadow: var(--shadow-lg);
@@ -228,7 +240,7 @@
 }
 
 .scroll-arrow:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 6px;
   left: 50%;
@@ -247,18 +259,19 @@
 }
 
 @keyframes scrollDown {
-  0% { 
+  0% {
     opacity: 1;
     transform: translateY(0);
   }
-  100% { 
+  100% {
     opacity: 0;
     transform: translateY(15px);
   }
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -307,45 +320,45 @@
     min-height: auto; /* Let the content determine the height */
     padding: 120px 0 80px; /* Adjust padding for better mobile view */
   }
-  
+
   .hero-container {
     flex-direction: column;
     text-align: center;
     width: 100%;
   }
-  
+
   .hero-content {
     order: 2;
     margin-bottom: 20px;
   }
-  
+
   .hero-image {
     order: 1;
     margin-bottom: 40px;
   }
-  
+
   .hero-stats {
     justify-content: center;
   }
-  
+
   .cta-buttons {
     justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
   }
-  
+
   .image-container {
     width: 280px;
     height: 350px;
   }
-  
+
   .floating-chip {
     top: 20px;
     left: 0;
     max-width: 180px;
     font-size: 0.9rem;
   }
-  
+
   .floating-shape {
     bottom: 30px;
     right: 10px;
@@ -356,27 +369,27 @@
   .hero-section {
     padding: 100px 0 70px;
   }
-  
+
   .hero-stats {
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .cta-buttons {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .btn {
     width: 100%;
     max-width: 250px;
     text-align: center;
   }
-  
+
   .hero-name {
     font-size: clamp(2.2rem, 8vw, 3rem);
   }
-  
+
   .hero-title {
     font-size: clamp(1.3rem, 5vw, 1.8rem);
   }
@@ -387,43 +400,43 @@
   .hero-greeting {
     font-size: 1rem;
   }
-  
+
   .hero-name {
     font-size: clamp(1.8rem, 7vw, 2.5rem);
   }
-  
+
   .hero-title {
     font-size: clamp(1.1rem, 4vw, 1.5rem);
   }
-  
+
   .hero-description {
     font-size: 1rem;
     line-height: 1.5;
   }
-  
+
   .image-container {
     width: 240px;
     height: 300px;
   }
-  
+
   .floating-chip {
     max-width: 150px;
     padding: 6px 10px;
   }
-  
+
   .chip-text {
     font-size: 0.8rem;
   }
-  
+
   .floating-shape svg {
     width: 40px;
     height: 40px;
   }
-  
+
   .stat-number {
     font-size: 1.7rem;
   }
-  
+
   .stat-label {
     font-size: 0.8rem;
   }

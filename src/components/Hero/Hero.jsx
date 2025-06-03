@@ -11,6 +11,7 @@ const Hero = () => {
   const heroRef = useRef(null);
   const contentRef = useRef(null);
   const imageRef = useRef(null);
+  const animationsInitialized = useRef(false);
   const [scholarStats, setScholarStats] = useState({
     papers: '15+', // Fallback values
     journals: '7',
@@ -25,7 +26,7 @@ const Hero = () => {
         // Use the existing service to fetch publications
         const publications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
         const stats = await googleScholarService.getPublicationStats(publications);
-        
+
         // Update state with the fetched stats
         setScholarStats({
           papers: publications.length.toString(),
@@ -45,12 +46,21 @@ const Hero = () => {
 
   // Animation effect
   useEffect(() => {
-    // Make sure GSAP is available
-    if (!gsap) return;
-    
+    // Prevent duplicate initialization
+    if (animationsInitialized.current || !gsap) return;
+
+    animationsInitialized.current = true;
+
+    // Kill any existing hero animations first
+    ScrollTrigger.getAll().forEach(trigger => {
+      if (trigger.vars.id === 'hero-animations') {
+        trigger.kill();
+      }
+    });
+
     // Check if device is mobile for conditional animations
     const isMobile = window.innerWidth <= 768;
-    
+
     const tl = gsap.timeline();
 
     // Simplified animations for mobile
@@ -62,21 +72,21 @@ const Hero = () => {
         duration: 0.8,
         ease: 'power2.out'
       })
-      .to('.hero-image', {
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        ease: 'power2.out'
-      }, "-=0.4")
-      .to('.hero-cta', {
-        opacity: 1,
-        y: 0,
-        duration: 0.5
-      }, "-=0.3");
+        .to('.hero-image', {
+          opacity: 1,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power2.out'
+        }, "-=0.4")
+        .to('.hero-cta', {
+          opacity: 1,
+          y: 0,
+          duration: 0.5
+        }, "-=0.3");
     } else {
       // Original animations for desktop
       // Create timeline for hero animations with ScrollTrigger
-      const tl = gsap.timeline({ 
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top 80%', // Start when the top of hero section is 80% into the viewport
@@ -84,71 +94,72 @@ const Hero = () => {
           toggleActions: 'play none none reverse', // Play on enter, reverse on leave
           id: 'hero-animations' // Add ID for easier debugging
         },
-        defaults: { 
+        defaults: {
           ease: "power3.out",
           overwrite: 'auto', // Prevent animation conflicts
           clearProps: 'transform' // Clean up after animations
-        } 
+        }
       });
-      
+
       // Animate hero content elements
       tl.fromTo(
         '.hero-greeting',
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.8 }
       )
-      .fromTo(
-        '.hero-name',
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1 },
-        "-=0.4"
-      )
-      .fromTo(
-        '.hero-title',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
-        "-=0.6"
-      )
-      .fromTo(
-        '.hero-description',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
-        "-=0.4"
-      )
-      .fromTo(
-        '.hero-stats',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
-        "-=0.4"
-      )
-      .fromTo(
-        '.cta-buttons',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
-        "-=0.6"
-      )
-      .fromTo(
-        '.image-container',
-        { scale: 0.9, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.2 },
-        "-=1.2"
-      )
-      .fromTo(
-        '.floating-element',
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 },
-        "-=0.6"
-      )
-      .fromTo(
-        '.scroll-indicator',
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
-        "-=0.4"
-      );
+        .fromTo(
+          '.hero-name',
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1 },
+          "-=0.4"
+        )
+        .fromTo(
+          '.hero-title',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          "-=0.6"
+        )
+        .fromTo(
+          '.hero-description',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          "-=0.4"
+        )
+        .fromTo(
+          '.hero-stats',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          "-=0.4"
+        )
+        .fromTo(
+          '.cta-buttons',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          "-=0.6"
+        )
+        .fromTo(
+          '.image-container',
+          { scale: 0.9, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 1.2 },
+          "-=1.2"
+        )
+        .fromTo(
+          '.floating-element',
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 },
+          "-=0.6"
+        )
+        .fromTo(
+          '.scroll-indicator',
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          "-=0.4"
+        );
     }
-    
+
     // Clean up function
     return () => {
+      animationsInitialized.current = false;
       if (tl) tl.kill();
       // Kill any ScrollTrigger instances specific to this component
       ScrollTrigger.getAll().forEach(trigger => {
@@ -160,12 +171,12 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="hero-section" ref={heroRef}>
+    <section id="hero" className="hero-section" ref={heroRef}>
       {/* Background elements */}
       <div className="hero-bg"></div>
       <div className="blur-bg blur-1"></div>
       <div className="blur-bg blur-2"></div>
-      
+
       <div className="hero-container">
         <div className="hero-content" ref={contentRef}>
           <div className="hero-greeting">Hello, I'm</div>
@@ -178,12 +189,12 @@ const Hero = () => {
             Limbs, Exosuits, Exoskeletons, Haptic Devices, Metamorphic Drone Manipulators and
             Artificial Intelligence.
           </p>
-          
+
           <div className="hero-stats">
             <div className="hero-stat">
               <span className="stat-number">
-                {isLoading ? 
-                  <span className="loading-placeholder"></span> : 
+                {isLoading ?
+                  <span className="loading-placeholder"></span> :
                   scholarStats.papers
                 }
               </span>
@@ -197,15 +208,15 @@ const Hero = () => {
             </div>
             <div className="hero-stat">
               <span className="stat-number">
-                {isLoading ? 
-                  <span className="loading-placeholder"></span> : 
+                {isLoading ?
+                  <span className="loading-placeholder"></span> :
                   scholarStats.patents
                 }
               </span>
               <span className="stat-label">Patents</span>
             </div>
           </div>
-          
+
           <div className="cta-buttons">
             <a href="#research" className="btn primary">
               <span>View Research</span>
@@ -215,24 +226,24 @@ const Hero = () => {
             </a>
           </div>
         </div>
-        
+
         <div className="hero-image" ref={imageRef}>
           <div className="image-container">
             <div className="image-border"></div>
-            <div className="profile-image" style={{backgroundImage: "url('https://static.wixstatic.com/media/fbe72c_15555f894729405782c84e2d054ad033~mv2.jpg/v1/crop/x_28,y_0,w_391,h_510/fill/w_290,h_390,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Raj_1_edited.jpg')"}}></div>
+            <div className="profile-image" style={{ backgroundImage: "url('https://static.wixstatic.com/media/fbe72c_15555f894729405782c84e2d054ad033~mv2.jpg/v1/crop/x_28,y_0,w_391,h_510/fill/w_290,h_390,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Raj_1_edited.jpg')" }}></div>
             <div className="image-pattern"></div>
           </div>
-          
+
           <div className="floating-element floating-chip">
             <div className="chip-icon">🤖</div>
             <div className="chip-text">Robotics & AI Researcher</div>
           </div>
-          
+
           <div className="floating-element floating-shape">
             <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M30 0L60 30L30 60L0 30L30 0Z" fill="url(#paint0_linear)" />
               <defs>
-                       <linearGradient id="paint0_linear" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+                <linearGradient id="paint0_linear" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
                   <stop stopColor="#623CEA" />
                   <stop offset="1" stopColor="#FF7D54" />
                 </linearGradient>
@@ -241,7 +252,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="scroll-indicator">
         <div className="scroll-arrow"></div>
         <div className="scroll-text">Scroll Down</div>

@@ -1,0 +1,446 @@
+.project-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: linear-gradient(
+    135deg,
+    rgba(45, 28, 85, 0.95) 0%,
+    rgba(79, 43, 135, 0.95) 100%
+  );
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(168, 85, 247, 0.3);
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #a855f7, #6d28d9);
+  border-radius: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  pointer-events: auto; /* Ensure it's clickable */
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+}
+
+.modal-close:focus {
+  outline: 2px solid rgba(168, 85, 247, 0.5);
+  outline-offset: 2px;
+}
+
+.modal-header {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.modal-image {
+  width: 100%;
+  height: 250px;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.modal-content:hover .modal-image img {
+  transform: scale(1.05);
+}
+
+.modal-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(
+    to top,
+    rgba(45, 28, 85, 0.9) 0%,
+    transparent 100%
+  );
+}
+
+.modal-title-section {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px;
+  z-index: 2;
+}
+
+.modal-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #fff;
+  background: linear-gradient(to right, #e2c5ff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-category {
+  margin-top: 10px;
+}
+
+.category-badge {
+  background: linear-gradient(135deg, #a855f7 0%, #6d28d9 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+}
+
+.modal-body {
+  padding: 0 30px 30px;
+}
+
+.modal-body h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #e2c5ff;
+  background: linear-gradient(to right, #e2c5ff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.modal-description {
+  margin-bottom: 30px;
+}
+
+.modal-description p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+
+.modal-technologies {
+  margin-bottom: 30px;
+}
+
+.modal-tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.modal-tech-tag {
+  background: rgba(124, 58, 237, 0.3);
+  color: #e2c5ff;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  backdrop-filter: blur(5px);
+}
+
+.modal-tech-tag:hover {
+  background: rgba(168, 85, 247, 0.5);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+}
+
+.modal-features {
+  margin-bottom: 30px;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.features-list li {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  padding-left: 25px;
+  position: relative;
+}
+
+.features-list li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  color: #a855f7;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.modal-applications {
+  margin-bottom: 30px;
+}
+
+.applications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.application-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  transition: all 0.3s ease;
+}
+
+.application-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.2);
+}
+
+.application-item h4 {
+  color: #e2c5ff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.application-item p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.modal-footer {
+  padding: 20px 30px 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.modal-btn {
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #a855f7, #6d28d9);
+  z-index: -1;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-btn.primary {
+  color: white;
+  box-shadow: 0 8px 20px rgba(109, 40, 217, 0.4);
+}
+
+.modal-btn.primary::before {
+  opacity: 1;
+}
+
+.modal-btn.secondary {
+  color: #e2c5ff;
+  background: transparent;
+  border: 2px solid rgba(168, 85, 247, 0.6);
+}
+
+.modal-btn.secondary::before {
+  opacity: 0;
+}
+
+.modal-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+.modal-btn.primary:hover {
+  box-shadow: 0 12px 25px rgba(109, 40, 217, 0.6);
+}
+
+.modal-btn.secondary:hover {
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 12px 25px rgba(109, 40, 217, 0.4);
+}
+
+.modal-btn.secondary:hover::before {
+  opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-content {
+    margin: 10px;
+    max-height: 95vh;
+    border-radius: 20px;
+  }
+
+  .modal-title {
+    font-size: 1.8rem;
+  }
+
+  .modal-title-section {
+    padding: 20px;
+  }
+
+  .modal-body {
+    padding: 0 20px 20px;
+  }
+
+  .modal-footer {
+    padding: 15px 20px 20px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-btn {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+  }
+
+  .applications-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-image {
+    height: 200px;
+  }
+
+  .modal-tech-grid {
+    gap: 8px;
+  }
+
+  .modal-tech-tag {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    margin: 5px;
+    border-radius: 16px;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-body h3 {
+    font-size: 1.2rem;
+  }
+
+  .modal-description p {
+    font-size: 1rem;
+  }
+
+  .features-list li {
+    font-size: 0.9rem;
+  }
+
+  .application-item {
+    padding: 15px;
+  }
+}

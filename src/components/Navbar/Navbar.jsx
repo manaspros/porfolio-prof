@@ -1,169 +1,131 @@
-import { useState, useEffect } from 'react';
-import { ThemeToggler } from '../ThemeToggle/ThemeToggle';
+import { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Navbar.css';
+import { ThemeToggler } from '../ThemeToggle/ThemeToggle';
+import { useMotion } from '../../contexts/MotionContext';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-  
-  // Handle scrolling effect - with optimized scroll handler
+  const navRef = useRef(null);
+  const { shouldUseMotion } = useMotion();
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-      
-      // Update active section based on scroll position - improved logic
-      const sections = document.querySelectorAll('section[id], div[id]');
-      
-      // Find the section closest to the top of the viewport
-      let current = '';
-      let minDistance = Number.MAX_VALUE;
-      
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 150;
-        const sectionHeight = section.offsetHeight;
-        const id = section.getAttribute('id');
-        const distance = Math.abs(window.scrollY - sectionTop);
-        
-        // Check if we're within this section or if this is the closest section
-        if (
-          (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) ||
-          distance < minDistance
-        ) {
-          minDistance = distance;
-          current = id;
-        }
-      });
-      
-      if (current && current !== activeSection) {
-        setActiveSection(current);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
-    // Use passive true for better scroll performance
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Run once on component mount to set initial active section
-    handleScroll();
-    
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeSection]);
+  }, []);
 
-  // Toggle mobile menu with section highlighting
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    
-    // If opening the menu, prevent scrolling on the body
-    if (!isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
+  const handleNavClick = (e, targetId) => {
+    e.preventDefault();
+    setIsOpen(false);
+
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      // Only apply motion-related fixes if motion is enabled
+      if (shouldUseMotion) {
+        // Skip force-visible fixes for hero section to allow natural animations
+        if (targetId !== 'hero' && targetId !== 'home') {
+          // Force content visibility immediately for non-hero sections
+          const section = targetElement;
+          section.classList.add('navigation-triggered', 'force-visible');
+
+          // Make all content in section visible
+          const allElements = section.querySelectorAll('*');
+          allElements.forEach(el => {
+            el.classList.add('section-content-visible');
+          });
+        }
+
+        // Smooth scroll to target
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+        // After scroll completes, refresh ScrollTrigger and clean up classes
+        setTimeout(() => {
+          if (ScrollTrigger) {
+            ScrollTrigger.refresh();
+
+            // Trigger any pending animations for non-hero sections
+            if (targetId !== 'hero' && targetId !== 'home') {
+              ScrollTrigger.getAll().forEach(trigger => {
+                if (trigger.vars.trigger === targetElement || targetElement.contains(trigger.vars.trigger)) {
+                  trigger.refresh();
+                }
+              });
+            }
+          }
+
+          // Clean up temporary classes after a delay (only for non-hero sections)
+          if (targetId !== 'hero' && targetId !== 'home') {
+            setTimeout(() => {
+              targetElement.classList.remove('navigation-triggered');
+              const allElements = targetElement.querySelectorAll('*');
+              allElements.forEach(el => {
+                el.classList.remove('section-content-visible');
+              });
+            }, 1000);
+          }
+        }, 500);
+      } else {
+        // Simple scroll for devices with motion disabled
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     }
   };
-  
-  // Handle nav item click - set active section explicitly
-  const handleNavClick = (sectionId) => {
-    setActiveSection(sectionId);
-    setIsMobileMenuOpen(false);
-    document.body.style.overflow = ''; // Restore scrolling
-  };
+
+  const navItems = [
+    { label: 'Home', href: 'hero' },
+    { label: 'About', href: 'about' },
+    { label: 'Research', href: 'research' },
+    { label: 'Publications', href: 'publications' },
+    { label: 'Projects', href: 'projects' },
+    { label: 'Awards', href: 'awards' },
+    { label: 'Contact', href: 'contact' }
+  ];
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`} role="navigation" aria-label="main navigation">
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`} ref={navRef}>
       <div className="navbar-container">
         <div className="navbar-logo">
-          <a href="#home">
+          <a href="#hero" onClick={(e) => handleNavClick(e, 'hero')}>
             <span className="logo-text">Dr.<span className="logo-highlight"> Bhivraj Suthar</span></span>
           </a>
         </div>
-        
-        <div className={`navbar-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu} aria-expanded={isMobileMenuOpen} aria-label="menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        
-        <ul className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
-          <li>
-            <a 
-              href="#home" 
-              onClick={() => handleNavClick('home')} 
-              className={activeSection === 'home' ? 'active' : ''}
-            >
-              Home
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#about" 
-              onClick={() => handleNavClick('about')} 
-              className={activeSection === 'about' ? 'active' : ''}
-            >
-              About
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#research" 
-              onClick={() => handleNavClick('research')} 
-              className={activeSection === 'research' ? 'active' : ''}
-            >
-              Research
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#collaborations" 
-              onClick={() => handleNavClick('collaborations')} 
-              className={activeSection === 'collaborations' ? 'active' : ''}
-            >
-              Collaborations
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#publications" 
-              onClick={() => handleNavClick('publications')} 
-              className={activeSection === 'publications' ? 'active' : ''}
-            >
-              Publications
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#projects" 
-              onClick={() => handleNavClick('projects')} 
-              className={activeSection === 'projects' ? 'active' : ''}
-            >
-              Projects
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#awards" 
-              onClick={() => handleNavClick('awards')} 
-              className={activeSection === 'awards' ? 'active' : ''}
-            >
-              Awards
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#contact" 
-              onClick={() => handleNavClick('contact')} 
-              className={activeSection === 'contact' ? 'active' : ''}
-            >
-              Contact
-            </a>
-          </li>
+
+        <ul className={`navbar-links ${isOpen ? 'active' : ''}`}>
+          {navItems.map((item) => (
+            <li key={item.href}>
+              <a
+                href={`#${item.href}`}
+                onClick={(e) => handleNavClick(e, item.href)}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
           <li className="theme-toggle-li">
             <ThemeToggler />
           </li>
         </ul>
+
+        <div
+          className={`navbar-menu-toggle ${isOpen ? 'active' : ''}`}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </nav>
   );

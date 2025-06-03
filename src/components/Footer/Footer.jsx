@@ -18,7 +18,7 @@ const Footer = () => {
       }
     );
   }, []);
-  
+
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -27,7 +27,7 @@ const Footer = () => {
             <h2>Dr. Bhivraj Suthar</h2>
             <p>Assistant Professor, Next-Gen BIRD Lab, School of Artificial Intelligence and Data Science, IIT Jodhpur</p>
           </div>
-          
+
           <div className="footer-links">
             <div className="footer-links-column">
               <h3>Navigation</h3>
@@ -38,7 +38,7 @@ const Footer = () => {
                 <li><a href="#publications">Publications</a></li>
               </ul>
             </div>
-            
+
             <div className="footer-links-column">
               <h3>Resources</h3>
               <ul>
@@ -48,7 +48,7 @@ const Footer = () => {
                 <li><a href="https://scholar.google.com/citations?user=3KZSSEIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
               </ul>
             </div>
-            
+
             <div className="footer-links-column">
               <h3>Connect</h3>
               <ul>
@@ -60,7 +60,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="footer-bottom">
           <p className="copyright">
             &copy; {new Date().getFullYear()} Dr. Bhivraj Suthar. All rights reserved.
