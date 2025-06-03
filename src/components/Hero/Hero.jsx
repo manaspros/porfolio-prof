@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import googleScholarService from '../../services/googleScholarService';
+import { heroData } from '../../data/heroData';
 import './Hero.css';
 
 // Register ScrollTrigger plugin
@@ -13,9 +14,9 @@ const Hero = () => {
   const imageRef = useRef(null);
   const animationsInitialized = useRef(false);
   const [scholarStats, setScholarStats] = useState({
-    papers: '0', // Will be updated from Google Scholar
-    journals: '0', // Will be updated from Google Scholar
-    patents: '7' // Keep as static since patents aren't available from Scholar API
+    papers: heroData.stats.papers.defaultValue,
+    journals: '0',
+    patents: heroData.stats.patents.defaultValue
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,14 +25,14 @@ const Hero = () => {
     const fetchScholarStats = async () => {
       try {
         // Use the existing service to fetch publications
-        const publications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
+        const publications = await googleScholarService.fetchPublications(heroData.scholar.userId);
         const stats = await googleScholarService.getPublicationStats(publications);
 
         // Update state with the fetched stats
         setScholarStats({
           papers: publications.length.toString(),
           journals: stats.journalCount.toString(),
-          patents: '7' // Static value for patents
+          patents: heroData.stats.patents.defaultValue // Keep static value for patents
         });
       } catch (error) {
         console.error('Error fetching scholar stats for hero section:', error);
@@ -179,15 +180,13 @@ const Hero = () => {
 
       <div className="hero-container">
         <div className="hero-content" ref={contentRef}>
-          <div className="hero-greeting">Hello, I'm</div>
-          <h1 className="hero-name">Dr. Bhivraj Suthar</h1>
+          <div className="hero-greeting">{heroData.personal.greeting}</div>
+          <h1 className="hero-name">{heroData.personal.name}</h1>
           <h2 className="hero-title">
-            Assistant Professor, <span className="text-gradient">Roboticist</span>
+            {heroData.personal.title}, <span className="text-gradient">{heroData.personal.titleHighlight}</span>
           </h2>
           <p className="hero-description">
-            Advancing research in Bio-inspired Mechanisms, Actuators, Prosthetic Limbs, Supernumerary Robotic
-            Limbs, Exosuits, Exoskeletons, Haptic Devices, Metamorphic Drone Manipulators and
-            Artificial Intelligence.
+            {heroData.personal.description}
           </p>
 
           <div className="hero-stats">
@@ -198,13 +197,13 @@ const Hero = () => {
                   scholarStats.papers
                 }
               </span>
-              <span className="stat-label">Published Papers</span>
+              <span className="stat-label">{heroData.stats.papers.label}</span>
             </div>
             <div className="hero-stat">
               <span className="stat-number">
-                15+
+                {heroData.stats.robots.value}
               </span>
-              <span className="stat-label">Robots Developed</span>
+              <span className="stat-label">{heroData.stats.robots.label}</span>
             </div>
             <div className="hero-stat">
               <span className="stat-number">
@@ -213,16 +212,16 @@ const Hero = () => {
                   scholarStats.patents
                 }
               </span>
-              <span className="stat-label">Patents</span>
+              <span className="stat-label">{heroData.stats.patents.label}</span>
             </div>
           </div>
 
           <div className="cta-buttons">
-            <a href="#research" className="btn primary">
-              <span>View Research</span>
+            <a href={heroData.cta.primary.link} className="btn primary">
+              <span>{heroData.cta.primary.text}</span>
             </a>
-            <a href="#contact" className="btn secondary">
-              <span>Contact Me</span>
+            <a href={heroData.cta.secondary.link} className="btn secondary">
+              <span>{heroData.cta.secondary.text}</span>
             </a>
           </div>
         </div>
@@ -230,13 +229,13 @@ const Hero = () => {
         <div className="hero-image" ref={imageRef}>
           <div className="image-container">
             <div className="image-border"></div>
-            <div className="profile-image" style={{ backgroundImage: "url('https://static.wixstatic.com/media/fbe72c_15555f894729405782c84e2d054ad033~mv2.jpg/v1/crop/x_28,y_0,w_391,h_510/fill/w_290,h_390,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Raj_1_edited.jpg')" }}></div>
+            <div className="profile-image" style={{ backgroundImage: `url('${heroData.personal.profileImage}')` }}></div>
             <div className="image-pattern"></div>
           </div>
 
           <div className="floating-element floating-chip">
-            <div className="chip-icon">🤖</div>
-            <div className="chip-text">Robotics & AI Researcher</div>
+            <div className="chip-icon">{heroData.floatingElements.chip.icon}</div>
+            <div className="chip-text">{heroData.floatingElements.chip.text}</div>
           </div>
 
           <div className="floating-element floating-shape">
@@ -255,7 +254,7 @@ const Hero = () => {
 
       <div className="scroll-indicator">
         <div className="scroll-arrow"></div>
-        <div className="scroll-text">Scroll Down</div>
+        <div className="scroll-text">{heroData.scrollIndicator.text}</div>
       </div>
     </section>
   );
