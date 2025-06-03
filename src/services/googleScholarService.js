@@ -362,6 +362,7 @@ class GoogleScholarService {
       totalCitations: 0,
       hIndex: 0,
       i10Index: 0,
+      journalCount: 0,
     };
 
     if (publications && publications.length > 0) {
@@ -370,6 +371,11 @@ class GoogleScholarService {
         const citations = parseInt(pub.citation) || 0;
         return total + citations;
       }, 0);
+
+      // Calculate journal count
+      stats.journalCount = publications.filter(
+        (pub) => pub.type === "journal"
+      ).length;
 
       // Calculate H-index
       const citationCounts = publications

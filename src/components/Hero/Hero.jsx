@@ -13,9 +13,9 @@ const Hero = () => {
   const imageRef = useRef(null);
   const animationsInitialized = useRef(false);
   const [scholarStats, setScholarStats] = useState({
-    papers: '15+', // Fallback values
-    journals: '7',
-    patents: '10+'
+    papers: '0', // Will be updated from Google Scholar
+    journals: '0', // Will be updated from Google Scholar
+    patents: '7' // Keep as static since patents aren't available from Scholar API
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,7 +31,7 @@ const Hero = () => {
         setScholarStats({
           papers: publications.length.toString(),
           journals: stats.journalCount.toString(),
-          patents: '7' // You may need to implement a way to extract patent count
+          patents: '7' // Static value for patents
         });
       } catch (error) {
         console.error('Error fetching scholar stats for hero section:', error);
