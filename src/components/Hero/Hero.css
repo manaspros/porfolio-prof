@@ -462,3 +462,73 @@
     background-position: -200% 0;
   }
 }
+
+/* Dark theme styles for Hero section */
+[data-theme="dark"] .hero-section {
+  background: linear-gradient(
+    135deg,
+    rgba(18, 18, 18, 0.95) 0%,
+    rgba(30, 30, 30, 0.95) 100%
+  );
+}
+
+[data-theme="dark"] .hero-bg {
+  background: linear-gradient(
+    135deg,
+    rgba(18, 18, 18, 0.8) 0%,
+    rgba(30, 30, 30, 0.8) 100%
+  );
+}
+
+[data-theme="dark"] .hero-name {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .hero-title {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .hero-description {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .hero-greeting {
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .stat-label {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .scroll-text {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .scroll-arrow {
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .scroll-arrow:before {
+  background-color: var(--color-primary);
+}
+
+[data-theme="dark"] .chip-text {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .floating-chip {
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+/* Ensure text gradient works in both themes */
+.text-gradient {
+  background: linear-gradient(
+    45deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

@@ -77,136 +77,58 @@ button:focus {
 
 /* Modern color scheme */
 :root {
+  /* Colors */
   --color-primary: #623cea;
   --color-secondary: #ff7d54;
-  --color-accent: #2cdcbd;
-  --color-highlight: #f2c94c;
-  --color-dark: #1a1a2e;
-  --color-dark-alt: #242436;
-  --color-light: #f9f9fd;
-  --color-gray: #888;
-  --color-gray-light: #aaa;
+  --color-dark: #2d2d2d;
+  --color-dark-alt: #4a4a4a;
+  --color-gray: #666666;
+  --color-light: #ffffff;
+  --color-accent: #0066cc;
+  --color-highlight: #ff6b6b;
 
-  /* Typography */
-  --font-primary: "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-display: "Outfit", sans-serif;
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9f9f9;
+  --card-bg: #ffffff;
 
-  /* Transitions */
-  --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-medium: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Text Colors */
+  --text-primary: #333333;
+  --text-secondary: #666666;
 
-  /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 2rem;
-  --spacing-lg: a4rem;
-  --spacing-xl: 8rem;
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-  /* Container widths */
-  --container-sm: 640px;
-  --container-md: 768px;
-  --container-lg: 1024px;
-  --container-xl: 1280px;
+  /* Border Radius */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-full: 50px;
+
+  /* Containers */
   --container-2xl: 1440px;
 
-  /* Borders & Shadows */
-  --border-radius-sm: 8px;
-  --border-radius-md: 16px;
-  --border-radius-lg: 24px;
-  --border-radius-xl: 32px;
-  --border-radius-full: 9999px;
+  /* Fonts */
+  --font-display: "Inter", "Segoe UI", Roboto, sans-serif;
 
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-
-  /* Base styles */
-  font-family: var(--font-primary);
-  line-height: 1.6;
-  font-weight: 400;
-  color: var(--color-dark);
-  background-color: var(--color-light);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-
-  /* Scrollbar Colors - Light Theme */
-  --scrollbar-thumb: linear-gradient(135deg, #623cea 0%, #ff7d54 100%);
-  --scrollbar-track: #f0f0f0;
-  --scrollbar-hover: linear-gradient(135deg, #5028d1 0%, #e05e3d 100%);
+  /* Transitions */
+  --transition-medium: 0.3s ease;
 }
 
-/* Dark theme adjustments */
+/* Dark theme variables */
 [data-theme="dark"] {
-  --color-primary: #8665f7;
-  --color-secondary: #ff9474;
-  --color-accent: #2cdcbd;
-  --color-highlight: #f2c94c;
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --card-bg: #2d2d2d;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
   --color-dark: #ffffff;
-  --color-dark-alt: #f0f0f0;
-  --color-light: #1a1a2e;
-  --color-gray: #888;
-  --color-gray-light: #aaa;
-
-  /* Typography */
-  --font-primary: "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-display: "Outfit", sans-serif;
-
-  /* Transitions */
-  --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-medium: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 2rem;
-  --spacing-lg: a4rem;
-  --spacing-xl: 8rem;
-
-  /* Container widths */
-  --container-sm: 640px;
-  --container-md: 768px;
-  --container-lg: 1024px;
-  --container-xl: 1280px;
-  --container-2xl: 1440px;
-
-  /* Borders & Shadows */
-  --border-radius-sm: 8px;
-  --border-radius-md: 16px;
-  --border-radius-lg: 24px;
-  --border-radius-xl: 32px;
-  --border-radius-full: 9999px;
-
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-
-  /* Base styles */
-  font-family: var(--font-primary);
-  line-height: 1.6;
-  font-weight: 400;
-  color: var(--color-dark);
-  background-color: var(--color-light);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-
-  /* Scrollbar Colors - Dark Theme */
-  --scrollbar-thumb: linear-gradient(135deg, #8665f7 0%, #ff9474 100%);
-  --scrollbar-track: #2d2d2d;
-  --scrollbar-hover: linear-gradient(135deg, #9f82ff 0%, #ffb098 100%);
+  --color-dark-alt: #cccccc;
+  --color-gray: #999999;
+  --color-light: #2d2d2d;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* WebKit browsers (Chrome, Safari, newer versions of Opera and Edge) */

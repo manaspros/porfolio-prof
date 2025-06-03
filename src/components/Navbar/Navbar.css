@@ -30,8 +30,7 @@
 
 .navbar.scrolled {
   background: rgba(249, 249, 253, 0.85);
-  box-shadow: 
-    0 5px 30px rgba(0, 0, 0, 0.05),
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05),
     0 -2px 0 rgba(98, 60, 234, 0.5) inset;
   padding: 12px 0;
 }
@@ -39,32 +38,38 @@
 /* Dark theme styles for scrolled navbar */
 [data-theme="dark"] .navbar.scrolled {
   background: rgba(25, 25, 35, 0.9);
-  box-shadow: 
-    0 5px 30px rgba(0, 0, 0, 0.2),
-    0 -2px 0 rgba(98, 60, 234, 0.6) inset;
+  box-shadow: 0 -2px 0 rgba(98, 60, 234, 0.5) inset,
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Add decorative accent line with gradient */
 .navbar::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   height: 2px;
   width: 100%;
-  background: linear-gradient(90deg, 
-    rgba(98, 60, 234, 0.7), 
-    rgba(255, 125, 84, 0.7),
-    rgba(98, 60, 234, 0.7)
+  background: linear-gradient(
+    90deg,
+    rgba(98, 60, 234, 0.3) 0%,
+    rgba(255, 125, 84, 0.3) 50%,
+    rgba(98, 60, 234, 0.3) 100%
   );
   background-size: 200% 100%;
   animation: gradientMove 6s ease infinite;
 }
 
 @keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .navbar-container {
@@ -83,28 +88,36 @@
 
 /* Add decorative colored shapes - with adjusted z-index and positioning */
 .navbar-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -20px;
   left: -10px;
   width: 60px;
   height: 60px;
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  background: linear-gradient(135deg, rgba(98, 60, 234, 0.15), rgba(255, 125, 84, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(98, 60, 234, 0.15),
+    rgba(255, 125, 84, 0.15)
+  );
   z-index: -1;
   animation: floatNav 8s ease-in-out infinite;
   pointer-events: none; /* Prevent interaction with this element */
 }
 
 .navbar-container::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   right: 15%;
   width: 40px;
   height: 40px;
   border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
-  background: linear-gradient(135deg, rgba(255, 125, 84, 0.1), rgba(98, 60, 234, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 125, 84, 0.1),
+    rgba(98, 60, 234, 0.1)
+  );
   z-index: -1;
   animation: floatNav 6s ease-in-out infinite;
   animation-delay: 1s;
@@ -113,9 +126,15 @@
 
 /* Separate animation keyframes for navbar to avoid conflicts */
 @keyframes floatNav {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-7px) rotate(3deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
 }
 
 .navbar-logo a {
@@ -137,7 +156,7 @@
 
 /* Add animated underline to logo */
 .navbar-logo a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -145,7 +164,11 @@
   height: 2px;
   transform: scaleX(0.7);
   transform-origin: left;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
   transition: transform 0.3s ease;
   opacity: 0.7;
 }
@@ -172,11 +195,15 @@
 
 /* Add glowing dot after logo text */
 .logo-highlight::after {
-  content: '';
+  content: "";
   display: inline-block;
   width: 6px;
   height: 6px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
   border-radius: 50%;
   margin-left: 5px;
   vertical-align: top;
@@ -191,9 +218,16 @@
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); opacity: 0.7; }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .navbar-links {
@@ -204,8 +238,7 @@
   /* Add subtle background for better visibility */
   background: rgba(255, 255, 255, 0.2);
   border-radius: 40px;
-  box-shadow: 
-    0 4px 15px rgba(0, 0, 0, 0.03),
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03),
     0 0 0 1px rgba(255, 255, 255, 0.4) inset;
   padding: 6px 15px;
   backdrop-filter: blur(5px);
@@ -214,23 +247,24 @@
 
 /* Dark theme styles for navbar links */
 [data-theme="dark"] .navbar-links {
-  background: rgba(40, 40, 60, 0.3);
-  box-shadow: 
-    0 4px 15px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(70, 70, 100, 0.4) inset;
+  background: rgba(45, 45, 60, 0.3);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 .navbar-links li {
-  margin: 0 15px;
+  margin: 0 5px;
 }
 
 .navbar-links a {
+  display: block;
+  padding: 8px 16px;
   text-decoration: none;
-  color: var(--color-dark);
+  color: var(--text-primary, #333);
   font-weight: 500;
-  padding: 8px 5px;
+  border-radius: 20px;
+  transition: all var(--transition-medium, 0.3s ease);
   position: relative;
-  transition: all var(--transition-medium);
+  overflow: hidden;
 }
 
 /* Dark theme styles for navbar link text - make it explicitly white */
@@ -239,61 +273,69 @@
 }
 
 .navbar-links a:after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  transition: width var(--transition-medium);
-  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary, #623cea),
+    var(--color-secondary, #ff7d54)
+  );
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
 
-.navbar-links a:hover, .navbar-links a.active {
-  color: var(--color-primary);
+.navbar-links a:hover,
+.navbar-links a.active {
+  background: rgba(98, 60, 234, 0.1);
+  color: var(--color-primary, #623cea);
+  transform: translateY(-2px);
 }
 
 /* Ensure active/hover states have good contrast in dark mode */
-[data-theme="dark"] .navbar-links a:hover, 
+[data-theme="dark"] .navbar-links a:hover,
 [data-theme="dark"] .navbar-links a.active {
-  color: var(--color-primary);
-  text-shadow: 0 0 8px rgba(98, 60, 234, 0.4);
+  background: rgba(98, 60, 234, 0.2);
+  color: #ffffff;
 }
 
-.navbar-links a:hover:after, .navbar-links a.active:after {
-  width: 100%;
+.navbar-links a:hover:after,
+.navbar-links a.active:after {
+  width: 80%;
 }
 
 /* Add subtle indicator for active links */
 .navbar-links a.active {
-  font-weight: 600;
+  background: rgba(98, 60, 234, 0.15);
+  box-shadow: 0 2px 8px rgba(98, 60, 234, 0.2);
 }
 
 .navbar-menu-toggle {
   display: none;
   flex-direction: column;
   cursor: pointer;
-  z-index: 1000;
+  padding: 5px;
 }
 
 .navbar-menu-toggle span {
-  display: block;
-  width: 28px;
-  height: 2px;
-  margin: 5px 0;
-  background-color: var(--color-dark);
-  transition: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-primary, #333);
+  margin: 3px 0;
+  transition: 0.3s;
+  border-radius: 2px;
 }
 
 /* Dark theme styles for mobile menu toggle */
 [data-theme="dark"] .navbar-menu-toggle span {
-  background-color: var(--color-light);
+  background-color: #ffffff;
 }
 
 .navbar-menu-toggle.active span:nth-child(1) {
-  transform: rotate(-45deg) translate(-6px, 6px);
-  background-color: var(--color-primary);
+  transform: rotate(-45deg) translate(-5px, 6px);
 }
 
 .navbar-menu-toggle.active span:nth-child(2) {
@@ -301,19 +343,16 @@
 }
 
 .navbar-menu-toggle.active span:nth-child(3) {
-  transform: rotate(45deg) translate(-6px, -6px);
-  background-color: var(--color-primary);
+  transform: rotate(45deg) translate(-5px, -6px);
 }
 
 /* Theme toggle styles within navbar */
 .theme-toggle-li {
-  display: flex;
-  align-items: center;
-  margin-left: 15px;
+  margin-left: 10px;
 }
 
 .navbar-links li.theme-toggle-li {
-  margin: 0 0 0 15px;
+  margin: 0;
 }
 
 /* Mobile styles for theme toggle */
@@ -323,48 +362,6 @@
   }
 
   .navbar-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 300px;
-    height: 100vh;
-    flex-direction: column;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding-top: 100px;
-    transition: right var(--transition-medium);
-    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
-    border-radius: 0;
-    border-left: 3px solid transparent;
-    border-image: linear-gradient(to bottom, var(--color-primary), var(--color-secondary)) 1;
-  }
-  
-  /* Dark theme mobile menu */
-  [data-theme="dark"] .navbar-links {
-    background: rgba(25, 25, 35, 0.95);
-    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
-  }
-
-  .navbar-links.active {
-    right: 0;
-  }
-
-  .navbar-links li {
-    margin: 15px 30px;
-  }
-  
-  .navbar-links a {
-    display: block;
-    font-size: 1.1rem;
-  }
-  
-  .theme-toggle-li {
-    margin: 20px auto 10px;
-    justify-content: center;
-  }
-  
-  .navbar-links li.theme-toggle-li {
-    margin: 20px auto 0;
+    display: none;
   }
 }
