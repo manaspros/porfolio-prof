@@ -13,7 +13,6 @@ import Projects from './components/Projects/Projects'
 import Awards from './components/Awards/Awards'
 import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
-import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 import Education from './components/Education/Education'
 import Collaborations from './components/Collaborations/Collaborations'
 
@@ -224,7 +223,6 @@ function App() {
                 <Contact />
               </main>
               <Footer />
-              <ScrollToTop />
             </div>
           </div>
         )}

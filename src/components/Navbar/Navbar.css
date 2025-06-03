@@ -18,7 +18,6 @@
   box-sizing: border-box;
   /* Avoid overflow into hero section */
   overflow: visible;
-  height: auto;
 }
 
 /* Dark theme styles for navbar */
@@ -243,6 +242,7 @@
   padding: 6px 15px;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  align-items: center; /* Ensure all items are vertically centered */
 }
 
 /* Dark theme styles for navbar links */
@@ -348,11 +348,27 @@
 
 /* Theme toggle styles within navbar */
 .theme-toggle-li {
-  margin-left: 10px;
+  margin-left: 15px;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-links li.theme-toggle-li {
+  margin: 0 0 0 15px;
+}
+
+.theme-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Ensure theme toggle button matches navbar height */
+.navbar-links .theme-toggle-button {
   margin: 0;
+  vertical-align: middle;
 }
 
 /* Mobile styles for theme toggle */
@@ -363,5 +379,30 @@
 
   .navbar-links {
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 0 0 20px 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .theme-toggle-li {
+    margin: 10px 0 0 0;
+    justify-content: center;
+  }
+
+  /* Dark theme styles for mobile menu */
+  [data-theme="dark"] .navbar-links {
+    background: rgba(30, 30, 40, 0.95);
   }
 }

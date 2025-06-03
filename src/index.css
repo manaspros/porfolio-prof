@@ -459,3 +459,5 @@ section > * {
   transform: none !important;
   clip-path: none !important;
 }
+
+/* Remove any .scroll-to-top-btn styles if they exist */
