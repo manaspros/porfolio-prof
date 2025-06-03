@@ -7,15 +7,22 @@
 }
 
 .education-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%);
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(120, 119, 198, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 119, 198, 0.3) 0%,
+      transparent 50%
+    );
   pointer-events: none;
   z-index: 1;
 }
@@ -42,7 +49,7 @@
 }
 
 .edu-section-title::after {
-  content: '';
+  content: "";
   display: block;
   width: 100px;
   height: 4px;
@@ -158,7 +165,12 @@
   position: absolute;
   width: 50px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
   top: 10px;
   z-index: 2;
 }
@@ -379,81 +391,85 @@
   .education-section {
     padding: 80px 15px 60px;
   }
-  
+
   .edu-section-title {
     font-size: 2.2rem;
     margin-bottom: 40px;
   }
-  
+
   .main-timeline-line {
     left: 20px;
     height: calc(100% - 40px);
     top: 40px;
   }
-  
+
   .timeline-heading-title {
     text-align: left;
     font-size: 1.8rem;
     margin-bottom: 30px;
     padding-left: 40px;
   }
-  
+
   .timeline-container {
     margin-bottom: 50px;
   }
-  
+
   .timeline-item {
     padding: 0 0 0 40px !important;
     margin-bottom: 30px;
     justify-content: flex-start;
     width: 100%;
   }
-  
+
   .timeline-marker {
     left: 20px;
     transform: none;
     top: 25px;
   }
-  
+
   .marker-dot {
     width: 16px;
     height: 16px;
   }
-  
+
   .timeline-content {
     width: 100%;
     max-width: 100%;
     padding: 20px;
   }
-  
+
   .timeline-years {
     font-size: 0.85rem;
     padding: 4px 12px;
     margin-bottom: 10px;
   }
-  
+
   .timeline-item-heading {
     font-size: 1.2rem;
     margin-bottom: 8px;
   }
-  
+
   .timeline-institution {
     font-size: 1rem;
     margin-bottom: 10px;
   }
-  
+
   .timeline-details {
     font-size: 0.9rem;
   }
-  
+
   .education-bg-circle {
     opacity: 0.1;
     filter: blur(100px);
   }
-  
+
   /* Fix any opacity issues caused by animations */
-  .timeline-item, .timeline-content, .marker-dot,
-  .timeline-years, .timeline-item-heading, .timeline-institution, 
+  .timeline-item,
+  .timeline-content,
+  .marker-dot,
+  .timeline-years,
+  .timeline-item-heading,
+  .timeline-institution,
   .timeline-details {
     opacity: 1 !important;
     transform: none !important;
@@ -467,28 +483,28 @@
   .timeline-content {
     padding: 15px;
   }
-  
+
   .edu-section-title {
     font-size: 1.8rem;
   }
-  
+
   .timeline-heading-title {
     font-size: 1.5rem;
     padding-left: 35px;
   }
-  
+
   .timeline-item {
     padding: 0 0 0 35px !important;
   }
-  
+
   .timeline-item-heading {
     font-size: 1.1rem;
   }
-  
+
   .timeline-institution {
     font-size: 0.95rem;
   }
-  
+
   .timeline-details {
     font-size: 0.85rem;
   }
@@ -500,19 +516,19 @@
     width: 95%;
     padding: 20px;
   }
-  
+
   .timeline-item-heading {
     font-size: 1.3rem;
   }
-  
+
   .timeline-institution {
     font-size: 1rem;
   }
-  
+
   .timeline-details {
     font-size: 0.9rem;
   }
-  
+
   /* Ensure proper timeline alignment on laptops */
   .timeline-item.left-item {
     padding-right: 48%;
@@ -538,7 +554,7 @@
 
 /* Add spacing around timeline content */
 .edu-container {
-  padding: 2
+  padding: 2;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   padding-bottom: 40px;
 }
@@ -548,7 +564,7 @@
 }
 
 .education-heading::before {
-  content: '📚';
+  content: "📚";
   margin-right: 10px;
 }
 
@@ -581,7 +597,7 @@
 }
 
 .research-heading::before {
-  content: '🔬';
+  content: "🔬";
   margin-right: 10px;
 }
 
