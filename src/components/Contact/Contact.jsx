@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import emailjs from '@emailjs/browser';
+import { contactInfo, socialLinks, contactContent } from '../../data/contact';
 import './Contact.css';
 
 // Register ScrollTrigger plugin
@@ -300,11 +301,10 @@ const Contact = () => {
   return (
     <section id="contact" className="contact-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title">Contact</h2>
+        <h2 className="section-title">{contactContent.title}</h2>
 
         <p className="contact-intro">
-          I'm always interested in research collaborations, speaking opportunities, and mentoring talented students.
-          Feel free to reach out if you share an interest in bio-inspired robotics and AI.
+          {contactContent.intro}
         </p>
 
         <div className="contact-grid">
@@ -373,55 +373,34 @@ const Contact = () => {
           </div>
 
           <div className="contact-info" ref={infoRef}>
-            <div className="info-item">
-              <div className="info-icon">📍</div>
-              <div className="info-content">
-                <h3>Address</h3>
-                <p>School of Artificial Intelligence and Data Science<br />
-                  Indian Institute of Technology Jodhpur<br />
-                  Rajasthan, India</p>
+            {contactInfo.map(info => (
+              <div className="info-item" key={info.id}>
+                <div className="info-icon">{info.icon}</div>
+                <div className="info-content">
+                  <h3>{info.title}</h3>
+                  <p>{info.content.split('\n').map((line, index) => (
+                    <span key={index}>
+                      {line}
+                      {index < info.content.split('\n').length - 1 && <br />}
+                    </span>
+                  ))}</p>
+                </div>
               </div>
-            </div>
-
-            <div className="info-item">
-              <div className="info-icon">📧</div>
-              <div className="info-content">
-                <h3>Email</h3>
-                <p>bhivraj@iitj.ac.in</p>
-              </div>
-            </div>
-
-            <div className="info-item">
-              <div className="info-icon">🎓</div>
-              <div className="info-content">
-                <h3>Affiliations</h3>
-                <p>Next-Gen BIRD Lab<br />
-                  School of Artificial Intelligence and Data Science</p>
-              </div>
-            </div>
-
-            <div className="info-item">
-              <div className="info-icon">🔍</div>
-              <div className="info-content">
-                <h3>Research Areas</h3>
-                <p>Bio-inspired Robotics<br />
-                  Artificial Intelligence</p>
-              </div>
-            </div>
+            ))}
 
             <div className="social-links">
-              <a href="https://www.researchgate.net/profile/Bhivraj_Suthar2" target="_blank" rel="noopener noreferrer" className="social-link">
-                <i className="fab fa-researchgate"></i>
-              </a>
-              <a href="https://scholar.google.com/citations?user=3KZSSEIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="social-link">
-                <i className="fab fa-google"></i>
-              </a>
-              <a href="https://www.youtube.com/channel/UClkWY-vpshRUFWZut_gqZhQ/videos" target="_blank" rel="noopener noreferrer" className="social-link">
-                <i className="fab fa-youtube"></i>
-              </a>
-              <a href="https://www.linkedin.com/in/bhivraj-s-823528294/" target="_blank" rel="noopener noreferrer" className="social-link">
-                <i className="fab fa-linkedin"></i>
-              </a>
+              {socialLinks.map(link => (
+                <a 
+                  key={link.id}
+                  href={link.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="social-link"
+                  title={link.platform}
+                >
+                  <i className={link.icon}></i>
+                </a>
+              ))}
             </div>
           </div>
         </div>
