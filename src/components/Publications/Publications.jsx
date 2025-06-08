@@ -10,87 +10,70 @@ import './Publications.css';
 
 const Publications = () => {
   const [activeFilter, setActiveFilter] = useState('all');
-  const [visibleCount, setVisibleCount] = useState(5); // Start with showing 10 publications
+  const [visibleCount, setVisibleCount] = useState(5);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [publications, setPublications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalCitations: 0,
     hIndex: 0,
-    i10Index: 0
+    i10Index: 0,
+    journalCount: 0,
+    conferenceCount: 0
   });
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [cacheInfo, setCacheInfo] = useState(null);
   const sectionRef = useRef(null);
   const pubListRef = useRef(null);
 
-  // Fetch publications from Google Scholar on component mount
+  // Load publications using centralized service
   useEffect(() => {
-    // Wrap everything in a try/catch to prevent breaking the entire app
-    try {
-      const loadPublications = async () => {
-        try {
-          setLoading(true);
-          let fetchedPublications;
+    const loadData = async () => {
+      try {
+        setLoading(true);
 
-          // First try regular fetch with proxy
-          try {
-            fetchedPublications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
-          } catch (proxyError) {
-            console.error('Proxy fetch failed:', proxyError);
+        // Get publications and stats in one call
+        const [fetchedPublications, publicationStats] = await Promise.all([
+          googleScholarService.getPublications('3KZSSEIAAAAJ'),
+          googleScholarService.getStats()
+        ]);
 
-            // If proxy fails, try direct fetch
-            try {
-              fetchedPublications = await googleScholarService.directFetch('3KZSSEIAAAAJ');
-            } catch (directError) {
-              console.error('Direct fetch failed:', directError);
-              // Will fall through to fallback mock data
-            }
-          }
+        setPublications(fetchedPublications);
+        setStats(publicationStats);
 
-          setPublications(fetchedPublications);
+        // Get cache info for display
+        const info = googleScholarService.getCacheInfo();
+        setCacheInfo(info);
 
-          // Calculate statistics
-          const publicationStats = await googleScholarService.getPublicationStats(fetchedPublications);
-          setStats(publicationStats);
+        setLastUpdated(new Date().toLocaleString());
+      } catch (error) {
+        console.error('Error loading publications:', error);
+        setPublications([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-          setLastUpdated(new Date().toLocaleString());
-        } catch (error) {
-          console.error('Error loading publications:', error);
-          setPublications([]);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      loadPublications();
-    } catch (error) {
-      console.error('Fatal error in Publications component:', error);
-      setLoading(false);
-    }
+    loadData();
   }, []);
 
-  // Handle refresh
+  // Handle refresh - force new data from API
   const handleRefresh = async () => {
     try {
       setLoading(true);
 
-      // First try to clear the cache
-      try {
-        localStorage.removeItem('scholar_publications');
-      } catch (e) {
-        console.warn('Failed to clear cache:', e);
-      }
+      // Force refresh from API
+      const freshPublications = await googleScholarService.refreshData('3KZSSEIAAAAJ');
+      const freshStats = await googleScholarService.getStats();
 
-      // Try fetching fresh data
-      const freshPublications = await googleScholarService.fetchPublications('3KZSSEIAAAAJ');
       setPublications(freshPublications);
+      setStats(freshStats);
 
-      const publicationStats = await googleScholarService.getPublicationStats(freshPublications);
-      setStats(publicationStats);
+      // Update cache info
+      const info = googleScholarService.getCacheInfo();
+      setCacheInfo(info);
 
-      // Update the last updated time and indicate the data source
-      const source = localStorage.getItem('data_source') || 'Google Scholar';
-      setLastUpdated(`${new Date().toLocaleString()} (from ${source})`);
+      setLastUpdated(new Date().toLocaleString());
     } catch (error) {
       console.error('Error refreshing publications:', error);
     } finally {
@@ -294,11 +277,12 @@ const Publications = () => {
     setHoveredItem(null);
   };
 
-  // Always use all publications since we're removing filters
-  const filteredPublications = publications;
-  const displayedPublications = filteredPublications.slice(0, visibleCount);
+  // Filter publications
+  const filteredPublications = activeFilter === 'all'
+    ? publications
+    : publications.filter(pub => pub.type === activeFilter);
 
-  // Check if there are more publications to load
+  const displayedPublications = filteredPublications.slice(0, visibleCount);
   const hasMorePublications = visibleCount < filteredPublications.length;
 
   // Handle load more
@@ -333,14 +317,19 @@ const Publications = () => {
             <div className="update-info">
               {lastUpdated && (
                 <span className="last-updated">
-                  Last updated: {lastUpdated.replace('(using local data)', '(using Google Scholar data)')}
+                  Last updated: {lastUpdated}
+                  {cacheInfo && cacheInfo.hasCache && (
+                    <span className="cache-info">
+                      {cacheInfo.isValid ? ' (cached)' : ' (cache expired)'}
+                    </span>
+                  )}
                 </span>
               )}
               <button
                 className="refresh-btn"
                 onClick={handleRefresh}
                 disabled={loading}
-                title="Refresh publications from local data"
+                title="Refresh publications from Google Scholar"
               >
                 <svg className={`refresh-icon ${loading ? 'spinning' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 4V9H4.58152M4.58152 9C5.80611 6.78392 8.18951 5.19621 11.0174 5.19621C15.0138 5.19621 18.25 8.43241 18.25 12.4288C18.25 16.4252 15.0138 19.6614 11.0174 19.6614C8.18951 19.6614 5.80611 18.0737 4.58152 15.8576M4.58152 9H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -350,7 +339,6 @@ const Publications = () => {
             </div>
           </div>
         </div>
-
 
         <div className="publications-list" ref={pubListRef}>
           {displayedPublications.map(pub => (

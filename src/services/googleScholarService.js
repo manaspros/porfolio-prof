@@ -3,18 +3,29 @@ import axios from "axios";
 
 class GoogleScholarService {
   constructor() {
-    // Your SerpAPI key - for security, you should ideally store this in an environment variable
-    this.apiKey =
-      import.meta.env.VITE_SERPAPI_KEY ||
-      "a9e3ad6cd808100a64cf470aa61515b3af90c30b8ea18e6ba0efe5f479d68b97";
+    // Read API key from environment variables only
+    this.apiKey = import.meta.env.VITE_SERPAPI_KEY;
+
+    if (!this.apiKey) {
+      console.warn(
+        "VITE_SERPAPI_KEY not found in environment variables. Using mock data only."
+      );
+    }
+
     this.baseUrl = "https://serpapi.com/search.json";
 
-    // CORS proxy options
-    this.corsProxies = [
-      "https://api.allorigins.win/raw?url=",
-      "https://cors-anywhere.herokuapp.com/",
-      "https://corsproxy.io/?",
-    ];
+    // Cache key for localStorage
+    this.cacheKey = "scholar_publications_v2";
+    this.statsKey = "scholar_stats_v2";
+
+    // Cache duration: 1 month (30 days)
+    this.cacheDuration = 30 * 24 * 60 * 60 * 1000;
+
+    // Global data store
+    this.publicationsData = null;
+    this.publicationsStats = null;
+    this.isLoading = false;
+    this.fetchPromise = null;
 
     // Keep mock data as fallback
     this.mockData = [
@@ -136,75 +147,169 @@ class GoogleScholarService {
   }
 
   /**
-   * Fetch publications from Google Scholar using a CORS proxy
-   * @param {string} authorId - Google Scholar author ID (3KZSSEIAAAAJ)
+   * Main method to get publications - handles caching and single fetch
+   * @param {string} authorId - Google Scholar author ID
+   * @param {boolean} forceRefresh - Force refresh from API
    * @returns {Promise<Array>} Array of publications
    */
-  async fetchPublications(authorId = "3KZSSEIAAAAJ") {
-    try {
-      // First try to get cached publications
-      const cachedData = this.getCachedPublications();
+  async getPublications(authorId = "3KZSSEIAAAAJ", forceRefresh = false) {
+    // If we already have data in memory and not forcing refresh, return it
+    if (!forceRefresh && this.publicationsData) {
+      return this.publicationsData;
+    }
+
+    // If already fetching, return the existing promise
+    if (this.isLoading && this.fetchPromise) {
+      return this.fetchPromise;
+    }
+
+    // Check cache first (unless forcing refresh)
+    if (!forceRefresh) {
+      const cachedData = this.getCachedData();
       if (cachedData) {
-        console.log("Using cached publication data");
-        return cachedData;
+        this.publicationsData = cachedData.publications;
+        this.publicationsStats = cachedData.stats;
+        return this.publicationsData;
       }
+    }
 
-      // Create the full URL with params
-      const targetUrl = `${this.baseUrl}?engine=google_scholar_author&author_id=${authorId}&api_key=${this.apiKey}&num=100&sort=pubdate`;
+    // Start fetching
+    this.isLoading = true;
+    this.fetchPromise = this.fetchFromAPI(authorId);
 
-      // Try each CORS proxy until one works
-      let publications = null;
-      let error = null;
+    try {
+      const publications = await this.fetchPromise;
+      const stats = await this.calculateStats(publications);
 
-      for (const proxy of this.corsProxies) {
-        try {
-          console.log(`Attempting to fetch data using proxy: ${proxy}`);
-          let proxyUrl;
+      // Store in memory
+      this.publicationsData = publications;
+      this.publicationsStats = stats;
 
-          if (proxy.includes("?url=")) {
-            // For proxies like allorigins that expect the URL as a parameter
-            proxyUrl = `${proxy}${encodeURIComponent(targetUrl)}`;
-          } else {
-            // For proxies that expect the URL to be appended
-            proxyUrl = `${proxy}${targetUrl}`;
-          }
+      // Cache the data for 1 month
+      this.cacheData(publications, stats);
 
-          const response = await axios.get(proxyUrl);
-
-          if (response.data && response.data.articles) {
-            publications = this.transformScholarData(response.data.articles);
-
-            // Cache the successful result
-            this.cachePublications(publications);
-
-            return publications;
-          }
-        } catch (proxyError) {
-          console.warn(`Proxy ${proxy} failed:`, proxyError);
-          error = proxyError;
-          // Continue to the next proxy
-        }
-      }
-
-      // If we get here, all proxies failed
-      console.error("All proxies failed:", error);
-      return this.fallbackFetch(authorId);
-    } catch (error) {
-      console.error("Error fetching publications:", error);
-      return this.fallbackFetch(authorId);
+      return publications;
+    } finally {
+      this.isLoading = false;
+      this.fetchPromise = null;
     }
   }
 
   /**
-   * Alternative method that uses a direct fetch with no proxy (may fail due to CORS)
-   * @param {string} authorId - Google Scholar author ID
-   * @returns {Promise<Array>} Array of publications
+   * Get statistics - either from memory or calculate them
+   * @param {Array} publications - Optional publications array
+   * @returns {Promise<Object>} Statistics object
    */
-  async directFetch(authorId = "3KZSSEIAAAAJ") {
-    try {
-      console.log("Attempting direct fetch (may fail due to CORS)");
+  async getStats(publications = null) {
+    // If we have stats in memory, return them
+    if (this.publicationsStats && !publications) {
+      return this.publicationsStats;
+    }
 
-      const response = await axios.get(`${this.baseUrl}`, {
+    // If publications provided, calculate stats for them
+    if (publications) {
+      return this.calculateStats(publications);
+    }
+
+    // Otherwise get publications first, then stats
+    await this.getPublications();
+    return this.publicationsStats || this.calculateDefaultStats();
+  }
+
+  /**
+   * Force refresh data from API
+   * @param {string} authorId - Google Scholar author ID
+   * @returns {Promise<Array>} Fresh publications data
+   */
+  async refreshData(authorId = "3KZSSEIAAAAJ") {
+    // Clear cache
+    this.clearCache();
+
+    // Clear memory
+    this.publicationsData = null;
+    this.publicationsStats = null;
+
+    // Fetch fresh data
+    return this.getPublications(authorId, true);
+  }
+
+  /**
+   * Fetch data from API with fallback
+   * @param {string} authorId - Google Scholar author ID
+   * @returns {Promise<Array>} Publications array
+   */
+  async fetchFromAPI(authorId) {
+    if (!this.apiKey) {
+      console.log("No API key available, using mock data");
+      return this.mockData;
+    }
+
+    try {
+      // Try CORS proxies first
+      const publications = await this.tryProxies(authorId);
+      if (publications) {
+        console.log("Successfully fetched from API via proxy");
+        return publications;
+      }
+
+      // Try direct fetch
+      const directResult = await this.tryDirectFetch(authorId);
+      if (directResult) {
+        console.log("Successfully fetched from API directly");
+        return directResult;
+      }
+
+      // Fallback to mock data
+      console.log("API fetch failed, using mock data");
+      return this.mockData;
+    } catch (error) {
+      console.error("Error in fetchFromAPI:", error);
+      return this.mockData;
+    }
+  }
+
+  /**
+   * Try fetching via CORS proxies
+   */
+  async tryProxies(authorId) {
+    const corsProxies = [
+      "https://api.allorigins.win/raw?url=",
+      "https://cors-anywhere.herokuapp.com/",
+      "https://corsproxy.io/?",
+    ];
+
+    const targetUrl = `${this.baseUrl}?engine=google_scholar_author&author_id=${authorId}&api_key=${this.apiKey}&num=100&sort=pubdate`;
+
+    for (const proxy of corsProxies) {
+      try {
+        console.log(`Trying proxy: ${proxy}`);
+
+        let proxyUrl;
+        if (proxy.includes("?url=")) {
+          proxyUrl = `${proxy}${encodeURIComponent(targetUrl)}`;
+        } else {
+          proxyUrl = `${proxy}${targetUrl}`;
+        }
+
+        const response = await axios.get(proxyUrl, { timeout: 10000 });
+
+        if (response.data && response.data.articles) {
+          return this.transformScholarData(response.data.articles);
+        }
+      } catch (error) {
+        console.warn(`Proxy ${proxy} failed:`, error.message);
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Try direct fetch (may fail due to CORS)
+   */
+  async tryDirectFetch(authorId) {
+    try {
+      const response = await axios.get(this.baseUrl, {
         params: {
           engine: "google_scholar_author",
           author_id: authorId,
@@ -212,31 +317,160 @@ class GoogleScholarService {
           num: 100,
           sort: "pubdate",
         },
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+        timeout: 10000,
       });
 
       if (response.data && response.data.articles) {
-        const publications = this.transformScholarData(response.data.articles);
-        this.cachePublications(publications);
-        return publications;
+        return this.transformScholarData(response.data.articles);
       }
     } catch (error) {
-      console.error("Direct fetch failed:", error);
-      // Continue to fallback
+      console.warn("Direct fetch failed:", error.message);
     }
 
-    return this.fallbackFetch(authorId);
+    return null;
   }
 
   /**
-   * Fallback to mock data if API requests fail
+   * Calculate statistics from publications
    */
-  async fallbackFetch(authorId) {
-    console.log("Using mock data from fallback method");
-    return this.mockData;
+  async calculateStats(publications) {
+    const stats = {
+      totalCitations: 0,
+      hIndex: 0,
+      i10Index: 0,
+      journalCount: 0,
+      conferenceCount: 0,
+    };
+
+    if (publications && publications.length > 0) {
+      // Calculate total citations
+      stats.totalCitations = publications.reduce((total, pub) => {
+        const citations = parseInt(pub.citation) || 0;
+        return total + citations;
+      }, 0);
+
+      // Count publication types
+      stats.journalCount = publications.filter(
+        (pub) => pub.type === "journal"
+      ).length;
+      stats.conferenceCount = publications.filter(
+        (pub) => pub.type === "conference"
+      ).length;
+
+      // Calculate H-index
+      const citationCounts = publications
+        .map((pub) => parseInt(pub.citation) || 0)
+        .sort((a, b) => b - a);
+
+      stats.hIndex = this.calculateHIndex(citationCounts);
+      stats.i10Index = citationCounts.filter((count) => count >= 10).length;
+    }
+
+    return stats;
+  }
+
+  /**
+   * Get default stats structure
+   */
+  calculateDefaultStats() {
+    return {
+      totalCitations: 0,
+      hIndex: 0,
+      i10Index: 0,
+      journalCount: 0,
+      conferenceCount: 0,
+    };
+  }
+
+  /**
+   * Enhanced caching with 1-month duration
+   */
+  cacheData(publications, stats) {
+    try {
+      const cacheData = {
+        publications,
+        stats,
+        timestamp: Date.now(),
+        expires: Date.now() + this.cacheDuration,
+        version: "2.0",
+      };
+
+      localStorage.setItem(this.cacheKey, JSON.stringify(cacheData));
+      console.log("Data cached successfully for 1 month");
+    } catch (error) {
+      console.error("Error caching data:", error);
+    }
+  }
+
+  /**
+   * Get cached data if valid
+   */
+  getCachedData() {
+    try {
+      const cached = localStorage.getItem(this.cacheKey);
+      if (cached) {
+        const cacheData = JSON.parse(cached);
+
+        // Check if cache is still valid
+        if (Date.now() < cacheData.expires && cacheData.version === "2.0") {
+          console.log("Using cached data (valid for 1 month)");
+          return cacheData;
+        } else {
+          console.log("Cache expired or outdated, will fetch fresh data");
+          this.clearCache();
+        }
+      }
+    } catch (error) {
+      console.error("Error reading cache:", error);
+      this.clearCache();
+    }
+    return null;
+  }
+
+  /**
+   * Clear cache
+   */
+  clearCache() {
+    try {
+      localStorage.removeItem(this.cacheKey);
+      localStorage.removeItem("scholar_publications"); // Old cache key
+    } catch (error) {
+      console.error("Error clearing cache:", error);
+    }
+  }
+
+  /**
+   * Check if data is currently being loaded
+   */
+  isDataLoading() {
+    return this.isLoading;
+  }
+
+  /**
+   * Get cache info
+   */
+  getCacheInfo() {
+    try {
+      const cached = localStorage.getItem(this.cacheKey);
+      if (cached) {
+        const cacheData = JSON.parse(cached);
+        return {
+          hasCache: true,
+          cacheAge: Date.now() - cacheData.timestamp,
+          expiresIn: cacheData.expires - Date.now(),
+          isValid: Date.now() < cacheData.expires,
+        };
+      }
+    } catch (error) {
+      console.error("Error reading cache info:", error);
+    }
+
+    return {
+      hasCache: false,
+      cacheAge: 0,
+      expiresIn: 0,
+      isValid: false,
+    };
   }
 
   /**
@@ -355,43 +589,6 @@ class GoogleScholarService {
   }
 
   /**
-   * Get publication statistics
-   */
-  async getPublicationStats(publications) {
-    const stats = {
-      totalCitations: 0,
-      hIndex: 0,
-      i10Index: 0,
-      journalCount: 0,
-    };
-
-    if (publications && publications.length > 0) {
-      // Calculate total citations
-      stats.totalCitations = publications.reduce((total, pub) => {
-        const citations = parseInt(pub.citation) || 0;
-        return total + citations;
-      }, 0);
-
-      // Calculate journal count
-      stats.journalCount = publications.filter(
-        (pub) => pub.type === "journal"
-      ).length;
-
-      // Calculate H-index
-      const citationCounts = publications
-        .map((pub) => parseInt(pub.citation) || 0)
-        .sort((a, b) => b - a); // Sort in descending order
-
-      stats.hIndex = this.calculateHIndex(citationCounts);
-
-      // Calculate i10-index (number of papers with at least 10 citations)
-      stats.i10Index = citationCounts.filter((count) => count >= 10).length;
-    }
-
-    return stats;
-  }
-
-  /**
    * Calculate H-index from sorted citation counts
    */
   calculateHIndex(sortedCitations) {
@@ -406,40 +603,6 @@ class GoogleScholarService {
       }
     }
     return hIndex;
-  }
-
-  /**
-   * Cache publications in localStorage
-   */
-  cachePublications(publications) {
-    try {
-      const cacheData = {
-        publications,
-        timestamp: Date.now(),
-        expires: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-      };
-      localStorage.setItem("scholar_publications", JSON.stringify(cacheData));
-    } catch (error) {
-      console.error("Error caching publications:", error);
-    }
-  }
-
-  /**
-   * Get cached publications if not expired
-   */
-  getCachedPublications() {
-    try {
-      const cached = localStorage.getItem("scholar_publications");
-      if (cached) {
-        const cacheData = JSON.parse(cached);
-        if (Date.now() < cacheData.expires) {
-          return cacheData.publications;
-        }
-      }
-    } catch (error) {
-      console.error("Error reading cached publications:", error);
-    }
-    return null;
   }
 }
 

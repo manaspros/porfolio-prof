@@ -20,23 +20,23 @@ const Hero = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch Google Scholar stats
+  // Fetch Google Scholar stats using centralized service
   useEffect(() => {
     const fetchScholarStats = async () => {
       try {
-        // Use the existing service to fetch publications
-        const publications = await googleScholarService.fetchPublications(heroData.scholar.userId);
-        const stats = await googleScholarService.getPublicationStats(publications);
+        // Use the centralized service that caches data
+        const [publications, stats] = await Promise.all([
+          googleScholarService.getPublications(heroData.scholar.userId),
+          googleScholarService.getStats()
+        ]);
 
-        // Update state with the fetched stats
         setScholarStats({
           papers: publications.length.toString(),
           journals: stats.journalCount.toString(),
-          patents: heroData.stats.patents.defaultValue // Keep static value for patents
+          patents: heroData.stats.patents.defaultValue
         });
       } catch (error) {
         console.error('Error fetching scholar stats for hero section:', error);
-        // Fallback values remain in place
       } finally {
         setIsLoading(false);
       }
