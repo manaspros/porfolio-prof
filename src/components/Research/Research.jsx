@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PointerHighlight } from '../ui/PointerHighlight';
-import { researchTopics } from '../../data/research';
+import { researchTopics, researchCTA } from '../../data/research';
 import './Research.css';
 
 const Research = () => {
@@ -191,9 +191,9 @@ const Research = () => {
         </div>
 
         <div className="research-cta">
-          <h3>Interested in Collaboration?</h3>
-          <p>Reach out to discuss potential research partnerships or learn more about our ongoing projects.</p>
-          <a href="#contact" className="cta-button">Contact for Research</a>
+          <h3>{researchCTA.title}</h3>
+          <p>{researchCTA.description}</p>
+          <a href={researchCTA.buttonLink} className="cta-button">{researchCTA.buttonText}</a>
         </div>
       </div>
     </section>

@@ -43,3 +43,10 @@ export const researchTopics = [
     keywords: ["Brain-Computer Interface", "Machine Learning", "Adaptive Control"]
   }
 ];
+
+export const researchCTA = {
+  title: "Interested in Collaboration?",
+  description: "Reach out to discuss potential research partnerships or learn more about our ongoing projects.",
+  buttonText: "Contact for Research",
+  buttonLink: "#contact"
+};

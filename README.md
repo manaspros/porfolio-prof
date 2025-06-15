@@ -172,3 +172,57 @@ No, but you will need to refresh your browser to see the changes.
 ---
 
 If you need further assistance, please contact your web developer.
+
+# Professor Portfolio Website
+
+## For Content Editors (Non-Programmers)
+
+### How to Update About Section Content
+
+1. **Navigate to the content file:**
+   - Go to: `src/data/about.md`
+   - Click on the file to open it
+
+2. **Edit the content:**
+   - Click the pencil icon (✏️) at the top right
+   - Make your changes to the text
+   - Keep the formatting structure the same
+
+3. **Save your changes:**
+   - Scroll down to "Commit changes" section
+   - Add a brief description of what you changed
+   - Click "Commit changes"
+
+4. **Your changes will appear on the website after the next deployment**
+
+### What You Can Safely Edit:
+- ✅ All paragraph text
+- ✅ Statistics and numbers
+- ✅ Link text
+- ✅ Page titles and subtitles
+
+### What NOT to Edit:
+- ❌ Code files (anything ending in .js, .jsx, .css)
+- ❌ Markdown formatting symbols (# ## ### - **)
+- ❌ Country codes in parentheses (these control flag images)
+
+### Need Help?
+Contact the website developer if you encounter any issues or need additional changes that aren't covered by the content files.
+
+## For Developers
+
+### Content Management
+- Main about content is now managed via `/src/data/about.md`
+- Non-programmers can edit this file directly through GitHub's web interface
+- Consider implementing a markdown parser to automatically sync the .md file with the data structure
+
+### Development
+```bash
+npm install
+npm run dev
+```
+
+### Build
+```bash
+npm run build
+```

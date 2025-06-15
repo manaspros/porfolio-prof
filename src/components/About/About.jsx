@@ -1,11 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import only, don't register
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PointerHighlight } from '../ui/PointerHighlight';
+import { aboutData } from '../../data/about';
 import './About.css';
 import about from '../../assets/about.jpeg';
-
-// REMOVE THIS LINE: gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   const sectionRef = useRef(null);
@@ -80,7 +79,7 @@ const About = () => {
   return (
     <section id="about" className="about-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title3" ref={titleRef}>About</h2>
+        <h2 className="section-title3" ref={titleRef}>{aboutData.title}</h2>
         <div className="about-content" ref={contentRef}>
           <div className="about-image">
             <img src={about} alt="Dr. Bhivraj Suthar" />
@@ -92,41 +91,42 @@ const About = () => {
                 pointerClassName="about-highlight-pointer"
                 containerClassName="about-highlight-container"
               >
-                Assistant Professor, Next-Gen BIRD Lab
+                {aboutData.subtitle}
               </PointerHighlight>
             </h3>
-            <p>
-              Dr. Suthar is working as an Assistant Professor at the School of Artificial Intelligence and Data Science at IIT Jodhpur, India.
-              He is also associated with the Next-Gen BIRD Lab, focusing on Bio-inspired Robotics and Artificial Intelligence research.
-            </p>
-            <p>
-              With a Ph.D. in Wearable Robotics from Korea University of Technology and Education, Dr. Suthar has over 5 years of experience in Academia and Industrial Research across South Korea, UAE, and India. Before joining IIT Jodhpur, he was a Postdoctoral research fellow at the Robotic Centre at Khalifa University (UAE) and Korea Advanced Institute of Science and Technology (KAIST).
-            </p>
-            <p>
-              Dr. Suthar's journey is encapsulated in the phrase "Robot artist to Roboticist." His passion for robotics ignited during childhood, leading to a remarkable career with over 15 innovative robots developed in-house and 7 patents. He has received the prestigious Prime Minister Early Career Research Grant Award and has secured research funding of more than 2 crore INR.
-            </p>
+            {aboutData.paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
             <div className="about-stats">
               <div className="stat-item experience-stat">
-                <span className="stat-number">5+</span>
-                <span className="stat-desc">Years Research Experience</span>
+                <span className="stat-number">{aboutData.stats.experience.value}</span>
+                <span className="stat-desc">{aboutData.stats.experience.label}</span>
               </div>
               <div className="stat-item international-stat">
-                <span className="stat-heading">International Experience</span>
+                <span className="stat-heading">{aboutData.stats.international.heading}</span>
                 <div className="country-flags">
-                  <div className="country-flag">
-                    <div className="flag-icon south-korea"></div>
-                    <span>South Korea</span>
-                  </div>
-                  <div className="country-flag">
-                    <div className="flag-icon australia"></div>
-                    <span>Australia</span>
-                  </div>
-                  <div className="country-flag">
-                    <div className="flag-icon uae"></div>
-                    <span>UAE</span>
-                  </div>
-                  <div className="country-flag">
-                    <div className="flag-icon usa"></div>
+                  {aboutData.stats.international.countries.map((country, index) => (
+                    <div className="country-flag" key={index}>
+                      <div className={`flag-icon ${country.flagClass}`}></div>
+                      <span>{country.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="about-links">
+              {aboutData.links.map((link, index) => (
+                <a href={link.href} className="about-link" key={index}>{link.text}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
                     <span>USA</span>
                   </div>
                 </div>

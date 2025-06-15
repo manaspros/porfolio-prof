@@ -143,3 +143,12 @@ export const grants = [
     agency: "Indian Space Research Organisation, India"
   }
 ];
+
+export const awardsContent = {
+  title: "Awards",
+  honorsSubtitle: "Honors & Recognition",
+  grantsSubtitle: "Grants & Other Recognitions",
+  showMoreText: "Show More Awards",
+  showLessText: "Show Less",
+  quote: "My journey from robot artist to roboticist has been driven by a passion for creating innovative solutions that can assist humans and address real-world challenges."
+};
