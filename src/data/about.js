@@ -21,7 +21,7 @@ export const aboutData = {
       countries: [
         // Edit these in about.md under "Countries" - keep the flagClass codes the same
         { name: "South Korea", flagClass: "south-korea" },
-        { name: "Australia", flagClass: "australia" },
+        { name: "Singapore", flagClass: "singapore" },
         { name: "UAE", flagClass: "uae" },
         { name: "USA", flagClass: "usa" }
       ]
