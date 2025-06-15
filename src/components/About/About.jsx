@@ -125,23 +125,4 @@ const About = () => {
     </section>
   );
 };
-
-export default About;
-                    <span>USA</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="about-links">
-              <a href="#research" className="about-link">Research Interests</a>
-              <a href="#publications" className="about-link">Key Publications</a>
-              <a href="#contact" className="about-link">Collaboration Opportunities</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 export default About;
