@@ -10,7 +10,7 @@
 About
 
 ## Subtitle
-Assistant Professor, Next-Gen BIRD Lab
+Assistant Professor, Next-Gen BIRD Robotics Lab
 
 ## Main Content Paragraphs
 
