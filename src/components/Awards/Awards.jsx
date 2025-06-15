@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { awards, grants, awardsContent } from '../../data/awards';
+import { awards, grants } from '../../data/awards';
 import './Awards.css';
 
 // Register ScrollTrigger plugin
@@ -453,9 +453,9 @@ const Awards = () => {
   return (
     <section id="awards" className="awards-section" ref={sectionRef}>
       <div className="section-container">
-        <h2 className="section-title">{awardsContent.title}</h2>
+        <h2 className="section-title">Awards</h2>
         
-        <h3 className="section-subtitle">{awardsContent.honorsSubtitle}</h3>
+        <h3 className="section-subtitle">Honors & Recognition</h3>
         <div className="awards-timeline" ref={awardsRef}>
           {displayedAwards.map(award => (
             <div 
@@ -483,14 +483,14 @@ const Awards = () => {
               onClick={toggleMoreAwards}
             >
               {showMoreAwards 
-                ? <>{awardsContent.showLessText} <span className="arrow-icon">↑</span></>
-                : <>{awardsContent.showMoreText} <span className="award-count">({awards.length - 5})</span> <span className="arrow-icon">↓</span></>
+                ? <>Show Less <span className="arrow-icon">↑</span></>
+                : <>Show More Awards <span className="award-count">({awards.length - 5})</span> <span className="arrow-icon">↓</span></>
               }
             </button>
           </div>
         )}
         
-        <h3 className="section-subtitle grants-subtitle">{awardsContent.grantsSubtitle}</h3>
+        <h3 className="section-subtitle grants-subtitle">Grants & Other Recognitions</h3>
         <div className="grants-container" ref={grantsRef}>
           {grants.map(grant => (
             <div className="grant-item" key={grant.id}>
@@ -506,7 +506,8 @@ const Awards = () => {
         
         <div className="awards-quote">
           <blockquote>
-            {awardsContent.quote}
+            "My journey from robot artist to roboticist has been driven by a passion for creating innovative solutions
+            that can assist humans and address real-world challenges."
           </blockquote>
         </div>
       </div>
@@ -514,5 +515,4 @@ const Awards = () => {
   );
 };
 
-export default Awards;
 export default Awards;
