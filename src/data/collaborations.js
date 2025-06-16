@@ -9,10 +9,10 @@ export const collaborations = [
   },
   {
     id: 2,
-    name: "KWANGWOON UNIVERSITY, SOUTH KOREA",
-    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/Kwangwoon_University_logo.svg/300px-Kwangwoon_University_logo.svg.png",
+    name: "Sogang University, South Korea",
+    logo: "https://upload.wikimedia.org/wikipedia/en/9/99/Sogang_University_emblem.png",
     description: "Joint projects on haptic interfaces and wearable robotics technologies.",
-    website: "https://www.kw.ac.kr/ko/"
+    website: "https://www.sogang.ac.kr/"
   },
   {
     id: 3,

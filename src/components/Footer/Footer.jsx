@@ -67,7 +67,7 @@ const Footer = () => {
           </p>
           <div className="footer-bottom-links">
             <a href="mailto:bhivraj@iitj.ac.in">Email: bhivraj@iitj.ac.in</a>
-            <span className="footer-credit">| Made by <a href="https://portfolio-manaschoudhary.vercel.app/" target="_blank" rel="noopener noreferrer">Manas</a></span>
+            <span className="footer-credit">| Made by <a href="https://portfolio-manaschoudhary.vercel.app/" target="_blank" rel="noopener noreferrer">Manas Choudhary</a></span>
           </div>
         </div>
       </div>

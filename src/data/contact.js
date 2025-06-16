@@ -15,13 +15,13 @@ export const contactInfo = [
     id: 3,
     icon: "🎓",
     title: "Affiliations",
-    content: "Next-Gen BIRD Lab\nSchool of Artificial Intelligence and Data Science"
+    content: "Next-Gen BIRD Robotics Lab\nSchool of Artificial Intelligence and Data Science"
   },
   {
     id: 4,
     icon: "🔍",
     title: "Research Areas",
-    content: "Bio-inspired Robotics\nArtificial Intelligence"
+    content: "Bio-inspired Robotics\nApplied Artificial Intelligence"
   }
 ];
 
