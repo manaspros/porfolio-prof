@@ -194,6 +194,10 @@
   background-image: url('https://flagcdn.com/kr.svg');
 }
 
+.flag-icon.singapore {
+  background-image: url('https://flagcdn.com/sg.svg');
+}
+
 .flag-icon.australia {
   background-image: url('https://flagcdn.com/au.svg');
 }
