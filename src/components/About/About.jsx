@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PointerHighlight } from '../ui/PointerHighlight';
 import { aboutData } from '../../data/about';
 import './About.css';
-import about from '../../assets/about.jpeg';
+import about from '../../assets/about.jpg';
 
 const About = () => {
   const sectionRef = useRef(null);
