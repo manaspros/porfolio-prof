@@ -113,6 +113,30 @@ const Navbar = () => {
               </a>
             </li>
           ))}
+          {/* Unique Robotics Lab link */}
+          <li>
+            <a
+              href="https://lib-weld.vercel.app/"
+              className="robotics-lab-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: 'linear-gradient(90deg, #623CEA, #FF7D54)',
+                color: '#fff',
+                borderRadius: '20px',
+                fontWeight: 700,
+                padding: '8px 18px',
+                boxShadow: '0 2px 8px rgba(98,60,234,0.15)',
+                marginLeft: '10px',
+                letterSpacing: '0.03em',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5em'
+              }}
+            >
+              <span role="img" aria-label="robot">🤖</span> Robotics Lab
+            </a>
+          </li>
           <li className="theme-toggle-li">
             <ThemeToggler />
           </li>

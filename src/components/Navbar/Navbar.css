@@ -406,3 +406,34 @@
     background: rgba(30, 30, 40, 0.95);
   }
 }
+
+.robotics-lab-link {
+  background: linear-gradient(90deg, #623cea, #ff7d54);
+  color: #fff !important;
+  border-radius: 20px;
+  font-weight: 700;
+  padding: 8px 18px;
+  box-shadow: 0 2px 8px rgba(98, 60, 234, 0.15);
+  margin-left: 10px;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+  text-decoration: none;
+}
+
+.robotics-lab-link:hover,
+.robotics-lab-link:focus {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(98, 60, 234, 0.25);
+  text-decoration: none;
+  color: #fff !important;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .robotics-lab-link {
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.08);
+}
